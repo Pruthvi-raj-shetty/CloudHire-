@@ -1,3 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="app_name">CloudHire</string>
+    <string name="welcome">Welcome to NexHire</string>
+    <string name="candidate">Candidate</string>
+
 </resources>

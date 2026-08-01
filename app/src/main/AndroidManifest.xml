@@ -47,9 +47,6 @@
             android:exported="false" />
 
         <!-- Admin Dashboard -->
-        <activity
-            android:name=".AdminDashboardActivity"
-            android:exported="false" />
 
         <!-- Main -->
         <activity
