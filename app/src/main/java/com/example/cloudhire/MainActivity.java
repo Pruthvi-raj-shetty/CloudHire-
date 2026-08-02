@@ -16,18 +16,19 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Initialize views
         layoutCandidate = findViewById(R.id.layoutCandidate);
         layoutRecruiter = findViewById(R.id.layoutRecruiter);
 
+        // Candidate Card Click
         layoutCandidate.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-            intent.putExtra("ROLE", "Candidate");
+            Intent intent = new Intent(MainActivity.this, CandidateDashboardActivity.class);
             startActivity(intent);
         });
 
+        // Recruiter Card Click
         layoutRecruiter.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-            intent.putExtra("ROLE", "Recruiter");
+            Intent intent = new Intent(MainActivity.this, RecruiterDashboardActivity.class);
             startActivity(intent);
         });
     }

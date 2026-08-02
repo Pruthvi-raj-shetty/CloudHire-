@@ -1,8 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">CloudHire</string>
+    <!-- App -->
+    <string name="app_name">NexHire</string>
+
+    <!-- Logo -->
+    <string name="logo">Logo</string>
+
+    <!-- Home Screen -->
+    <string name="app_title">NexHire</string>
+    <string name="subtitle">AI Powered Hiring Solution</string>
     <string name="welcome">Welcome to NexHire</string>
+    <string name="choose_role">Choose your role to continue</string>
+
+    <!-- Candidate -->
     <string name="candidate">Candidate</string>
+    <string name="candidate_desc">Find jobs and grow your career</string>
+
+    <!-- Recruiter -->
+    <string name="recruiter">Recruiter</string>
+    <string name="recruiter_desc">Hire the right talent</string>
+
+    <!-- Arrow -->
+    <string name="arrow">&gt;</string>
 
 </resources>
