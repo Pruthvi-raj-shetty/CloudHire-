@@ -22,14 +22,46 @@ public class MainActivity extends AppCompatActivity {
 
         // Candidate Card Click
         layoutCandidate.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, CandidateDashboardActivity.class);
-            startActivity(intent);
+
+            // Make Candidate card blue
+            layoutCandidate.setBackgroundResource(R.drawable.role_selected);
+
+            // Keep Recruiter unselected
+            layoutRecruiter.setBackgroundResource(R.drawable.role_unselected);
+
+            // Open Candidate Registration after short delay
+            layoutCandidate.postDelayed(() -> {
+
+                Intent intent = new Intent(
+                        MainActivity.this,
+                        RegisterActivity.class
+                );
+
+                startActivity(intent);
+
+            }, 200);
         });
 
         // Recruiter Card Click
         layoutRecruiter.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, RecruiterDashboardActivity.class);
-            startActivity(intent);
+
+            // Make Recruiter card blue
+            layoutRecruiter.setBackgroundResource(R.drawable.role_selected);
+
+            // Keep Candidate unselected
+            layoutCandidate.setBackgroundResource(R.drawable.role_unselected);
+
+            // Open Recruiter Registration after short delay
+            layoutRecruiter.postDelayed(() -> {
+
+                Intent intent = new Intent(
+                        MainActivity.this,
+                        RecruiterRegisterActivity.class
+                );
+
+                startActivity(intent);
+
+            }, 200);
         });
     }
 }
