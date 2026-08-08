@@ -14,47 +14,86 @@
         android:theme="@style/Theme.CloudHire"
         tools:targetApi="31">
 
-        <!-- Splash Screen -->
+        <!-- ================================================= -->
+        <!-- SPLASH SCREEN -->
+        <!-- ================================================= -->
+
         <activity
             android:name=".SplashActivity"
             android:exported="true">
 
             <intent-filter>
+
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
+
             </intent-filter>
 
         </activity>
 
-        <!-- Main Screen -->
+
+        <!-- ================================================= -->
+        <!-- MAIN SCREEN -->
+        <!-- ================================================= -->
+
         <activity
             android:name=".MainActivity"
             android:exported="false" />
 
-        <!-- Login -->
+
+        <!-- ================================================= -->
+        <!-- GENERAL LOGIN -->
+        <!-- ================================================= -->
+
         <activity
             android:name=".LoginActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize|stateHidden" />
 
-        <!-- Candidate Registration -->
+
+        <!-- ================================================= -->
+        <!-- CANDIDATE LOGIN -->
+        <!-- ================================================= -->
+
+        <activity
+            android:name=".CandidateLoginActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+
+        <!-- ================================================= -->
+        <!-- CANDIDATE REGISTRATION -->
+        <!-- ================================================= -->
+
         <activity
             android:name=".RegisterActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize|stateHidden" />
 
-        <!-- Recruiter Registration -->
+
+        <!-- ================================================= -->
+        <!-- RECRUITER REGISTRATION -->
+        <!-- ================================================= -->
+
         <activity
             android:name=".RecruiterRegisterActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize|stateHidden" />
 
-        <!-- Candidate Dashboard -->
+
+        <!-- ================================================= -->
+        <!-- CANDIDATE DASHBOARD -->
+        <!-- ================================================= -->
+
         <activity
             android:name=".CandidateDashboardActivity"
             android:exported="false" />
 
-        <!-- Recruiter Dashboard -->
+
+        <!-- ================================================= -->
+        <!-- RECRUITER DASHBOARD -->
+        <!-- ================================================= -->
+
         <activity
             android:name=".RecruiterDashboardActivity"
             android:exported="false" />
