@@ -1,35 +1,54 @@
 package com.example.cloudhire;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.LinearLayout;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
+    // =====================================================
+    // VIEWS
+    // =====================================================
+
     private LinearLayout layoutCandidate;
     private LinearLayout layoutRecruiter;
+
+
+    // =====================================================
+    // ON CREATE
+    // =====================================================
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Initialize views
+        // =================================================
+        // INITIALIZE VIEWS
+        // =================================================
+
         layoutCandidate = findViewById(R.id.layoutCandidate);
         layoutRecruiter = findViewById(R.id.layoutRecruiter);
 
-        // Candidate Card Click
+
+        // =================================================
+        // CANDIDATE CARD CLICK
+        // =================================================
+
         layoutCandidate.setOnClickListener(v -> {
 
-            // Make Candidate card blue
-            layoutCandidate.setBackgroundResource(R.drawable.role_selected);
+            layoutCandidate.setBackgroundResource(
+                    R.drawable.role_selected
+            );
 
-            // Keep Recruiter unselected
-            layoutRecruiter.setBackgroundResource(R.drawable.role_unselected);
+            layoutRecruiter.setBackgroundResource(
+                    R.drawable.role_unselected
+            );
 
-            // Open Candidate Registration after short delay
             layoutCandidate.postDelayed(() -> {
 
                 Intent intent = new Intent(
@@ -42,16 +61,21 @@ public class MainActivity extends AppCompatActivity {
             }, 200);
         });
 
-        // Recruiter Card Click
+
+        // =================================================
+        // RECRUITER CARD CLICK
+        // =================================================
+
         layoutRecruiter.setOnClickListener(v -> {
 
-            // Make Recruiter card blue
-            layoutRecruiter.setBackgroundResource(R.drawable.role_selected);
+            layoutRecruiter.setBackgroundResource(
+                    R.drawable.role_selected
+            );
 
-            // Keep Candidate unselected
-            layoutCandidate.setBackgroundResource(R.drawable.role_unselected);
+            layoutCandidate.setBackgroundResource(
+                    R.drawable.role_unselected
+            );
 
-            // Open Recruiter Registration after short delay
             layoutRecruiter.postDelayed(() -> {
 
                 Intent intent = new Intent(
@@ -63,5 +87,34 @@ public class MainActivity extends AppCompatActivity {
 
             }, 200);
         });
+
+
+        // =================================================
+        // MOBILE / SYSTEM BACK BUTTON
+        // → SHOW EXIT CONFIRMATION
+        // =================================================
+
+        getOnBackPressedDispatcher().addCallback(
+                this,
+                new OnBackPressedCallback(true) {
+
+                    @Override
+                    public void handleOnBackPressed() {
+
+                        new AlertDialog.Builder(MainActivity.this)
+                                .setTitle("Exit NexHire")
+                                .setMessage("Do you want to exit the app?")
+                                .setPositiveButton(
+                                        "Yes",
+                                        (dialog, which) -> finishAffinity()
+                                )
+                                .setNegativeButton(
+                                        "No",
+                                        null
+                                )
+                                .show();
+                    }
+                }
+        );
     }
 }

@@ -46,10 +46,6 @@
         <!-- GENERAL LOGIN -->
         <!-- ================================================= -->
 
-        <activity
-            android:name=".LoginActivity"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
 
 
         <!-- ================================================= -->
@@ -60,13 +56,17 @@
             android:name=".CandidateLoginActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize|stateHidden" />
-
         <!-- ================================================= -->
         <!-- CANDIDATE REGISTRATION -->
         <!-- ================================================= -->
 
         <activity
             android:name=".RegisterActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+
+        <activity
+            android:name=".RecruiterLoginActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize|stateHidden" />
 

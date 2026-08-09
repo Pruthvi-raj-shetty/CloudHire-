@@ -15,7 +15,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.core.widget.NestedScrollView;
 
-import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputEditText;import android.content.Intent;import androidx.activity.OnBackPressedCallback;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -76,11 +76,50 @@ public class RegisterActivity extends AppCompatActivity {
         // BACK BUTTON
         // -----------------------------------------
 
+        // =====================================================
+// BACK BUTTON → MAIN ACTIVITY
+// =====================================================
+
+        // =====================================================
+// BACK BUTTON → MAIN ACTIVITY
+// =====================================================
+
         btnBack.setOnClickListener(v -> {
+
+            Intent intent = new Intent(
+                    RegisterActivity.this,
+                    MainActivity.class
+            );
+
+            startActivity(intent);
             finish();
         });
+// =====================================================
+// SYSTEM BACK BUTTON → MAIN ACTIVITY
+// =====================================================
 
+        getOnBackPressedDispatcher().addCallback(
+                this,
+                new OnBackPressedCallback(true) {
 
+                    @Override
+                    public void handleOnBackPressed() {
+
+                        Intent intent = new Intent(
+                                RegisterActivity.this,
+                                MainActivity.class
+                        );
+
+                        intent.setFlags(
+                                Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                                        Intent.FLAG_ACTIVITY_SINGLE_TOP
+                        );
+
+                        startActivity(intent);
+                        finish();
+                    }
+                }
+        );
         // -----------------------------------------
         // KEYBOARD / SCROLL HANDLING
         // -----------------------------------------

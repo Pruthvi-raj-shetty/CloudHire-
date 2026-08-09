@@ -14,7 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.core.widget.NestedScrollView;
-
+import androidx.activity.OnBackPressedCallback;
 import com.google.android.material.textfield.TextInputEditText;
 
 public class RecruiterRegisterActivity extends AppCompatActivity {
@@ -76,9 +76,51 @@ public class RecruiterRegisterActivity extends AppCompatActivity {
         // BACK BUTTON
         // -----------------------------------------
 
+        // =====================================================
+// =====================================================
+// TOP BACK BUTTON → MAIN ACTIVITY
+// =====================================================
+
         btnBack.setOnClickListener(v -> {
+
+            Intent intent = new Intent(
+                    RecruiterRegisterActivity.this,
+                    MainActivity.class
+            );
+
+            intent.setFlags(
+                    Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                            Intent.FLAG_ACTIVITY_SINGLE_TOP
+            );
+
+            startActivity(intent);
             finish();
-        });
+        });// =====================================================
+// MOBILE / SYSTEM BACK BUTTON → MAIN ACTIVITY
+// =====================================================
+
+        getOnBackPressedDispatcher().addCallback(
+                this,
+                new OnBackPressedCallback(true) {
+
+                    @Override
+                    public void handleOnBackPressed() {
+
+                        Intent intent = new Intent(
+                                RecruiterRegisterActivity.this,
+                                MainActivity.class
+                        );
+
+                        intent.setFlags(
+                                Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                                        Intent.FLAG_ACTIVITY_SINGLE_TOP
+                        );
+
+                        startActivity(intent);
+                        finish();
+                    }
+                }
+        );
 
 
         // -----------------------------------------
@@ -204,7 +246,7 @@ public class RecruiterRegisterActivity extends AppCompatActivity {
 
             Intent intent = new Intent(
                     RecruiterRegisterActivity.this,
-                    LoginActivity.class
+                    RecruiterLoginActivity.class
             );
 
             // Recruiter role
@@ -397,7 +439,7 @@ public class RecruiterRegisterActivity extends AppCompatActivity {
 
         Intent intent = new Intent(
                 RecruiterRegisterActivity.this,
-                LoginActivity.class
+                RecruiterLoginActivity.class
         );
 
         intent.putExtra(

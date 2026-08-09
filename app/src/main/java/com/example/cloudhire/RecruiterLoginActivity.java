@@ -18,7 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.textfield.TextInputEditText;
 
-public class CandidateLoginActivity extends AppCompatActivity {
+public class RecruiterLoginActivity extends AppCompatActivity {
 
     // =====================================================
     // VIEWS
@@ -40,14 +40,13 @@ public class CandidateLoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Prevent keyboard from opening automatically
-        // and allow screen to resize when keyboard appears.
+        // Keyboard handling
         getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE
                         | WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
         );
 
-        setContentView(R.layout.activity_candidate_login);
+        setContentView(R.layout.activity_recruiter_login);
 
         // =================================================
         // INITIALIZE VIEWS
@@ -63,22 +62,40 @@ public class CandidateLoginActivity extends AppCompatActivity {
 
         // =================================================
         // BACK BUTTON
+        // Goes to Recruiter Registration
         // =================================================
 
         btnBack.setOnClickListener(v -> {
+
             hideKeyboard();
 
             Intent intent = new Intent(
-                    CandidateLoginActivity.this,
-                    RegisterActivity.class
+                    RecruiterLoginActivity.this,
+                    RecruiterRegisterActivity.class
             );
 
-            intent.putExtra("ROLE", "Candidate");
+            intent.putExtra("ROLE", "Recruiter");
+
             startActivity(intent);
         });
+        // =====================================================
+// SYSTEM / MOBILE BACK BUTTON → RECRUITER REGISTER
+// =====================================================
 
         // =====================================================
-// SYSTEM / MOBILE BACK BUTTON → CANDIDATE REGISTER
+// SYSTEM / MOBILE BACK BUTTON → RECRUITER REGISTER
+// =====================================================
+
+        // =====================================================
+// SYSTEM BACK BUTTON → RECRUITER REGISTER
+// =====================================================
+
+        // =====================================================
+// MOBILE BACK BUTTON → RECRUITER REGISTER
+// =====================================================
+
+        // =====================================================
+// SYSTEM BACK BUTTON → RECRUITER REGISTER
 // =====================================================
 
         getOnBackPressedDispatcher().addCallback(
@@ -91,11 +108,11 @@ public class CandidateLoginActivity extends AppCompatActivity {
                         hideKeyboard();
 
                         Intent intent = new Intent(
-                                CandidateLoginActivity.this,
-                                RegisterActivity.class
+                                RecruiterLoginActivity.this,
+                                RecruiterRegisterActivity.class
                         );
 
-                        intent.putExtra("ROLE", "Candidate");
+                        intent.putExtra("ROLE", "Recruiter");
 
                         startActivity(intent);
                         finish();
@@ -106,7 +123,7 @@ public class CandidateLoginActivity extends AppCompatActivity {
         // LOGIN BUTTON
         // =================================================
 
-        btnLogin.setOnClickListener(v -> loginCandidate());
+        btnLogin.setOnClickListener(v -> loginRecruiter());
 
         // =================================================
         // FORGOT PASSWORD
@@ -117,15 +134,15 @@ public class CandidateLoginActivity extends AppCompatActivity {
             hideKeyboard();
 
             Toast.makeText(
-                    CandidateLoginActivity.this,
+                    RecruiterLoginActivity.this,
                     "Forgot Password selected",
                     Toast.LENGTH_SHORT
             ).show();
 
-            // Later, replace with:
+            // Later:
             // startActivity(new Intent(
-            //         CandidateLoginActivity.this,
-            //         ForgotPasswordActivity.class
+            //     RecruiterLoginActivity.this,
+            //     ForgotPasswordActivity.class
             // ));
         });
 
@@ -138,30 +155,53 @@ public class CandidateLoginActivity extends AppCompatActivity {
             hideKeyboard();
 
             Intent intent = new Intent(
-                    CandidateLoginActivity.this,
-                    RegisterActivity.class
+                    RecruiterLoginActivity.this,
+                    RecruiterRegisterActivity.class
             );
 
-            // Send candidate role to registration screen
-            intent.putExtra("ROLE", "Candidate");
+            intent.putExtra("ROLE", "Recruiter");
 
             startActivity(intent);
         });
 
         // =================================================
-        // MODERN BACK HANDLING
+        // SYSTEM BACK BUTTON
         // =================================================
 
+        // =====================================================
+// SYSTEM BACK BUTTON → RECRUITER REGISTER
+// =====================================================
 
+        getOnBackPressedDispatcher().addCallback(
+                this,
+                new OnBackPressedCallback(true) {
+
+                    @Override
+                    public void handleOnBackPressed() {
+
+                        hideKeyboard();
+
+                        Intent intent = new Intent(
+                                RecruiterLoginActivity.this,
+                                RecruiterRegisterActivity.class
+                        );
+
+                        intent.putExtra("ROLE", "Recruiter");
+
+                        startActivity(intent);
+                        finish();
+                    }
+                }
+        );
     }
 
     // =====================================================
     // LOGIN VALIDATION
     // =====================================================
 
-    private void loginCandidate() {
+    private void loginRecruiter() {
 
-        // Clear previous errors
+        // Clear old errors
         etEmail.setError(null);
         etPassword.setError(null);
 
@@ -203,7 +243,6 @@ public class CandidateLoginActivity extends AppCompatActivity {
             return;
         }
 
-        // Minimum 8 characters
         if (password.length() < 8) {
 
             etPassword.setError(
@@ -217,51 +256,50 @@ public class CandidateLoginActivity extends AppCompatActivity {
         }
 
         // =================================================
-        // FRONTEND MOCK LOGIN
+        // TEMPORARY MOCK LOGIN
         // =================================================
         //
-        // TEMPORARY ONLY.
+        // This is only for frontend UI testing.
         //
         // No Android database.
         // No real authentication.
-        // No password verification.
         //
-        // Later this section will call:
+        // Later:
         //
-        // Android App
-        //      ↓
+        // Android
+        //    ↓
         // Spring Boot REST API
-        //      ↓
+        //    ↓
         // PostgreSQL
         //
         // Backend will handle:
         // - Login
         // - Password verification
-        // - User role
-        // - JWT authentication
+        // - Recruiter role
+        // - JWT
         //
         // =================================================
 
         hideKeyboard();
 
         Toast.makeText(
-                CandidateLoginActivity.this,
+                RecruiterLoginActivity.this,
                 "Login successful",
                 Toast.LENGTH_SHORT
         ).show();
 
         // =================================================
-        // OPEN CANDIDATE DASHBOARD
+        // OPEN RECRUITER DASHBOARD
         // =================================================
 
         Intent intent = new Intent(
-                CandidateLoginActivity.this,
-                CandidateDashboardActivity.class
+                RecruiterLoginActivity.this,
+                RecruiterDashboardActivity.class
         );
 
-        // Temporary data for UI testing
+        // Temporary UI testing data
         intent.putExtra("EMAIL", email);
-        intent.putExtra("ROLE", "Candidate");
+        intent.putExtra("ROLE", "Recruiter");
 
         startActivity(intent);
 
@@ -293,8 +331,7 @@ public class CandidateLoginActivity extends AppCompatActivity {
             return "";
         }
 
-        // Do NOT trim password.
-        // Spaces can technically be part of a password.
+        // Do not trim password
         return etPassword.getText()
                 .toString();
     }

@@ -1,0 +1,77 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="72dp"
+    android:height="72dp"
+    android:viewportWidth="72"
+    android:viewportHeight="72">
+
+    <!-- Cloud -->
+    <path
+        android:fillColor="#EAF4FF"
+        android:strokeColor="#1976D2"
+        android:strokeWidth="3"
+        android:pathData="M18,48
+                          C11,48 7,43 7,37
+                          C7,31 12,26 18,26
+                          C20,18 27,13 35,13
+                          C44,13 51,19 53,27
+                          C60,27 65,32 65,39
+                          C65,45 60,49 54,49
+                          L18,49 Z" />
+
+    <!-- Recruiter Head -->
+    <path
+        android:fillColor="#1976D2"
+        android:pathData="M31,25
+                          C31,21 34,18 38,18
+                          C42,18 45,21 45,25
+                          C45,29 42,32 38,32
+                          C34,32 31,29 31,25 Z" />
+
+    <!-- Recruiter Body -->
+    <path
+        android:fillColor="#0D47A1"
+        android:pathData="M26,43
+                          C27,36 31,33 38,33
+                          C45,33 49,36 50,43
+                          L50,46
+                          L26,46 Z" />
+
+    <!-- Tie -->
+    <path
+        android:fillColor="#42A5F5"
+        android:pathData="M36,34 L40,34 L42,43 L38,47 L34,43 Z" />
+
+    <!-- Search Circle -->
+    <path
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="#1976D2"
+        android:strokeWidth="3"
+        android:pathData="M49,35
+                          C49,30 53,27 58,27
+                          C63,27 67,31 67,36
+                          C67,41 63,45 58,45
+                          C53,45 49,41 49,36 Z" />
+
+    <!-- Search Handle -->
+    <path
+        android:fillColor="#1976D2"
+        android:pathData="M63,43 L68,48 L65,51 L60,46 Z" />
+
+    <!-- Candidate/User Symbol -->
+    <path
+        android:fillColor="#1976D2"
+        android:pathData="M56,34
+                          C56,32 57,31 59,31
+                          C61,31 62,32 62,34
+                          C62,36 61,37 59,37
+                          C57,37 56,36 56,34 Z" />
+
+    <path
+        android:fillColor="#1976D2"
+        android:pathData="M53,41
+                          C53,38 55,37 59,37
+                          C63,37 65,38 65,41
+                          L65,42
+                          L53,42 Z" />
+
+</vector>
