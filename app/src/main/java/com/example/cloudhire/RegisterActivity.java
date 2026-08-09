@@ -183,11 +183,22 @@ public class RegisterActivity extends AppCompatActivity {
 
             if (hasFocus) {
 
-                scrollView.postDelayed(() ->
-                        scrollView.smoothScrollTo(
-                                0,
-                                Math.max(0, v.getTop() - 80)
-                        ), 200);
+                scrollView.postDelayed(() -> {
+
+                    int[] viewLocation = new int[2];
+                    int[] scrollLocation = new int[2];
+
+                    v.getLocationOnScreen(viewLocation);
+                    scrollView.getLocationOnScreen(scrollLocation);
+
+                    int y = viewLocation[1] - scrollLocation[1];
+
+                    scrollView.smoothScrollTo(
+                            0,
+                            Math.max(0, y - 150)
+                    );
+
+                }, 250);
             }
         });
 
