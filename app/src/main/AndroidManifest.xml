@@ -65,12 +65,6 @@
             android:exported="false"
             android:windowSoftInputMode="adjustResize|stateHidden" />
 
-        <activity
-            android:name=".RecruiterLoginActivity"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
-
-
         <!-- ================================================= -->
         <!-- RECRUITER REGISTRATION -->
         <!-- ================================================= -->
@@ -80,7 +74,14 @@
             android:exported="false"
             android:windowSoftInputMode="adjustResize|stateHidden" />
 
+        <!-- ================================================= -->
+        <!-- RECRUITER LOGIN -->
+        <!-- ================================================= -->
 
+        <activity
+            android:name=".RecruiterLoginActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
         <!-- ================================================= -->
         <!-- CANDIDATE DASHBOARD -->
         <!-- ================================================= -->

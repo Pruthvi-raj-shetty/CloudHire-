@@ -1,27 +1,30 @@
 package com.example.cloudhire;
 
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Patterns;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.core.widget.NestedScrollView;
-import androidx.activity.OnBackPressedCallback;
+
 import com.google.android.material.textfield.TextInputEditText;
 
 public class RecruiterRegisterActivity extends AppCompatActivity {
 
-    // -----------------------------------------
+    // =====================================================
     // VARIABLES
-    // -----------------------------------------
+    // =====================================================
 
     private ImageButton btnBack;
 
@@ -37,15 +40,18 @@ public class RecruiterRegisterActivity extends AppCompatActivity {
     private NestedScrollView scrollView;
 
 
-    // -----------------------------------------
+    // =====================================================
     // ON CREATE
-    // -----------------------------------------
+    // =====================================================
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Keyboard handling
+        // =====================================================
+        // KEYBOARD HANDLING
+        // =====================================================
+
         getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE |
                         WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
@@ -54,9 +60,9 @@ public class RecruiterRegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_recruiter_register);
 
 
-        // -----------------------------------------
+        // =====================================================
         // INITIALIZE VIEWS
-        // -----------------------------------------
+        // =====================================================
 
         scrollView = findViewById(R.id.scrollView);
 
@@ -69,17 +75,13 @@ public class RecruiterRegisterActivity extends AppCompatActivity {
         etConfirmPassword = findViewById(R.id.etConfirmPassword);
 
         btnRecruiterRegister = findViewById(R.id.btnRecruiterRegister);
+
         txtRecruiterLogin = findViewById(R.id.txtRecruiterLogin);
 
 
-        // -----------------------------------------
-        // BACK BUTTON
-        // -----------------------------------------
-
         // =====================================================
-// =====================================================
-// TOP BACK BUTTON → MAIN ACTIVITY
-// =====================================================
+        // TOP BACK BUTTON
+        // =====================================================
 
         btnBack.setOnClickListener(v -> {
 
@@ -95,9 +97,30 @@ public class RecruiterRegisterActivity extends AppCompatActivity {
 
             startActivity(intent);
             finish();
-        });// =====================================================
-// MOBILE / SYSTEM BACK BUTTON → MAIN ACTIVITY
-// =====================================================
+        });
+
+
+        // =====================================================
+        // ALREADY HAVE AN ACCOUNT? LOGIN
+        // =====================================================
+
+        txtRecruiterLogin.setOnClickListener(v -> {
+
+            Intent intent = new Intent(
+                    RecruiterRegisterActivity.this,
+                    RecruiterLoginActivity.class
+            );
+
+            intent.putExtra("ROLE", "Recruiter");
+
+            startActivity(intent);
+            finish();
+        });
+
+
+        // =====================================================
+        // MOBILE / SYSTEM BACK BUTTON
+        // =====================================================
 
         getOnBackPressedDispatcher().addCallback(
                 this,
@@ -123,159 +146,123 @@ public class RecruiterRegisterActivity extends AppCompatActivity {
         );
 
 
-        // -----------------------------------------
-        // KEYBOARD / SCROLL HANDLING
-        // -----------------------------------------
+        // =====================================================
+        // KEYBOARD / WINDOW INSETS
+        // =====================================================
 
         ViewCompat.setOnApplyWindowInsetsListener(
                 scrollView,
-                (v, insets) -> {
+                (view, insets) -> {
+
+                    boolean keyboardVisible =
+                            insets.isVisible(WindowInsetsCompat.Type.ime());
 
                     int imeHeight = insets.getInsets(
                             WindowInsetsCompat.Type.ime()
                     ).bottom;
 
-                    v.setPadding(
-                            v.getPaddingLeft(),
-                            v.getPaddingTop(),
-                            v.getPaddingRight(),
-                            imeHeight + 120
-                    );
+
+                    if (keyboardVisible) {
+
+                        // Keep enough space when keyboard is open
+                        scrollView.setPadding(
+                                scrollView.getPaddingLeft(),
+                                scrollView.getPaddingTop(),
+                                scrollView.getPaddingRight(),
+                                imeHeight + 180
+                        );
+
+                    } else {
+
+                        // Keyboard closed
+                        scrollView.setPadding(
+                                scrollView.getPaddingLeft(),
+                                scrollView.getPaddingTop(),
+                                scrollView.getPaddingRight(),
+                                180
+                        );
+
+                        // Return to top when keyboard closes
+                        scrollView.postDelayed(() -> {
+                            scrollView.smoothScrollTo(0, 0);
+                        }, 150);
+                    }
 
                     return insets;
                 }
         );
 
 
-        // -----------------------------------------
-        // RECRUITER NAME
-        // -----------------------------------------
+        // =====================================================
+        // COMMON FOCUS SCROLL LISTENER
+        // =====================================================
 
-        etRecruiterName.setOnFocusChangeListener((v, hasFocus) -> {
+        View.OnFocusChangeListener focusListener =
+                (v, hasFocus) -> {
 
-            if (hasFocus) {
+                    if (hasFocus) {
 
-                scrollView.postDelayed(() ->
-                        scrollView.smoothScrollTo(0, 0), 200);
-            }
-        });
+                        scrollView.postDelayed(() -> {
 
+                            Rect rect = new Rect();
 
-        // -----------------------------------------
-        // COMPANY NAME
-        // -----------------------------------------
+                            // Get actual position of focused field
+                            v.getDrawingRect(rect);
 
-        etCompanyName.setOnFocusChangeListener((v, hasFocus) -> {
+                            // Convert to NestedScrollView coordinates
+                            scrollView.offsetDescendantRectToMyCoords(
+                                    v,
+                                    rect
+                            );
 
-            if (hasFocus) {
+                            // Scroll field into visible area
+                            int targetY = Math.max(
+                                    0,
+                                    rect.top - 60
+                            );
 
-                scrollView.postDelayed(() ->
-                        scrollView.smoothScrollTo(
-                                0,
-                                Math.max(0, v.getTop() - 80)
-                        ), 200);
-            }
-        });
+                            scrollView.smoothScrollTo(
+                                    0,
+                                    targetY
+                            );
 
-
-        // -----------------------------------------
-        // COMPANY EMAIL
-        // -----------------------------------------
-
-        etCompanyEmail.setOnFocusChangeListener((v, hasFocus) -> {
-
-            if (hasFocus) {
-
-                scrollView.postDelayed(() -> {
-
-                    int[] viewLocation = new int[2];
-                    int[] scrollLocation = new int[2];
-
-                    v.getLocationOnScreen(viewLocation);
-                    scrollView.getLocationOnScreen(scrollLocation);
-
-                    int y = viewLocation[1] - scrollLocation[1];
-
-                    scrollView.smoothScrollTo(
-                            0,
-                            Math.max(0, y - 150)
-                    );
-
-                }, 250);
-            }
-        });
+                        }, 250);
+                    }
+                };
 
 
-        // -----------------------------------------
-        // PASSWORD
-        // -----------------------------------------
+        // =====================================================
+        // APPLY FOCUS LISTENER TO ALL INPUT FIELDS
+        // =====================================================
 
-        etPassword.setOnFocusChangeListener((v, hasFocus) -> {
+        etRecruiterName.setOnFocusChangeListener(focusListener);
 
-            if (hasFocus) {
+        etCompanyName.setOnFocusChangeListener(focusListener);
 
-                scrollView.postDelayed(() ->
-                        scrollView.smoothScrollTo(
-                                0,
-                                v.getBottom() + 600
-                        ), 250);
-            }
-        });
+        etCompanyEmail.setOnFocusChangeListener(focusListener);
+
+        etPassword.setOnFocusChangeListener(focusListener);
+
+        etConfirmPassword.setOnFocusChangeListener(focusListener);
 
 
-        // -----------------------------------------
-        // CONFIRM PASSWORD
-        // -----------------------------------------
-
-        etConfirmPassword.setOnFocusChangeListener((v, hasFocus) -> {
-
-            if (hasFocus) {
-
-                scrollView.postDelayed(() ->
-                        scrollView.smoothScrollTo(
-                                0,
-                                v.getBottom() + 700
-                        ), 250);
-            }
-        });
-
-
-        // -----------------------------------------
+        // =====================================================
         // REGISTER BUTTON
-        // -----------------------------------------
+        // =====================================================
 
         btnRecruiterRegister.setOnClickListener(v ->
                 registerRecruiter()
         );
-
-
-        // -----------------------------------------
-        // LOGIN
-        // -----------------------------------------
-
-        txtRecruiterLogin.setOnClickListener(v -> {
-
-            Intent intent = new Intent(
-                    RecruiterRegisterActivity.this,
-                    RecruiterLoginActivity.class
-            );
-
-            // Recruiter role
-            intent.putExtra("ROLE", "Recruiter");
-
-            startActivity(intent);
-            finish();
-        });
     }
 
 
-    // =============================================
-    // VALIDATE RECRUITER REGISTRATION
-    // =============================================
+    // =====================================================
+    // REGISTER RECRUITER
+    // =====================================================
 
     private void registerRecruiter() {
 
-        // Clear old errors
+        // Clear previous errors
         etRecruiterName.setError(null);
         etCompanyName.setError(null);
         etCompanyEmail.setError(null);
@@ -283,9 +270,9 @@ public class RecruiterRegisterActivity extends AppCompatActivity {
         etConfirmPassword.setError(null);
 
 
-        // -----------------------------------------
+        // =====================================================
         // GET VALUES
-        // -----------------------------------------
+        // =====================================================
 
         String recruiterName = getText(etRecruiterName);
         String companyName = getText(etCompanyName);
@@ -294,9 +281,9 @@ public class RecruiterRegisterActivity extends AppCompatActivity {
         String confirmPassword = getText(etConfirmPassword);
 
 
-        // -----------------------------------------
-        // RECRUITER NAME
-        // -----------------------------------------
+        // =====================================================
+        // RECRUITER NAME VALIDATION
+        // =====================================================
 
         if (TextUtils.isEmpty(recruiterName)) {
 
@@ -322,9 +309,9 @@ public class RecruiterRegisterActivity extends AppCompatActivity {
         }
 
 
-        // -----------------------------------------
-        // COMPANY NAME
-        // -----------------------------------------
+        // =====================================================
+        // COMPANY NAME VALIDATION
+        // =====================================================
 
         if (TextUtils.isEmpty(companyName)) {
 
@@ -350,9 +337,9 @@ public class RecruiterRegisterActivity extends AppCompatActivity {
         }
 
 
-        // -----------------------------------------
-        // COMPANY EMAIL
-        // -----------------------------------------
+        // =====================================================
+        // COMPANY EMAIL VALIDATION
+        // =====================================================
 
         if (TextUtils.isEmpty(companyEmail)) {
 
@@ -378,9 +365,9 @@ public class RecruiterRegisterActivity extends AppCompatActivity {
         }
 
 
-        // -----------------------------------------
-        // PASSWORD
-        // -----------------------------------------
+        // =====================================================
+        // PASSWORD VALIDATION
+        // =====================================================
 
         if (TextUtils.isEmpty(password)) {
 
@@ -407,9 +394,9 @@ public class RecruiterRegisterActivity extends AppCompatActivity {
         }
 
 
-        // -----------------------------------------
+        // =====================================================
         // CONFIRM PASSWORD
-        // -----------------------------------------
+        // =====================================================
 
         if (TextUtils.isEmpty(confirmPassword)) {
 
@@ -433,9 +420,9 @@ public class RecruiterRegisterActivity extends AppCompatActivity {
         }
 
 
-        // -----------------------------------------
+        // =====================================================
         // SUCCESS
-        // -----------------------------------------
+        // =====================================================
 
         Toast.makeText(
                 RecruiterRegisterActivity.this,
@@ -444,9 +431,9 @@ public class RecruiterRegisterActivity extends AppCompatActivity {
         ).show();
 
 
-        // -----------------------------------------
-        // GO TO LOGIN
-        // -----------------------------------------
+        // =====================================================
+        // GO TO RECRUITER LOGIN
+        // =====================================================
 
         Intent intent = new Intent(
                 RecruiterRegisterActivity.this,
@@ -463,9 +450,9 @@ public class RecruiterRegisterActivity extends AppCompatActivity {
     }
 
 
-    // =============================================
-    // GET TEXT
-    // =============================================
+    // =====================================================
+    // GET TEXT FROM EDIT TEXT
+    // =====================================================
 
     private String getText(
             TextInputEditText editText

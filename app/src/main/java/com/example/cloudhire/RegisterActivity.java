@@ -1,27 +1,31 @@
 package com.example.cloudhire;
 
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Patterns;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.core.widget.NestedScrollView;
 
-import com.google.android.material.textfield.TextInputEditText;import android.content.Intent;import androidx.activity.OnBackPressedCallback;
+import com.google.android.material.textfield.TextInputEditText;
+
 
 public class RegisterActivity extends AppCompatActivity {
 
-    // -----------------------------------------
+    // =====================================================
     // VARIABLES
-    // -----------------------------------------
+    // =====================================================
 
     private ImageButton btnBack;
 
@@ -37,9 +41,9 @@ public class RegisterActivity extends AppCompatActivity {
     private NestedScrollView scrollView;
 
 
-    // -----------------------------------------
+    // =====================================================
     // ON CREATE
-    // -----------------------------------------
+    // =====================================================
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,9 +58,9 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
 
-        // -----------------------------------------
+        // =====================================================
         // INITIALIZE VIEWS
-        // -----------------------------------------
+        // =====================================================
 
         scrollView = findViewById(R.id.scrollView);
 
@@ -72,17 +76,9 @@ public class RegisterActivity extends AppCompatActivity {
         txtLogin = findViewById(R.id.txtLogin);
 
 
-        // -----------------------------------------
+        // =====================================================
         // BACK BUTTON
-        // -----------------------------------------
-
         // =====================================================
-// BACK BUTTON → MAIN ACTIVITY
-// =====================================================
-
-        // =====================================================
-// BACK BUTTON → MAIN ACTIVITY
-// =====================================================
 
         btnBack.setOnClickListener(v -> {
 
@@ -94,9 +90,11 @@ public class RegisterActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         });
-// =====================================================
-// SYSTEM BACK BUTTON → MAIN ACTIVITY
-// =====================================================
+
+
+        // =====================================================
+        // SYSTEM BACK BUTTON
+        // =====================================================
 
         getOnBackPressedDispatcher().addCallback(
                 this,
@@ -120,135 +118,108 @@ public class RegisterActivity extends AppCompatActivity {
                     }
                 }
         );
-        // -----------------------------------------
+
+
+        // =====================================================
         // KEYBOARD / SCROLL HANDLING
-        // -----------------------------------------
+        // =====================================================
 
         ViewCompat.setOnApplyWindowInsetsListener(
                 scrollView,
-                (v, insets) -> {
+                (view, insets) -> {
 
                     int imeHeight = insets.getInsets(
                             WindowInsetsCompat.Type.ime()
                     ).bottom;
 
-                    v.setPadding(
-                            v.getPaddingLeft(),
-                            v.getPaddingTop(),
-                            v.getPaddingRight(),
-                            imeHeight + 120
+                    boolean keyboardVisible =
+                            insets.isVisible(
+                                    WindowInsetsCompat.Type.ime()
+                            );
+
+                    // Add space at bottom when keyboard is open
+                    view.setPadding(
+                            view.getPaddingLeft(),
+                            view.getPaddingTop(),
+                            view.getPaddingRight(),
+                            keyboardVisible
+                                    ? imeHeight + 120
+                                    : 120
                     );
+
+                    // When keyboard closes,
+                    // return the form to the top
+                    if (!keyboardVisible) {
+
+                        scrollView.postDelayed(() -> {
+                            scrollView.smoothScrollTo(0, 0);
+                        }, 150);
+                    }
 
                     return insets;
                 }
         );
 
 
-        // -----------------------------------------
-        // FULL NAME
-        // -----------------------------------------
+        // =====================================================
+        // AUTO SCROLL FOR ALL INPUT FIELDS
+        // =====================================================
 
-        etFullName.setOnFocusChangeListener((v, hasFocus) -> {
+        View.OnFocusChangeListener focusListener =
+                (v, hasFocus) -> {
 
-            if (hasFocus) {
+                    if (hasFocus) {
 
-                scrollView.postDelayed(() ->
-                        scrollView.smoothScrollTo(0, 0), 200);
-            }
-        });
+                        scrollView.postDelayed(() -> {
 
+                            Rect rect = new Rect();
 
-        // -----------------------------------------
-        // EMAIL
-        // -----------------------------------------
+                            v.getDrawingRect(rect);
 
-        etEmail.setOnFocusChangeListener((v, hasFocus) -> {
+                            scrollView.offsetDescendantRectToMyCoords(
+                                    v,
+                                    rect
+                            );
 
-            if (hasFocus) {
+                            // Move field into visible area
+                            scrollView.smoothScrollTo(
+                                    0,
+                                    Math.max(
+                                            0,
+                                            rect.top - 80
+                                    )
+                            );
 
-                scrollView.postDelayed(() ->
-                        scrollView.smoothScrollTo(
-                                0,
-                                Math.max(0, v.getTop() - 80)
-                        ), 200);
-            }
-        });
-
-
-        // -----------------------------------------
-        // PHONE
-        // -----------------------------------------
-
-        etPhone.setOnFocusChangeListener((v, hasFocus) -> {
-
-            if (hasFocus) {
-
-                scrollView.postDelayed(() -> {
-
-                    int[] viewLocation = new int[2];
-                    int[] scrollLocation = new int[2];
-
-                    v.getLocationOnScreen(viewLocation);
-                    scrollView.getLocationOnScreen(scrollLocation);
-
-                    int y = viewLocation[1] - scrollLocation[1];
-
-                    scrollView.smoothScrollTo(
-                            0,
-                            Math.max(0, y - 150)
-                    );
-
-                }, 250);
-            }
-        });
+                        }, 250);
+                    }
+                };
 
 
-        // -----------------------------------------
-        // PASSWORD
-        // -----------------------------------------
+        // Apply same listener to every field
 
-        etPassword.setOnFocusChangeListener((v, hasFocus) -> {
+        etFullName.setOnFocusChangeListener(focusListener);
 
-            if (hasFocus) {
+        etEmail.setOnFocusChangeListener(focusListener);
 
-                scrollView.postDelayed(() ->
-                        scrollView.smoothScrollTo(
-                                0,
-                                v.getBottom() + 600
-                        ), 250);
-            }
-        });
+        etPhone.setOnFocusChangeListener(focusListener);
+
+        etPassword.setOnFocusChangeListener(focusListener);
+
+        etConfirmPassword.setOnFocusChangeListener(focusListener);
 
 
-        // -----------------------------------------
-        // CONFIRM PASSWORD
-        // -----------------------------------------
-
-        etConfirmPassword.setOnFocusChangeListener((v, hasFocus) -> {
-
-            if (hasFocus) {
-
-                scrollView.postDelayed(() ->
-                        scrollView.smoothScrollTo(
-                                0,
-                                v.getBottom() + 700
-                        ), 250);
-            }
-        });
-
-
-        // -----------------------------------------
+        // =====================================================
         // REGISTER BUTTON
-        // -----------------------------------------
+        // =====================================================
 
         btnRegister.setOnClickListener(v ->
                 validateData()
         );
 
 
-        // -----------------------------------------
+        // =====================================================
         // ALREADY HAVE ACCOUNT? LOGIN
-        // -----------------------------------------
+        // =====================================================
 
         txtLogin.setOnClickListener(v -> {
 
@@ -257,8 +228,10 @@ public class RegisterActivity extends AppCompatActivity {
                     CandidateLoginActivity.class
             );
 
-            // Candidate role
-            intent.putExtra("ROLE", "Candidate");
+            intent.putExtra(
+                    "ROLE",
+                    "Candidate"
+            );
 
             startActivity(intent);
             finish();
@@ -266,9 +239,9 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
 
-    // =============================================
+    // =====================================================
     // VALIDATE REGISTRATION
-    // =============================================
+    // =====================================================
 
     private void validateData() {
 
@@ -280,9 +253,9 @@ public class RegisterActivity extends AppCompatActivity {
         etConfirmPassword.setError(null);
 
 
-        // -----------------------------------------
+        // =====================================================
         // GET VALUES
-        // -----------------------------------------
+        // =====================================================
 
         String name = getText(etFullName);
         String email = getText(etEmail);
@@ -291,9 +264,9 @@ public class RegisterActivity extends AppCompatActivity {
         String confirmPassword = getText(etConfirmPassword);
 
 
-        // -----------------------------------------
+        // =====================================================
         // FULL NAME
-        // -----------------------------------------
+        // =====================================================
 
         if (TextUtils.isEmpty(name)) {
 
@@ -319,9 +292,9 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
 
-        // -----------------------------------------
+        // =====================================================
         // EMAIL
-        // -----------------------------------------
+        // =====================================================
 
         if (TextUtils.isEmpty(email)) {
 
@@ -347,9 +320,9 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
 
-        // -----------------------------------------
+        // =====================================================
         // PHONE
-        // -----------------------------------------
+        // =====================================================
 
         if (TextUtils.isEmpty(phone)) {
 
@@ -375,9 +348,9 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
 
-        // -----------------------------------------
+        // =====================================================
         // PASSWORD
-        // -----------------------------------------
+        // =====================================================
 
         if (TextUtils.isEmpty(password)) {
 
@@ -404,9 +377,9 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
 
-        // -----------------------------------------
+        // =====================================================
         // CONFIRM PASSWORD
-        // -----------------------------------------
+        // =====================================================
 
         if (TextUtils.isEmpty(confirmPassword)) {
 
@@ -430,15 +403,16 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
 
-        // -----------------------------------------
+        // =====================================================
         // SUCCESS
-        // -----------------------------------------
+        // =====================================================
 
         Toast.makeText(
                 RegisterActivity.this,
                 "Registration Successful",
                 Toast.LENGTH_SHORT
         ).show();
+
 
         Intent intent = new Intent(
                 RegisterActivity.this,
@@ -450,9 +424,9 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
 
-    // =============================================
+    // =====================================================
     // GET TEXT
-    // =============================================
+    // =====================================================
 
     private String getText(
             TextInputEditText editText
