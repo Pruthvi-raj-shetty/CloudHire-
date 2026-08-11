@@ -13,6 +13,8 @@
         android:orientation="vertical"
         android:padding="24dp">
 
+        <!-- BACK BUTTON -->
+
         <ImageButton
             android:id="@+id/btnBack"
             android:layout_width="48dp"
@@ -21,6 +23,9 @@
             android:src="@android:drawable/ic_menu_revert"
             android:padding="8dp"
             android:contentDescription="Back" />
+
+
+        <!-- TITLE -->
 
         <TextView
             android:layout_width="wrap_content"
@@ -32,22 +37,32 @@
             android:textSize="28sp"
             android:textStyle="bold" />
 
+
+        <!-- STEP -->
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="8dp"
-            android:text="Step 2 of 5"
+            android:text="Step 3 of 5"
             android:textColor="#4F46E5"
+            android:textSize="14sp"
             android:textStyle="bold" />
 
+
+        <!-- OTP ICON -->
+
         <ImageView
-            android:layout_width="130dp"
-            android:layout_height="130dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_gravity="center"
-            android:layout_marginTop="35dp"
+            android:layout_marginTop="30dp"
             android:src="@android:drawable/ic_lock_lock"
             android:contentDescription="OTP" />
+
+
+        <!-- ENTER OTP -->
 
         <TextView
             android:layout_width="wrap_content"
@@ -59,6 +74,9 @@
             android:textSize="22sp"
             android:textStyle="bold" />
 
+
+        <!-- DESCRIPTION -->
+
         <TextView
             android:id="@+id/txtOtpEmail"
             android:layout_width="match_parent"
@@ -69,7 +87,8 @@
             android:textColor="#6B7280"
             android:textSize="14sp" />
 
-        <!-- OTP -->
+
+        <!-- OTP INPUT -->
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
@@ -89,20 +108,39 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+
+        <!-- TIMER -->
+
+        <TextView
+            android:id="@+id/txtOtpTimer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="14dp"
+            android:text="OTP expires in 00:30"
+            android:textColor="#6B7280"
+            android:textSize="14sp" />
+
+
+        <!-- RESEND OTP -->
+
         <TextView
             android:id="@+id/txtResendOtp"
             android:layout_width="wrap_content"
             android:layout_height="48dp"
             android:layout_gravity="center"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="4dp"
             android:padding="12dp"
             android:gravity="center"
-            android:text="Didn't receive OTP? Resend OTP"
-            android:textColor="#4F46E5"
+            android:text="Resend OTP"
+            android:textColor="#9CA3AF"
             android:textSize="14sp"
             android:textStyle="bold"
-            android:clickable="true"
-            android:focusable="true" />
+            android:clickable="false"
+            android:focusable="false" />
+
+
+        <!-- VERIFY BUTTON -->
 
         <Button
             android:id="@+id/btnVerifyOtp"
