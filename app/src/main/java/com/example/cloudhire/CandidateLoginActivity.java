@@ -70,7 +70,7 @@ public class CandidateLoginActivity extends AppCompatActivity {
 
             Intent intent = new Intent(
                     CandidateLoginActivity.this,
-                    RegisterActivity.class
+                    MainActivity.class
             );
 
             intent.putExtra("ROLE", "Candidate");
@@ -92,7 +92,7 @@ public class CandidateLoginActivity extends AppCompatActivity {
 
                         Intent intent = new Intent(
                                 CandidateLoginActivity.this,
-                                RegisterActivity.class
+                                MainActivity.class
                         );
 
                         intent.putExtra("ROLE", "Candidate");

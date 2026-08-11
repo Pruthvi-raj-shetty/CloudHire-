@@ -87,7 +87,7 @@ public class RecruiterRegisterActivity extends AppCompatActivity {
 
             Intent intent = new Intent(
                     RecruiterRegisterActivity.this,
-                    MainActivity.class
+                    RecruiterLoginActivity.class
             );
 
             intent.setFlags(
@@ -131,7 +131,7 @@ public class RecruiterRegisterActivity extends AppCompatActivity {
 
                         Intent intent = new Intent(
                                 RecruiterRegisterActivity.this,
-                                MainActivity.class
+                                RecruiterLoginActivity.class
                         );
 
                         intent.setFlags(

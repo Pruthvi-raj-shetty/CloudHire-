@@ -71,7 +71,7 @@ public class RecruiterLoginActivity extends AppCompatActivity {
 
             Intent intent = new Intent(
                     RecruiterLoginActivity.this,
-                    RecruiterRegisterActivity.class
+                    MainActivity.class
             );
 
             intent.putExtra("ROLE", "Recruiter");
@@ -109,7 +109,7 @@ public class RecruiterLoginActivity extends AppCompatActivity {
 
                         Intent intent = new Intent(
                                 RecruiterLoginActivity.this,
-                                RecruiterRegisterActivity.class
+                                MainActivity.class
                         );
 
                         intent.putExtra("ROLE", "Recruiter");
@@ -183,7 +183,7 @@ public class RecruiterLoginActivity extends AppCompatActivity {
 
                         Intent intent = new Intent(
                                 RecruiterLoginActivity.this,
-                                RecruiterRegisterActivity.class
+                              MainActivity.class
                         );
 
                         intent.putExtra("ROLE", "Recruiter");

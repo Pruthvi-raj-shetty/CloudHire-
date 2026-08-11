@@ -84,7 +84,7 @@ public class RegisterActivity extends AppCompatActivity {
 
             Intent intent = new Intent(
                     RegisterActivity.this,
-                    MainActivity.class
+                    CandidateLoginActivity.class
             );
 
             startActivity(intent);
@@ -105,7 +105,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                         Intent intent = new Intent(
                                 RegisterActivity.this,
-                                MainActivity.class
+                                CandidateLoginActivity.class
                         );
 
                         intent.setFlags(

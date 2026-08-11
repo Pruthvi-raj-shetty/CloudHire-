@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(
                         MainActivity.this,
-                        RegisterActivity.class
+                        CandidateLoginActivity.class
                 );
 
                 startActivity(intent);
@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(
                         MainActivity.this,
-                        RecruiterRegisterActivity.class
+                        RecruiterLoginActivity.class
                 );
 
                 startActivity(intent);
