@@ -106,7 +106,17 @@ public class CandidateLoginActivity extends AppCompatActivity {
         // LOGIN BUTTON
         // =================================================
 
-        btnLogin.setOnClickListener(v -> loginCandidate());
+        Button btnLogin = findViewById(R.id.btnLogin);
+
+        btnLogin.setOnClickListener(v -> {
+            Intent intent = new Intent(
+                    CandidateLoginActivity.this,
+                    CandidateDashboardActivity.class
+            );
+
+            startActivity(intent);
+            finish();
+        });
 
         // =================================================
         // FORGOT PASSWORD
