@@ -16,7 +16,7 @@ import android.widget.Toast;
 import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputEditText;import android.content.Intent;
 
 public class RecruiterLoginActivity extends AppCompatActivity {
 
@@ -129,22 +129,27 @@ public class RecruiterLoginActivity extends AppCompatActivity {
         // FORGOT PASSWORD
         // =================================================
 
+        // =====================================================
+// FORGOT PASSWORD
+// =====================================================
+
         txtForgotPassword.setOnClickListener(v -> {
 
             hideKeyboard();
 
-            Toast.makeText(
+            Intent intent = new Intent(
                     RecruiterLoginActivity.this,
-                    "Forgot Password selected",
-                    Toast.LENGTH_SHORT
-            ).show();
+                    RecruiterForgotPasswordActivity.class
+            );
 
+            startActivity(intent);
+
+        });
             // Later:
             // startActivity(new Intent(
             //     RecruiterLoginActivity.this,
             //     ForgotPasswordActivity.class
             // ));
-        });
 
         // =================================================
         // REGISTER
