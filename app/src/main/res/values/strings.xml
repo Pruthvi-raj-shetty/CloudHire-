@@ -59,5 +59,26 @@
     <string name="candidate_desc">Find your next opportunity</string>
     <string name="recruiter">Recruiter</string>
     <string name="recruiter_desc">Find great candidates</string>
+    <string name="back">Back</string>
+    <string name="my_profile">My Profile</string>
+    <string name="profile_picture">Profile Picture</string>
+    <string name="candidate_name">Adithya Kumar</string>
+    <string name="candidate_job_title">Software Developer</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="personal_information">Personal Information</string>
+    <string name="full_name">Full Name</string>
+    <string name="email">Email</string>
+    <string name="sample_email">adithya@example.com</string>
+    <string name="phone">Phone Number</string>
+    <string name="location">Location</string>
+    <string name="bangalore">Bangalore</string>
+    <string name="professional_information">Professional Information</string>
+    <string name="job_title">Job Title</string>
+    <string name="skills">Skills</string>
+    <string name="sample_skills">Java, Spring Boot, AWS, React</string>
+    <string name="experience">Experience</string>
+    <string name="sample_experience">2 Years</string>
+    <string name="education">Education</string>
+    <string name="sample_education">B.Tech Computer Science</string>
 
 </resources>

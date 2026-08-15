@@ -130,6 +130,10 @@
             android:name=".CandidateDashboardActivity"
             android:exported="false" />
 
+        <activity
+            android:name=".CandidateProfileActivity"
+            android:exported="false" />
+
 
         <!-- =============================== -->
         <!-- RECRUITER DASHBOARD -->
@@ -140,5 +144,6 @@
             android:exported="false" />
 
     </application>
+
 
 </manifest>
