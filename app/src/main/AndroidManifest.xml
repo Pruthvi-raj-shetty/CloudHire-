@@ -129,7 +129,9 @@
         <activity
             android:name=".CandidateDashboardActivity"
             android:exported="false" />
-
+        <activity
+            android:name=".CandidateProfileActivity"
+            android:exported="false" />
 
         <!-- =============================== -->
         <!-- RECRUITER DASHBOARD -->

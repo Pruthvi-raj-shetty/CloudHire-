@@ -21,34 +21,21 @@ public class CandidateProfileActivity extends AppCompatActivity {
         Button btnViewResume = findViewById(R.id.btnViewResume);
         Button btnReplaceResume = findViewById(R.id.btnReplaceResume);
 
-        // Back
-        btnBack.setOnClickListener(v -> {
-            finish();
-        });
+        btnBack.setOnClickListener(v -> finish());
 
-        // Edit Profile
         btnEditProfile.setOnClickListener(v -> {
-            // We will connect this later
         });
 
-        // Add Experience
         btnAddExperience.setOnClickListener(v -> {
-            // We will connect this later
         });
 
-        // Add Education
         btnAddEducation.setOnClickListener(v -> {
-            // We will connect this later
         });
 
-        // View Resume
         btnViewResume.setOnClickListener(v -> {
-            // We will connect this later
         });
 
-        // Replace Resume
         btnReplaceResume.setOnClickListener(v -> {
-            // We will connect this later
         });
     }
 }
