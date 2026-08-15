@@ -14,34 +14,40 @@
         android:theme="@style/Theme.CloudHire"
         tools:targetApi="31">
 
-        <!-- =============================== -->
+
+        <!-- ================================= -->
         <!-- SPLASH SCREEN -->
-        <!-- =============================== -->
+        <!-- ================================= -->
 
         <activity
             android:name=".SplashActivity"
             android:exported="true">
 
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+
+                <action
+                    android:name="android.intent.action.MAIN" />
+
+                <category
+                    android:name="android.intent.category.LAUNCHER" />
+
             </intent-filter>
 
         </activity>
 
 
-        <!-- =============================== -->
-        <!-- MAIN SCREEN -->
-        <!-- =============================== -->
+        <!-- ================================= -->
+        <!-- MAIN -->
+        <!-- ================================= -->
 
         <activity
             android:name=".MainActivity"
             android:exported="false" />
 
 
-        <!-- =============================== -->
+        <!-- ================================= -->
         <!-- CANDIDATE LOGIN -->
-        <!-- =============================== -->
+        <!-- ================================= -->
 
         <activity
             android:name=".CandidateLoginActivity"
@@ -49,9 +55,9 @@
             android:windowSoftInputMode="adjustResize|stateHidden" />
 
 
-        <!-- =============================== -->
+        <!-- ================================= -->
         <!-- CANDIDATE REGISTRATION -->
-        <!-- =============================== -->
+        <!-- ================================= -->
 
         <activity
             android:name=".RegisterActivity"
@@ -59,9 +65,61 @@
             android:windowSoftInputMode="adjustResize|stateHidden" />
 
 
-        <!-- =============================== -->
+        <!-- ================================= -->
+        <!-- CANDIDATE FORGOT PASSWORD -->
+        <!-- STEP 1 -->
+        <!-- ================================= -->
+
+        <activity
+            android:name=".CandidateForgotPasswordActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+
+
+        <!-- ================================= -->
+        <!-- CANDIDATE OTP -->
+        <!-- STEP 3 -->
+        <!-- ================================= -->
+
+        <activity
+            android:name=".CandidateOtpActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+
+
+        <!-- ================================= -->
+        <!-- CANDIDATE NEW PASSWORD -->
+        <!-- STEP 4 -->
+        <!-- ================================= -->
+
+        <activity
+            android:name=".CandidateNewPasswordActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+
+
+        <!-- ================================= -->
+        <!-- CANDIDATE PASSWORD SUCCESS -->
+        <!-- STEP 5 -->
+        <!-- ================================= -->
+
+        <activity
+            android:name=".CandidatePasswordResetSuccessActivity"
+            android:exported="false" />
+
+
+        <!-- ================================= -->
+        <!-- CANDIDATE DASHBOARD -->
+        <!-- ================================= -->
+
+        <activity
+            android:name=".CandidateDashboardActivity"
+            android:exported="false" />
+
+
+        <!-- ================================= -->
         <!-- RECRUITER LOGIN -->
-        <!-- =============================== -->
+        <!-- ================================= -->
 
         <activity
             android:name=".RecruiterLoginActivity"
@@ -69,9 +127,9 @@
             android:windowSoftInputMode="adjustResize|stateHidden" />
 
 
-        <!-- =============================== -->
+        <!-- ================================= -->
         <!-- RECRUITER REGISTRATION -->
-        <!-- =============================== -->
+        <!-- ================================= -->
 
         <activity
             android:name=".RecruiterRegisterActivity"
@@ -79,10 +137,9 @@
             android:windowSoftInputMode="adjustResize|stateHidden" />
 
 
-        <!-- =============================== -->
+        <!-- ================================= -->
         <!-- RECRUITER FORGOT PASSWORD -->
-        <!-- STEP 1 - EMAIL -->
-        <!-- =============================== -->
+        <!-- ================================= -->
 
         <activity
             android:name=".RecruiterForgotPasswordActivity"
@@ -90,10 +147,9 @@
             android:windowSoftInputMode="adjustResize|stateHidden" />
 
 
-        <!-- =============================== -->
+        <!-- ================================= -->
         <!-- RECRUITER OTP -->
-        <!-- STEP 2 / 3 -->
-        <!-- =============================== -->
+        <!-- ================================= -->
 
         <activity
             android:name=".RecruiterOtpActivity"
@@ -101,10 +157,9 @@
             android:windowSoftInputMode="adjustResize|stateHidden" />
 
 
-        <!-- =============================== -->
+        <!-- ================================= -->
         <!-- RECRUITER NEW PASSWORD -->
-        <!-- STEP 4 -->
-        <!-- =============================== -->
+        <!-- ================================= -->
 
         <activity
             android:name=".RecruiterNewPasswordActivity"
@@ -112,32 +167,23 @@
             android:windowSoftInputMode="adjustResize|stateHidden" />
 
 
-        <!-- =============================== -->
-        <!-- PASSWORD RESET SUCCESS -->
-        <!-- STEP 5 -->
-        <!-- =============================== -->
+        <!-- ================================= -->
+        <!-- RECRUITER PASSWORD SUCCESS -->
+        <!-- ================================= -->
 
         <activity
             android:name=".PasswordResetSuccessActivity"
             android:exported="false" />
 
 
-        <!-- =============================== -->
-        <!-- CANDIDATE DASHBOARD -->
-        <!-- =============================== -->
-
-        <activity
-            android:name=".CandidateDashboardActivity"
-            android:exported="false" />
-
-
-        <!-- =============================== -->
+        <!-- ================================= -->
         <!-- RECRUITER DASHBOARD -->
-        <!-- =============================== -->
+        <!-- ================================= -->
 
         <activity
             android:name=".RecruiterDashboardActivity"
             android:exported="false" />
+
 
     </application>
 
