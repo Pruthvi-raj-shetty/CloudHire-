@@ -171,6 +171,8 @@
                 android:orientation="horizontal"
                 android:baselineAligned="false">
 
+                <!-- TECHNOLOGY -->
+
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="0dp"
                     android:layout_height="110dp"
@@ -189,7 +191,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="💻"
-                            android:textSize="28sp" />
+                            android:textSize="28sp"
+                            android:contentDescription="@string/technology" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -203,12 +206,14 @@
                 </com.google.android.material.card.MaterialCardView>
 
 
+                <!-- BUSINESS -->
+
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="0dp"
                     android:layout_height="110dp"
                     android:layout_weight="1"
                     android:layout_marginStart="6dp"
-                    android:layoutEnd="6dp"
+                    android:layout_marginEnd="6dp"
                     app:cardCornerRadius="16dp"
                     app:cardElevation="1dp">
 
@@ -222,7 +227,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="📊"
-                            android:textSize="28sp" />
+                            android:textSize="28sp"
+                            android:contentDescription="@string/business" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -235,6 +241,8 @@
 
                 </com.google.android.material.card.MaterialCardView>
 
+
+                <!-- DESIGN -->
 
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="0dp"
@@ -254,7 +262,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="🎨"
-                            android:textSize="28sp" />
+                            android:textSize="28sp"
+                            android:contentDescription="@string/design" />
 
                         <TextView
                             android:layout_width="wrap_content"
