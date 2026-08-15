@@ -122,21 +122,21 @@ public class CandidateLoginActivity extends AppCompatActivity {
         // FORGOT PASSWORD
         // =================================================
 
+        // ==========================================
+// FORGOT PASSWORD
+// ==========================================
+
         txtForgotPassword.setOnClickListener(v -> {
 
             hideKeyboard();
 
-            Toast.makeText(
+            Intent intent = new Intent(
                     CandidateLoginActivity.this,
-                    "Forgot Password selected",
-                    Toast.LENGTH_SHORT
-            ).show();
+                    CandidateForgotPasswordActivity.class
+            );
 
-            // Later, replace with:
-            // startActivity(new Intent(
-            //         CandidateLoginActivity.this,
-            //         ForgotPasswordActivity.class
-            // ));
+            startActivity(intent);
+
         });
 
         // =================================================
