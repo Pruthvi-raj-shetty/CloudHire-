@@ -3,25 +3,59 @@
 
     <!-- App -->
     <string name="app_name">NexHire</string>
+    <string name="nexhire">NexHire</string>
+    <string name="nexhire_logo">NexHire Logo</string>
 
-    <!-- Logo -->
-    <string name="logo">Logo</string>
+    <!-- Header -->
+    <string name="notifications">Notifications</string>
+    <string name="profile">Profile</string>
 
-    <!-- Home Screen -->
-    <string name="app_title">NexHire</string>
-    <string name="subtitle">AI Powered Hiring Solution</string>
-    <string name="welcome">Welcome to NexHire</string>
-    <string name="choose_role">Choose your role to continue</string>
+    <!-- Welcome -->
+    <string name="welcome_candidate">Welcome, Candidate! 👋</string>
+    <string name="find_opportunity">Find your next great opportunity</string>
 
-    <!-- Candidate -->
-    <string name="candidate">Candidate</string>
-    <string name="candidate_desc">Find jobs and grow your career</string>
+    <!-- Search -->
+    <string name="search">Search</string>
+    <string name="search_jobs_hint">Search jobs, skills or companies</string>
+    <string name="search_jobs">Search Jobs</string>
 
-    <!-- Recruiter -->
-    <string name="recruiter">Recruiter</string>
-    <string name="recruiter_desc">Hire the right talent</string>
+    <!-- Categories -->
+    <string name="explore_categories">Explore Categories</string>
+    <string name="technology">Technology</string>
+    <string name="business">Business</string>
+    <string name="design">Design</string>
+    <string name="mobile">Mobile</string>
 
-    <!-- Arrow -->
-    <string name="arrow">&gt;</string>
+    <!-- Recommended Jobs -->
+    <string name="recommended_jobs">Recommended Jobs</string>
+    <string name="view_all">View All</string>
+    <string name="company_logo">Company Logo</string>
+
+    <!-- Job 1 -->
+    <string name="android_developer">Android Developer</string>
+    <string name="nextech_solutions">NexTech Solutions</string>
+    <string name="favorite">♡</string>
+    <string name="location_bangalore_full_time">📍 Bangalore    •    Full Time</string>
+    <string name="salary_android">₹6L - ₹10L per year</string>
+
+    <!-- Job 2 -->
+    <string name="software_engineer">Software Engineer</string>
+    <string name="cloudhire_technologies">CloudHire Technologies</string>
+    <string name="location_hyderabad_onsite">📍 Hyderabad    •    On-site</string>
+    <string name="salary_software">₹8L - ₹14L per year</string>
+
+    <!-- Job 3 -->
+    <string name="ui_ux_designer">UI/UX Designer</string>
+    <string name="creative_studio">Creative Studio</string>
+    <string name="location_remote_full_time">📍 Remote    •    Full Time</string>
+    <string name="salary_design">₹5L - ₹9L per year</string>
+
+    <!-- Buttons -->
+    <string name="apply_now">Apply Now</string>
+
+    <!-- Bottom Navigation -->
+    <string name="home">Home</string>
+    <string name="applications">Applications</string>
+    <string name="saved">Saved</string>
 
 </resources>
