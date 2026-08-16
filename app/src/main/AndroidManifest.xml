@@ -14,6 +14,7 @@
         android:theme="@style/Theme.CloudHire"
         tools:targetApi="31">
 
+
         <!-- =============================== -->
         <!-- SPLASH SCREEN -->
         <!-- =============================== -->
@@ -23,8 +24,12 @@
             android:exported="true">
 
             <intent-filter>
+
                 <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+
+                <category
+                    android:name="android.intent.category.LAUNCHER" />
+
             </intent-filter>
 
         </activity>
@@ -60,6 +65,49 @@
 
 
         <!-- =============================== -->
+        <!-- CANDIDATE FORGOT PASSWORD -->
+        <!-- STEP 1 - EMAIL -->
+        <!-- =============================== -->
+
+        <activity
+            android:name=".CandidateForgotPasswordActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+
+
+        <!-- =============================== -->
+        <!-- CANDIDATE OTP -->
+        <!-- STEP 3 -->
+        <!-- =============================== -->
+
+        <activity
+            android:name=".CandidateOtpActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+
+
+        <!-- =============================== -->
+        <!-- CANDIDATE NEW PASSWORD -->
+        <!-- STEP 4 -->
+        <!-- =============================== -->
+
+        <activity
+            android:name=".CandidateNewPasswordActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+
+
+        <!-- =============================== -->
+        <!-- CANDIDATE PASSWORD RESET SUCCESS -->
+        <!-- STEP 5 -->
+        <!-- =============================== -->
+
+        <activity
+            android:name=".CandidatePasswordResetSuccessActivity"
+            android:exported="false" />
+
+
+        <!-- =============================== -->
         <!-- RECRUITER LOGIN -->
         <!-- =============================== -->
 
@@ -92,7 +140,6 @@
 
         <!-- =============================== -->
         <!-- RECRUITER OTP -->
-        <!-- STEP 2 / 3 -->
         <!-- =============================== -->
 
         <activity
@@ -113,7 +160,7 @@
 
 
         <!-- =============================== -->
-        <!-- PASSWORD RESET SUCCESS -->
+        <!-- RECRUITER PASSWORD RESET SUCCESS -->
         <!-- STEP 5 -->
         <!-- =============================== -->
 
@@ -129,9 +176,16 @@
         <activity
             android:name=".CandidateDashboardActivity"
             android:exported="false" />
+
+
+        <!-- =============================== -->
+        <!-- CANDIDATE PROFILE -->
+        <!-- =============================== -->
+
         <activity
             android:name=".CandidateProfileActivity"
             android:exported="false" />
+
 
         <!-- =============================== -->
         <!-- RECRUITER DASHBOARD -->
@@ -140,6 +194,7 @@
         <activity
             android:name=".RecruiterDashboardActivity"
             android:exported="false" />
+
 
     </application>
 

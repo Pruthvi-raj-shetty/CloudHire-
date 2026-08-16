@@ -16,7 +16,7 @@ import android.widget.Toast;
 import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.material.textfield.TextInputEditText;import android.content.Intent;
+import com.google.android.material.textfield.TextInputEditText;import android.content.Intent;import com.google.android.material.textfield.TextInputEditText;import android.content.Intent;import com.google.android.material.textfield.TextInputEditText;import android.content.Intent;
 
 public class RecruiterLoginActivity extends AppCompatActivity {
 
