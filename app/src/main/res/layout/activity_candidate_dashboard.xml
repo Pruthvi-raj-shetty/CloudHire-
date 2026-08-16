@@ -1,754 +1,794 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
-    android:fillViewport="true">
+    android:background="#FFFFFF">
 
-    <LinearLayout
+    <!-- ========================================================= -->
+    <!-- SCROLLABLE DASHBOARD CONTENT                               -->
+    <!-- ========================================================= -->
+
+    <ScrollView
+        android:id="@+id/dashboardScrollView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingStart="14dp"
-        android:paddingEnd="14dp"
-        android:paddingTop="12dp"
-        android:paddingBottom="20dp">
-
-        <!-- ================= HEADER ================= -->
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/btnMenu"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:gravity="center"
-                android:text="☰"
-                android:textColor="#111827"
-                android:textSize="25sp" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="NexHire"
-                android:textColor="#1D4ED8"
-                android:textSize="21sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/btnNotification"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:gravity="center"
-                android:text="🔔"
-                android:textSize="20sp" />
-
-        </LinearLayout>
-
-
-        <!-- ================= PROFILE ================= -->
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="65dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:background="#2563EB"
-                android:gravity="center"
-                android:text="👤"
-                android:textSize="26sp" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Adithya Kumar"
-                    android:textColor="#111827"
-                    android:textSize="17sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Software Developer"
-                    android:textColor="#64748B"
-                    android:textSize="13sp" />
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-
-        <!-- ================= SEARCH ================= -->
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginTop="8dp"
-            android:background="#F8FAFC"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingStart="12dp"
-            android:paddingEnd="8dp">
-
-            <TextView
-                android:layout_width="30dp"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="🔍"
-                android:textSize="17sp" />
-
-            <EditText
-                android:id="@+id/etSearchJobs"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@android:color/transparent"
-                android:hint="Search Jobs"
-                android:inputType="text"
-                android:padding="4dp"
-                android:singleLine="true"
-                android:textSize="13sp" />
-
-        </LinearLayout>
-
-
-        <!-- ================= RECOMMENDED JOBS TITLE ================= -->
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="18dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="🔥 Recommended Jobs"
-                android:textColor="#111827"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/txtViewAll"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="View All"
-                android:textColor="#2563EB"
-                android:textSize="13sp"
-                android:textStyle="bold" />
-
-        </LinearLayout>
-
-
-        <!-- ================= GOOGLE JOB ================= -->
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="105dp"
-            android:background="#FFFFFF"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="10dp">
-
-            <TextView
-                android:layout_width="52dp"
-                android:layout_height="52dp"
-                android:background="#F1F5F9"
-                android:gravity="center"
-                android:text="G"
-                android:textColor="#4285F4"
-                android:textSize="28sp"
-                android:textStyle="bold" />
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginStart="12dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Google"
-                    android:textColor="#111827"
-                    android:textSize="15sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Software Engineer"
-                    android:textColor="#334155"
-                    android:textSize="13sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="📍 Bangalore, India  •  2-5 Yrs"
-                    android:textColor="#64748B"
-                    android:textSize="10sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="Java   Spring Boot   SQL   +2"
-                    android:textColor="#475569"
-                    android:textSize="9sp" />
-
-            </LinearLayout>
-
-            <Button
-                android:id="@+id/btnApplyGoogle"
-                android:layout_width="95dp"
-                android:layout_height="48dp"
-                android:backgroundTint="#2563EB"
-                android:gravity="center"
-                android:minWidth="95dp"
-                android:paddingStart="6dp"
-                android:paddingEnd="6dp"
-                android:singleLine="true"
-                android:text="Apply Now"
-                android:textAllCaps="false"
-                android:textColor="#FFFFFF"
-                android:textSize="13sp"
-                android:textStyle="bold" />
-
-        </LinearLayout>
-
-
-        <!-- ================= DIVIDER ================= -->
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#E5E7EB" />
-
-
-        <!-- ================= MICROSOFT JOB ================= -->
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="105dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="10dp">
-
-            <TextView
-                android:layout_width="52dp"
-                android:layout_height="52dp"
-                android:background="#F1F5F9"
-                android:gravity="center"
-                android:text="▦"
-                android:textColor="#16A34A"
-                android:textSize="30sp" />
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginStart="12dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Microsoft"
-                    android:textColor="#111827"
-                    android:textSize="15sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Backend Developer"
-                    android:textColor="#334155"
-                    android:textSize="13sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="📍 Hyderabad, India  •  3-6 Yrs"
-                    android:textColor="#64748B"
-                    android:textSize="10sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="Java   Spring Boot   AWS   +3"
-                    android:textColor="#475569"
-                    android:textSize="9sp" />
-
-            </LinearLayout>
-
-            <Button
-                android:id="@+id/btnApplyMicrosoft"
-                android:layout_width="95dp"
-                android:layout_height="48dp"
-                android:backgroundTint="#2563EB"
-                android:gravity="center"
-                android:minWidth="95dp"
-                android:paddingStart="6dp"
-                android:paddingEnd="6dp"
-                android:singleLine="true"
-                android:text="Apply Now"
-                android:textAllCaps="false"
-                android:textColor="#FFFFFF"
-                android:textSize="13sp"
-                android:textStyle="bold" />
-
-        </LinearLayout>
-
-
-        <!-- ================= DIVIDER ================= -->
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#E5E7EB" />
-
-
-        <!-- ================= AMAZON JOB ================= -->
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="105dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="10dp">
-
-            <TextView
-                android:layout_width="52dp"
-                android:layout_height="52dp"
-                android:background="#F1F5F9"
-                android:gravity="center"
-                android:text="a"
-                android:textColor="#111827"
-                android:textSize="30sp"
-                android:textStyle="bold" />
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginStart="12dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Amazon"
-                    android:textColor="#111827"
-                    android:textSize="15sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="SDE - II"
-                    android:textColor="#334155"
-                    android:textSize="13sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="📍 Bangalore, India  •  2-4 Yrs"
-                    android:textColor="#64748B"
-                    android:textSize="10sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="Java   Data Structures   System Design"
-                    android:textColor="#475569"
-                    android:textSize="9sp" />
-
-            </LinearLayout>
-
-            <Button
-                android:id="@+id/btnApplyAmazon"
-                android:layout_width="95dp"
-                android:layout_height="48dp"
-                android:backgroundTint="#2563EB"
-                android:gravity="center"
-                android:minWidth="95dp"
-                android:paddingStart="6dp"
-                android:paddingEnd="6dp"
-                android:singleLine="true"
-                android:text="Apply Now"
-                android:textAllCaps="false"
-                android:textColor="#FFFFFF"
-                android:textSize="13sp"
-                android:textStyle="bold" />
-
-        </LinearLayout>
-
-
-        <!-- ================= RECENTLY POSTED ================= -->
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="15dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="◷  Recently Posted"
-                android:textColor="#111827"
-                android:textSize="15sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="View All"
-                android:textColor="#2563EB"
-                android:textSize="13sp"
-                android:textStyle="bold" />
-
-        </LinearLayout>
-
-
-        <!-- ================= RECENT COMPANIES ================= -->
-
-        <HorizontalScrollView
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:scrollbars="none">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="100dp"
-                    android:layout_height="85dp"
-                    android:layout_marginEnd="8dp"
-                    android:background="#F8FAFC"
-                    android:gravity="center"
-                    android:text="Google\n\nSoftware Engineer\n2h ago"
-                    android:textColor="#334155"
-                    android:textSize="10sp" />
-
-                <TextView
-                    android:layout_width="100dp"
-                    android:layout_height="85dp"
-                    android:layout_marginEnd="8dp"
-                    android:background="#F8FAFC"
-                    android:gravity="center"
-                    android:text="Infosys\n\nSystem Engineer\n4h ago"
-                    android:textColor="#334155"
-                    android:textSize="10sp" />
-
-                <TextView
-                    android:layout_width="100dp"
-                    android:layout_height="85dp"
-                    android:layout_marginEnd="8dp"
-                    android:background="#F8FAFC"
-                    android:gravity="center"
-                    android:text="Cognizant\n\nJava Developer\n6h ago"
-                    android:textColor="#334155"
-                    android:textSize="10sp" />
-
-                <TextView
-                    android:layout_width="100dp"
-                    android:layout_height="85dp"
-                    android:background="#F8FAFC"
-                    android:gravity="center"
-                    android:text="Wipro\n\nBackend Developer\n8h ago"
-                    android:textColor="#334155"
-                    android:textSize="10sp" />
-
-            </LinearLayout>
-
-        </HorizontalScrollView>
-
-
-        <!-- ================= TWO COLUMN SECTION ================= -->
-
+        android:layout_height="match_parent"
+        android:background="#FFFFFF"
+        android:fillViewport="true"
+        android:clipToPadding="false"
+        android:paddingBottom="0dp">
+
+        <!-- IMPORTANT:
+             Bottom padding is here so the last content can scroll
+             completely above the fixed bottom navigation.
+        -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:orientation="horizontal">
+            android:orientation="vertical"
+            android:paddingStart="14dp"
+            android:paddingEnd="14dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="90dp">
 
-            <!-- COMPANIES -->
+            <!-- ================= HEADER ================= -->
 
             <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:padding="8dp">
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="▦  Companies Hiring"
+                    android:id="@+id/btnMenu"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:gravity="center"
+                    android:text="☰"
                     android:textColor="#111827"
-                    android:textSize="14sp"
+                    android:textSize="25sp"
+                    android:clickable="true"
+                    android:focusable="true" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="NexHire"
+                    android:textColor="#1D4ED8"
+                    android:textSize="21sp"
                     android:textStyle="bold" />
 
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="32dp"
-                    android:gravity="center_vertical"
-                    android:text="Google                         ›"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="32dp"
-                    android:gravity="center_vertical"
-                    android:text="Amazon                        ›"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="32dp"
-                    android:gravity="center_vertical"
-                    android:text="Adobe                          ›"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="32dp"
-                    android:gravity="center_vertical"
-                    android:text="TCS                              ›"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="32dp"
-                    android:gravity="center_vertical"
-                    android:text="Microsoft                    ›"
-                    android:textSize="12sp" />
+                    android:id="@+id/btnNotification"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:gravity="center"
+                    android:text="🔔"
+                    android:textSize="20sp"
+                    android:clickable="true"
+                    android:focusable="true" />
 
             </LinearLayout>
 
 
-            <!-- TRENDING SKILLS -->
+            <!-- ================= PROFILE ================= -->
 
             <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:padding="8dp">
+                android:layout_width="match_parent"
+                android:layout_height="65dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="#2563EB"
+                    android:gravity="center"
+                    android:text="👤"
+                    android:textSize="26sp" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Adithya Kumar"
+                        android:textColor="#111827"
+                        android:textSize="17sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Software Developer"
+                        android:textColor="#64748B"
+                        android:textSize="13sp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+            <!-- ================= SEARCH ================= -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="8dp"
+                android:background="#F8FAFC"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="12dp"
+                android:paddingEnd="8dp">
+
+                <TextView
+                    android:layout_width="30dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="🔍"
+                    android:textSize="17sp" />
+
+                <EditText
+                    android:id="@+id/etSearchJobs"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:hint="Search Jobs"
+                    android:inputType="text"
+                    android:padding="4dp"
+                    android:singleLine="true"
+                    android:textSize="13sp" />
+
+            </LinearLayout>
+
+
+            <!-- ================= RECOMMENDED JOBS ================= -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="18dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="🔥 Recommended Jobs"
+                    android:textColor="#111827"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtViewAll"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="View All"
+                    android:textColor="#2563EB"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+
+            <!-- ================= GOOGLE ================= -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="105dp"
+                android:background="#FFFFFF"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <TextView
+                    android:layout_width="52dp"
+                    android:layout_height="52dp"
+                    android:background="#F1F5F9"
+                    android:gravity="center"
+                    android:text="G"
+                    android:textColor="#4285F4"
+                    android:textSize="28sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="12dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Google"
+                        android:textColor="#111827"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Software Engineer"
+                        android:textColor="#334155"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="📍 Bangalore, India  •  2-5 Yrs"
+                        android:textColor="#64748B"
+                        android:textSize="10sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Java   Spring Boot   SQL   +2"
+                        android:textColor="#475569"
+                        android:textSize="9sp" />
+
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/btnApplyGoogle"
+                    android:layout_width="95dp"
+                    android:layout_height="48dp"
+                    android:backgroundTint="#2563EB"
+                    android:gravity="center"
+                    android:minWidth="95dp"
+                    android:paddingStart="6dp"
+                    android:paddingEnd="6dp"
+                    android:singleLine="true"
+                    android:text="Apply Now"
+                    android:textAllCaps="false"
+                    android:textColor="#FFFFFF"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#E5E7EB" />
+
+
+            <!-- ================= MICROSOFT ================= -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="105dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <TextView
+                    android:layout_width="52dp"
+                    android:layout_height="52dp"
+                    android:background="#F1F5F9"
+                    android:gravity="center"
+                    android:text="▦"
+                    android:textColor="#16A34A"
+                    android:textSize="30sp" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="12dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Microsoft"
+                        android:textColor="#111827"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Backend Developer"
+                        android:textColor="#334155"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="📍 Hyderabad, India  •  3-6 Yrs"
+                        android:textColor="#64748B"
+                        android:textSize="10sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Java   Spring Boot   AWS   +3"
+                        android:textColor="#475569"
+                        android:textSize="9sp" />
+
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/btnApplyMicrosoft"
+                    android:layout_width="95dp"
+                    android:layout_height="48dp"
+                    android:backgroundTint="#2563EB"
+                    android:gravity="center"
+                    android:minWidth="95dp"
+                    android:paddingStart="6dp"
+                    android:paddingEnd="6dp"
+                    android:singleLine="true"
+                    android:text="Apply Now"
+                    android:textAllCaps="false"
+                    android:textColor="#FFFFFF"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#E5E7EB" />
+
+
+            <!-- ================= AMAZON ================= -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="105dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <TextView
+                    android:layout_width="52dp"
+                    android:layout_height="52dp"
+                    android:background="#F1F5F9"
+                    android:gravity="center"
+                    android:text="a"
+                    android:textColor="#111827"
+                    android:textSize="30sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="12dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Amazon"
+                        android:textColor="#111827"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="SDE - II"
+                        android:textColor="#334155"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="📍 Bangalore, India  •  2-4 Yrs"
+                        android:textColor="#64748B"
+                        android:textSize="10sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Java   Data Structures   System Design"
+                        android:textColor="#475569"
+                        android:textSize="9sp" />
+
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/btnApplyAmazon"
+                    android:layout_width="95dp"
+                    android:layout_height="48dp"
+                    android:backgroundTint="#2563EB"
+                    android:gravity="center"
+                    android:minWidth="95dp"
+                    android:paddingStart="6dp"
+                    android:paddingEnd="6dp"
+                    android:singleLine="true"
+                    android:text="Apply Now"
+                    android:textAllCaps="false"
+                    android:textColor="#FFFFFF"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+
+            <!-- ================= RECENTLY POSTED ================= -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="15dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="◷  Recently Posted"
+                    android:textColor="#111827"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="↗  Trending Skills"
-                    android:textColor="#111827"
-                    android:textSize="14sp"
+                    android:text="View All"
+                    android:textColor="#2563EB"
+                    android:textSize="13sp"
                     android:textStyle="bold" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="32dp"
-                    android:gravity="center_vertical"
-                    android:text="Spring Boot                    ›"
-                    android:textSize="12sp" />
+            </LinearLayout>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="32dp"
-                    android:gravity="center_vertical"
-                    android:text="Java                                ›"
-                    android:textSize="12sp" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="32dp"
-                    android:gravity="center_vertical"
-                    android:text="AWS                                ›"
-                    android:textSize="12sp" />
+            <!-- ================= RECENT COMPANIES ================= -->
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="32dp"
-                    android:gravity="center_vertical"
-                    android:text="Docker                           ›"
-                    android:textSize="12sp" />
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:scrollbars="none">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="32dp"
-                    android:gravity="center_vertical"
-                    android:text="React                             ›"
-                    android:textSize="12sp" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="85dp"
+                        android:layout_marginEnd="8dp"
+                        android:background="#F8FAFC"
+                        android:gravity="center"
+                        android:text="Google\n\nSoftware Engineer\n2h ago"
+                        android:textColor="#334155"
+                        android:textSize="10sp" />
+
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="85dp"
+                        android:layout_marginEnd="8dp"
+                        android:background="#F8FAFC"
+                        android:gravity="center"
+                        android:text="Infosys\n\nSystem Engineer\n4h ago"
+                        android:textColor="#334155"
+                        android:textSize="10sp" />
+
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="85dp"
+                        android:layout_marginEnd="8dp"
+                        android:background="#F8FAFC"
+                        android:gravity="center"
+                        android:text="Cognizant\n\nJava Developer\n6h ago"
+                        android:textColor="#334155"
+                        android:textSize="10sp" />
+
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="85dp"
+                        android:background="#F8FAFC"
+                        android:gravity="center"
+                        android:text="Wipro\n\nBackend Developer\n8h ago"
+                        android:textColor="#334155"
+                        android:textSize="10sp" />
+
+                </LinearLayout>
+
+            </HorizontalScrollView>
+
+
+            <!-- ================= TWO COLUMN SECTION ================= -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:orientation="horizontal">
+
+                <!-- COMPANIES -->
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:padding="8dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="▦  Companies Hiring"
+                        android:textColor="#111827"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="32dp"
+                        android:gravity="center_vertical"
+                        android:text="Google                         ›"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="32dp"
+                        android:gravity="center_vertical"
+                        android:text="Amazon                        ›"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="32dp"
+                        android:gravity="center_vertical"
+                        android:text="Adobe                          ›"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="32dp"
+                        android:gravity="center_vertical"
+                        android:text="TCS                              ›"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="32dp"
+                        android:gravity="center_vertical"
+                        android:text="Microsoft                    ›"
+                        android:textSize="12sp" />
+
+                </LinearLayout>
+
+
+                <!-- TRENDING SKILLS -->
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:padding="8dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="↗  Trending Skills"
+                        android:textColor="#111827"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="32dp"
+                        android:gravity="center_vertical"
+                        android:text="Spring Boot                    ›"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="32dp"
+                        android:gravity="center_vertical"
+                        android:text="Java                                ›"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="32dp"
+                        android:gravity="center_vertical"
+                        android:text="AWS                                ›"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="32dp"
+                        android:gravity="center_vertical"
+                        android:text="Docker                           ›"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="32dp"
+                        android:gravity="center_vertical"
+                        android:text="React                             ›"
+                        android:textSize="12sp" />
+
+                </LinearLayout>
 
             </LinearLayout>
 
         </LinearLayout>
 
+    </ScrollView>
 
-        <!-- ================= BOTTOM NAVIGATION ================= -->
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="10dp"
-            android:background="#E5E7EB" />
+    <!-- ========================================================= -->
+    <!-- FIXED BOTTOM NAVIGATION                                   -->
+    <!-- ========================================================= -->
+
+    <LinearLayout
+        android:id="@+id/bottomNavigation"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_gravity="bottom"
+        android:background="#FFFFFF"
+        android:elevation="12dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp">
+
+        <!-- HOME -->
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="70dp"
+            android:id="@+id/navHome"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:focusable="true"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
-            <LinearLayout
-                android:id="@+id/navHome"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="⌂"
+                android:textColor="#2563EB"
+                android:textSize="22sp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="⌂"
-                    android:textColor="#2563EB"
-                    android:textSize="22sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Home"
+                android:textColor="#2563EB"
+                android:textSize="10sp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Home"
-                    android:textColor="#2563EB"
-                    android:textSize="10sp" />
-
-            </LinearLayout>
+        </LinearLayout>
 
 
-            <LinearLayout
-                android:id="@+id/navProfile"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical">
+        <!-- MY PROFILE -->
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="👤"
-                    android:textSize="19sp" />
+        <LinearLayout
+            android:id="@+id/navProfile"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="My Profile"
-                    android:textColor="#475569"
-                    android:textSize="10sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="👤"
+                android:textSize="19sp" />
 
-            </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="My Profile"
+                android:textColor="#475569"
+                android:textSize="10sp" />
 
-
-            <LinearLayout
-                android:id="@+id/navResume"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="▤"
-                    android:textSize="21sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="My Resume"
-                    android:textColor="#475569"
-                    android:textSize="10sp" />
-
-            </LinearLayout>
+        </LinearLayout>
 
 
-            <LinearLayout
-                android:id="@+id/navApplications"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical">
+        <!-- MY RESUME -->
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="▣"
-                    android:textSize="20sp" />
+        <LinearLayout
+            android:id="@+id/navResume"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="My Applications"
-                    android:textColor="#475569"
-                    android:textSize="9sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="▤"
+                android:textSize="21sp" />
 
-            </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="My Resume"
+                android:textColor="#475569"
+                android:textSize="10sp" />
+
+        </LinearLayout>
 
 
-            <LinearLayout
-                android:id="@+id/navSaved"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical">
+        <!-- MY APPLICATIONS -->
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="♡"
-                    android:textSize="23sp" />
+        <LinearLayout
+            android:id="@+id/navApplications"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Saved Jobs"
-                    android:textColor="#475569"
-                    android:textSize="9sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="▣"
+                android:textSize="20sp" />
 
-            </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="My Applications"
+                android:textColor="#475569"
+                android:textSize="9sp" />
+
+        </LinearLayout>
+
+
+        <!-- SAVED JOBS -->
+
+        <LinearLayout
+            android:id="@+id/navSaved"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="♡"
+                android:textSize="23sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Saved Jobs"
+                android:textColor="#475569"
+                android:textSize="9sp" />
 
         </LinearLayout>
 
     </LinearLayout>
 
-</ScrollView>
+</FrameLayout>
