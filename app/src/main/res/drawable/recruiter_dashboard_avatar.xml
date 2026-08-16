@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+
+    <!-- Blue circular background -->
+    <path
+        android:fillColor="#2563EB"
+        android:pathData="M24,0A24,24 0,1 0,24,48A24,24 0,1 0,24,0" />
+
+    <!-- Person head -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M24,10A7,7 0,1 0,24,24A7,7 0,1 0,24,10" />
+
+    <!-- Person body -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M12,39C12,31.3 17.4,26 24,26C30.6,26 36,31.3 36,39L36,40L12,40Z" />
+
+</vector>

@@ -1,18 +1,18 @@
 package com.example.cloudhire;
 
-import android.graphics.Color;
-import android.graphics.Typeface;
-import android.graphics.drawable.GradientDrawable;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.Calendar;
+import java.util.ArrayList;
+import java.util.List;
 
 public class RecruiterDashboardActivity extends AppCompatActivity {
 
@@ -36,17 +36,10 @@ public class RecruiterDashboardActivity extends AppCompatActivity {
 
 
     // =========================================================
-    // FRONTEND SAMPLE DATA
+    // DATA
     // =========================================================
 
-    private final String recruiterName = "Pruthvi Raj";
-
-    private final int jobsCount = 12;
-    private final int applicantsCount = 48;
-    private final int shortlistedCount = 8;
-    private final int interviewsCount = 3;
-
-    private final int unreadNotifications = 3;
+    private RecruiterDashboardData dashboardData;
 
 
     // =========================================================
@@ -60,6 +53,8 @@ public class RecruiterDashboardActivity extends AppCompatActivity {
         setContentView(R.layout.activity_recruiter_dashboard);
 
         initializeViews();
+
+        dashboardData = new RecruiterDashboardData();
 
         loadDashboardData();
 
@@ -78,9 +73,6 @@ public class RecruiterDashboardActivity extends AppCompatActivity {
         txtRecruiterSubtitle =
                 findViewById(R.id.txtRecruiterSubtitle);
 
-
-        // Statistics
-
         txtJobsCount =
                 findViewById(R.id.txtJobsCount);
 
@@ -93,14 +85,8 @@ public class RecruiterDashboardActivity extends AppCompatActivity {
         txtInterviewsCount =
                 findViewById(R.id.txtInterviewsCount);
 
-
-        // Notification
-
         txtNotificationBadge =
                 findViewById(R.id.txtNotificationBadge);
-
-
-        // Containers
 
         activeJobsContainer =
                 findViewById(R.id.activeJobsContainer);
@@ -119,46 +105,88 @@ public class RecruiterDashboardActivity extends AppCompatActivity {
 
     private void loadDashboardData() {
 
-        setDynamicGreeting();
+        /*
+         * IMPORTANT:
+         *
+         * Currentlys this uses an empty data object.
+         *
+         * Later REST API data can be assigned here:
+         *
+         * dashboardData = apiResponse;
+         *
+         * Then call:
+         *
+         * updateDashboard();
+         */
+
+        updateDashboard();
+    }
+
+
+    // =========================================================
+    // UPDATE UI
+    // =========================================================
+
+    private void updateDashboard() {
+
+        String recruiterName =
+                dashboardData.getRecruiterName();
+
+        if (recruiterName == null ||
+                recruiterName.trim().isEmpty()) {
+
+            recruiterName = "Recruiter";
+        }
+
+        txtGreeting.setText(
+                getGreeting() + ", " + recruiterName + " 👋"
+        );
 
         txtRecruiterSubtitle.setText(
                 "Manage your hiring efficiently"
         );
 
 
-        // =====================================================
-        // HIRING OVERVIEW
-        // =====================================================
+        // Statistics
 
         txtJobsCount.setText(
-                String.valueOf(jobsCount)
+                String.valueOf(
+                        dashboardData.getJobsCount()
+                )
         );
 
         txtApplicantsCount.setText(
-                String.valueOf(applicantsCount)
+                String.valueOf(
+                        dashboardData.getApplicantsCount()
+                )
         );
 
         txtShortlistedCount.setText(
-                String.valueOf(shortlistedCount)
+                String.valueOf(
+                        dashboardData.getShortlistedCount()
+                )
         );
 
         txtInterviewsCount.setText(
-                String.valueOf(interviewsCount)
+                String.valueOf(
+                        dashboardData.getInterviewsCount()
+                )
         );
 
 
-        // =====================================================
-        // NOTIFICATION
-        // =====================================================
+        // Notification badge
 
-        if (unreadNotifications > 0) {
+        int unread =
+                dashboardData.getUnreadNotifications();
+
+        if (unread > 0) {
 
             txtNotificationBadge.setVisibility(
                     View.VISIBLE
             );
 
             txtNotificationBadge.setText(
-                    String.valueOf(unreadNotifications)
+                    String.valueOf(unread)
             );
 
         } else {
@@ -169,94 +197,91 @@ public class RecruiterDashboardActivity extends AppCompatActivity {
         }
 
 
-        // =====================================================
-        // LOAD CARDS
-        // =====================================================
+        // Dynamic sections
 
-        loadActiveJobs();
+        loadJobs(
+                dashboardData.getJobs()
+        );
 
-        loadRecentApplicants();
+        loadApplicants(
+                dashboardData.getApplicants()
+        );
 
-        loadUpcomingInterviews();
+        loadInterviews(
+                dashboardData.getInterviews()
+        );
     }
 
 
     // =========================================================
-    // DYNAMIC GREETING
+    // GREETING
     // =========================================================
 
-    private void setDynamicGreeting() {
+    private String getGreeting() {
 
         int hour =
-                Calendar.getInstance()
-                        .get(Calendar.HOUR_OF_DAY);
-
-        String greeting;
+                java.util.Calendar
+                        .getInstance()
+                        .get(
+                                java.util.Calendar.HOUR_OF_DAY
+                        );
 
         if (hour >= 5 && hour < 12) {
 
-            greeting =
-                    "Good morning, "
-                            + recruiterName
-                            + " 👋";
+            return "Good morning";
 
         } else if (hour >= 12 && hour < 17) {
 
-            greeting =
-                    "Good afternoon, "
-                            + recruiterName
-                            + " 👋";
+            return "Good afternoon";
 
         } else if (hour >= 17 && hour < 21) {
 
-            greeting =
-                    "Good evening, "
-                            + recruiterName
-                            + " 👋";
+            return "Good evening";
 
         } else {
 
-            greeting =
-                    "Good night, "
-                            + recruiterName
-                            + " 👋";
+            return "Good night";
         }
-
-        txtGreeting.setText(greeting);
     }
 
 
     // =========================================================
-    // ACTIVE JOBS
+    // JOBS
     // =========================================================
 
-    private void loadActiveJobs() {
+    private void loadJobs(List<Job> jobs) {
 
         activeJobsContainer.removeAllViews();
 
-        addJobCard(
-                "Android Developer",
-                "NexTech Solutions",
-                "24 Applicants",
-                "Posted 3d ago",
-                "ACTIVE"
-        );
+        if (jobs == null || jobs.isEmpty()) {
 
-        addJobCard(
-                "Java Backend Developer",
-                "CloudNova Technologies",
-                "16 Applicants",
-                "Posted 5d ago",
-                "ACTIVE"
-        );
+            TextView empty =
+                    createText(
+                            "No jobs available yet.",
+                            14
+                    );
 
-        addJobCard(
-                "Software Engineer",
-                "TechBridge Pvt. Ltd.",
-                "8 Applicants",
-                "Posted 7d ago",
-                "ACTIVE"
-        );
+            empty.setTextColor(
+                    getColor(R.color.dashboard_text_secondary)
+            );
+
+            empty.setPadding(
+                    dp(4),
+                    dp(8),
+                    dp(4),
+                    dp(16)
+            );
+
+            activeJobsContainer.addView(empty);
+
+            return;
+        }
+
+
+        for (Job job : jobs) {
+
+            addJobCard(job);
+        }
     }
 
 
@@ -264,13 +289,7 @@ public class RecruiterDashboardActivity extends AppCompatActivity {
     // JOB CARD
     // =========================================================
 
-    private void addJobCard(
-            String title,
-            String company,
-            String applicants,
-            String posted,
-            String status
-    ) {
+    private void addJobCard(Job job) {
 
         LinearLayout card =
                 new LinearLayout(this);
@@ -281,23 +300,20 @@ public class RecruiterDashboardActivity extends AppCompatActivity {
 
         card.setPadding(
                 dp(16),
-                dp(15),
                 dp(16),
-                dp(15)
+                dp(16),
+                dp(16)
         );
 
-        card.setBackground(
-                cardBackground(
-                        "#FFFFFF",
-                        "#E5E7EB",
-                        16
-                )
+        card.setBackgroundResource(
+                R.drawable.recruiter_dashboard_card
         );
+
 
         LinearLayout.LayoutParams cardParams =
                 new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT
+                        -1,
+                        -2
                 );
 
         cardParams.setMargins(
@@ -310,9 +326,9 @@ public class RecruiterDashboardActivity extends AppCompatActivity {
         card.setLayoutParams(cardParams);
 
 
-        // =====================================================
+        // -----------------------------------------------------
         // TOP ROW
-        // =====================================================
+        // -----------------------------------------------------
 
         LinearLayout topRow =
                 new LinearLayout(this);
@@ -327,17 +343,13 @@ public class RecruiterDashboardActivity extends AppCompatActivity {
 
 
         TextView icon =
-                textView(
-                        "💼",
-                        24,
-                        "#111827"
-                );
+                createText("💼", 23);
 
         topRow.addView(
                 icon,
                 new LinearLayout.LayoutParams(
-                        dp(42),
-                        dp(42)
+                        dp(44),
+                        dp(44)
                 )
         );
 
@@ -349,40 +361,48 @@ public class RecruiterDashboardActivity extends AppCompatActivity {
                 LinearLayout.VERTICAL
         );
 
-
-        TextView titleView =
-                textView(
-                        title,
-                        16,
-                        "#111827"
+        TextView title =
+                createText(
+                        safe(job.getTitle()),
+                        17
                 );
 
-        titleView.setTypeface(
+        title.setTypeface(
                 null,
-                Typeface.BOLD
+                android.graphics.Typeface.BOLD
         );
 
 
-        TextView companyView =
-                textView(
-                        company,
-                        13,
-                        "#6B7280"
+        TextView company =
+                createText(
+                        safe(job.getCompany()),
+                        13
                 );
 
+        company.setTextColor(
+                getColor(
+                        R.color.dashboard_text_secondary
+                )
+        );
 
-        titleBox.addView(titleView);
 
-        titleBox.addView(companyView);
+        titleBox.addView(title);
+        titleBox.addView(company);
 
 
         LinearLayout.LayoutParams titleParams =
                 new LinearLayout.LayoutParams(
                         0,
-                        LinearLayout.LayoutParams.WRAP_CONTENT,
+                        -2,
                         1
                 );
 
+        titleParams.setMargins(
+                dp(10),
+                0,
+                dp(8),
+                0
+        );
 
         topRow.addView(
                 titleBox,
@@ -390,23 +410,32 @@ public class RecruiterDashboardActivity extends AppCompatActivity {
         );
 
 
+        // Three-dot menu
+
         TextView menu =
-                textView(
-                        "⋮",
-                        24,
-                        "#6B7280"
-                );
+                createText("⋮", 27);
 
         menu.setGravity(
                 Gravity.CENTER
+        );
+
+        menu.setContentDescription(
+                "Job options"
+        );
+
+        menu.setOnClickListener(
+                v -> showJobMenu(
+                        menu,
+                        job
+                )
         );
 
 
         topRow.addView(
                 menu,
                 new LinearLayout.LayoutParams(
-                        dp(32),
-                        dp(40)
+                        dp(40),
+                        dp(44)
                 )
         );
 
@@ -414,9 +443,9 @@ public class RecruiterDashboardActivity extends AppCompatActivity {
         card.addView(topRow);
 
 
-        // =====================================================
-        // INFORMATION ROW
-        // =====================================================
+        // -----------------------------------------------------
+        // INFORMATION
+        // -----------------------------------------------------
 
         LinearLayout infoRow =
                 new LinearLayout(this);
@@ -431,70 +460,75 @@ public class RecruiterDashboardActivity extends AppCompatActivity {
 
         infoRow.setPadding(
                 0,
-                dp(12),
+                dp(14),
                 0,
                 0
         );
 
 
         TextView info =
-                textView(
-                        "👥 "
-                                + applicants
+                createText(
+                        safe(
+                                job.getApplicantsCountText()
+                        )
                                 + "   •   "
-                                + posted,
-                        12,
-                        "#667085"
+                                + safe(
+                                job.getPostedText()
+                        ),
+                        12
                 );
+
+        info.setTextColor(
+                getColor(
+                        R.color.dashboard_text_secondary
+                )
+        );
 
 
         infoRow.addView(
                 info,
                 new LinearLayout.LayoutParams(
                         0,
-                        dp(34),
+                        -2,
                         1
                 )
         );
 
 
-        TextView badge =
-                textView(
-                        status,
-                        10,
-                        "#15803D"
+        TextView status =
+                createText(
+                        safe(job.getStatus()),
+                        10
                 );
 
-        badge.setGravity(
+        status.setGravity(
                 Gravity.CENTER
         );
 
-        badge.setTypeface(
+        status.setTypeface(
                 null,
-                Typeface.BOLD
+                android.graphics.Typeface.BOLD
         );
 
-        badge.setPadding(
-                dp(10),
+        status.setPadding(
+                dp(12),
                 0,
-                dp(10),
+                dp(12),
                 0
         );
 
-        badge.setBackground(
-                cardBackground(
-                        "#DCFCE7",
-                        "#BBF7D0",
-                        20
+        status.setBackground(
+                getStatusBackground(
+                        job.getStatus()
                 )
         );
 
 
         infoRow.addView(
-                badge,
+                status,
                 new LinearLayout.LayoutParams(
-                        dp(70),
-                        dp(30)
+                        dp(82),
+                        dp(32)
                 )
         );
 
@@ -502,27 +536,52 @@ public class RecruiterDashboardActivity extends AppCompatActivity {
         card.addView(infoRow);
 
 
-        // =====================================================
+        // -----------------------------------------------------
         // VIEW APPLICANTS
-        // =====================================================
+        // -----------------------------------------------------
 
         TextView viewApplicants =
-                textView(
+                createText(
                         "View Applicants  →",
-                        13,
-                        "#2563EB"
+                        14
                 );
+
+        viewApplicants.setTextColor(
+                getColor(
+                        R.color.dashboard_primary
+                )
+        );
 
         viewApplicants.setTypeface(
                 null,
-                Typeface.BOLD
+                android.graphics.Typeface.BOLD
         );
 
         viewApplicants.setPadding(
                 0,
-                dp(10),
+                dp(14),
                 0,
                 0
+        );
+
+
+        viewApplicants.setOnClickListener(
+                v -> {
+
+                    Toast.makeText(
+                            this,
+                            "Opening applicants",
+                            Toast.LENGTH_SHORT
+                    ).show();
+
+                    // Later:
+                    // startActivity(
+                    //     new Intent(
+                    //         this,
+                    //         ApplicantsActivity.class
+                    //     )
+                    // );
+                }
         );
 
 
@@ -531,55 +590,157 @@ public class RecruiterDashboardActivity extends AppCompatActivity {
         );
 
 
-        View.OnClickListener listener =
-                v -> Toast.makeText(
-                        RecruiterDashboardActivity.this,
-                        "Opening applicants for "
-                                + title,
-                        Toast.LENGTH_SHORT
-                ).show();
-
-
-        card.setOnClickListener(listener);
-
-        viewApplicants.setOnClickListener(listener);
-
-
-        activeJobsContainer.addView(card);
+        activeJobsContainer.addView(
+                card
+        );
     }
 
 
     // =========================================================
-    // RECENT APPLICANTS
+    // JOB MENU
     // =========================================================
 
-    private void loadRecentApplicants() {
+    private void showJobMenu(
+            View anchor,
+            Job job
+    ) {
+
+        PopupMenu popup =
+                new PopupMenu(
+                        this,
+                        anchor
+                );
+
+        popup.getMenu().add("Edit Job");
+
+        popup.getMenu().add("View Job");
+
+        popup.getMenu().add("View Applicants");
+
+        popup.getMenu().add("Pause Hiring");
+
+        popup.getMenu().add("Close Job");
+
+
+        popup.setOnMenuItemClickListener(
+                item -> {
+
+                    String action =
+                            item.getTitle().toString();
+
+
+                    switch (action) {
+
+                        case "Edit Job":
+
+                            Toast.makeText(
+                                    this,
+                                    "Edit Job selected",
+                                    Toast.LENGTH_SHORT
+                            ).show();
+
+                            break;
+
+
+                        case "View Job":
+
+                            Toast.makeText(
+                                    this,
+                                    "View Job selected",
+                                    Toast.LENGTH_SHORT
+                            ).show();
+
+                            break;
+
+
+                        case "View Applicants":
+
+                            Toast.makeText(
+                                    this,
+                                    "View Applicants selected",
+                                    Toast.LENGTH_SHORT
+                            ).show();
+
+                            break;
+
+
+                        case "Pause Hiring":
+
+                            job.setStatus(
+                                    "Paused"
+                            );
+
+                            updateDashboard();
+
+                            break;
+
+
+                        case "Close Job":
+
+                            job.setStatus(
+                                    "Closed"
+                            );
+
+                            updateDashboard();
+
+                            break;
+                    }
+
+                    return true;
+                }
+        );
+
+        popup.show();
+    }
+
+
+    // =========================================================
+    // APPLICANTS
+    // =========================================================
+
+    private void loadApplicants(
+            List<Applicant> applicants
+    ) {
 
         applicantsContainer.removeAllViews();
 
-        addApplicantCard(
-                "Rahul Sharma",
-                "Android Developer",
-                "3 yrs • Java",
-                "SHORTLISTED",
-                "R"
-        );
+        if (applicants == null ||
+                applicants.isEmpty()) {
 
-        addApplicantCard(
-                "Priya Nair",
-                "Backend Developer",
-                "2 yrs • Spring Boot",
-                "REVIEW",
-                "P"
-        );
+            TextView empty =
+                    createText(
+                            "No recent applicants.",
+                            14
+                    );
 
-        addApplicantCard(
-                "Arjun Kumar",
-                "Software Engineer",
-                "4 yrs • AWS",
-                "INTERVIEW",
-                "A"
-        );
+            empty.setTextColor(
+                    getColor(
+                            R.color.dashboard_text_secondary
+                    )
+            );
+
+            empty.setPadding(
+                    dp(4),
+                    dp(8),
+                    dp(4),
+                    dp(16)
+            );
+
+            applicantsContainer.addView(
+                    empty
+            );
+
+            return;
+        }
+
+
+        for (Applicant applicant :
+                applicants) {
+
+            addApplicantCard(
+                    applicant
+            );
+        }
     }
 
 
@@ -588,11 +749,7 @@ public class RecruiterDashboardActivity extends AppCompatActivity {
     // =========================================================
 
     private void addApplicantCard(
-            String name,
-            String role,
-            String experience,
-            String status,
-            String initial
+            Applicant applicant
     ) {
 
         LinearLayout card =
@@ -608,261 +765,20 @@ public class RecruiterDashboardActivity extends AppCompatActivity {
 
         card.setPadding(
                 dp(14),
-                dp(13),
-                dp(12),
-                dp(13)
-        );
-
-        card.setBackground(
-                cardBackground(
-                        "#FFFFFF",
-                        "#E5E7EB",
-                        16
-                )
-        );
-
-
-        LinearLayout.LayoutParams cardParams =
-                new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT
-                );
-
-        cardParams.setMargins(
-                0,
-                0,
-                0,
-                dp(10)
-        );
-
-        card.setLayoutParams(cardParams);
-
-
-        // =====================================================
-        // AVATAR
-        // =====================================================
-
-        TextView avatar =
-                textView(
-                        initial,
-                        17,
-                        "#FFFFFF"
-                );
-
-        avatar.setGravity(
-                Gravity.CENTER
-        );
-
-        avatar.setTypeface(
-                null,
-                Typeface.BOLD
-        );
-
-        avatar.setBackground(
-                circleBackground("#2563EB")
-        );
-
-
-        card.addView(
-                avatar,
-                new LinearLayout.LayoutParams(
-                        dp(44),
-                        dp(44)
-                )
-        );
-
-
-        // =====================================================
-        // DETAILS
-        // =====================================================
-
-        LinearLayout details =
-                new LinearLayout(this);
-
-        details.setOrientation(
-                LinearLayout.VERTICAL
-        );
-
-        details.setPadding(
-                dp(12),
-                0,
-                dp(8),
-                0
-        );
-
-
-        TextView nameView =
-                textView(
-                        name,
-                        15,
-                        "#111827"
-                );
-
-        nameView.setTypeface(
-                null,
-                Typeface.BOLD
-        );
-
-
-        TextView roleView =
-                textView(
-                        role,
-                        12,
-                        "#374151"
-                );
-
-
-        TextView experienceView =
-                textView(
-                        experience,
-                        11,
-                        "#6B7280"
-                );
-
-
-        details.addView(nameView);
-
-        details.addView(roleView);
-
-        details.addView(experienceView);
-
-
-        card.addView(
-                details,
-                new LinearLayout.LayoutParams(
-                        0,
-                        LinearLayout.LayoutParams.WRAP_CONTENT,
-                        1
-                )
-        );
-
-
-        // =====================================================
-        // STATUS
-        // =====================================================
-
-        TextView statusView =
-                textView(
-                        status,
-                        9,
-                        statusColor(status)
-                );
-
-        statusView.setGravity(
-                Gravity.CENTER
-        );
-
-        statusView.setTypeface(
-                null,
-                Typeface.BOLD
-        );
-
-        statusView.setPadding(
-                dp(8),
-                0,
-                dp(8),
-                0
-        );
-
-        statusView.setBackground(
-                cardBackground(
-                        statusBackground(status),
-                        statusBorder(status),
-                        20
-                )
-        );
-
-
-        card.addView(
-                statusView,
-                new LinearLayout.LayoutParams(
-                        dp(90),
-                        dp(30)
-                )
-        );
-
-
-        card.setOnClickListener(
-                v -> Toast.makeText(
-                        RecruiterDashboardActivity.this,
-                        "Opening "
-                                + name
-                                + "'s application",
-                        Toast.LENGTH_SHORT
-                ).show()
-        );
-
-
-        applicantsContainer.addView(card);
-    }
-
-
-    // =========================================================
-    // UPCOMING INTERVIEWS
-    // =========================================================
-
-    private void loadUpcomingInterviews() {
-
-        interviewsContainer.removeAllViews();
-
-        addInterviewCard(
-                "Rahul Sharma",
-                "Android Developer",
-                "16 Aug • 10:00 AM",
-                "SCHEDULED"
-        );
-
-        addInterviewCard(
-                "Priya Nair",
-                "Backend Developer",
-                "16 Aug • 11:30 AM",
-                "SCHEDULED"
-        );
-    }
-
-
-    // =========================================================
-    // INTERVIEW CARD
-    // =========================================================
-
-    private void addInterviewCard(
-            String candidate,
-            String role,
-            String dateTime,
-            String status
-    ) {
-
-        LinearLayout card =
-                new LinearLayout(this);
-
-        card.setOrientation(
-                LinearLayout.HORIZONTAL
-        );
-
-        card.setGravity(
-                Gravity.CENTER_VERTICAL
-        );
-
-        card.setPadding(
                 dp(14),
-                dp(13),
                 dp(14),
-                dp(13)
+                dp(14)
         );
 
-        card.setBackground(
-                cardBackground(
-                        "#FFFFFF",
-                        "#E5E7EB",
-                        16
-                )
+        card.setBackgroundResource(
+                R.drawable.recruiter_dashboard_card
         );
 
 
         LinearLayout.LayoutParams params =
                 new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT
+                        -1,
+                        -2
                 );
 
         params.setMargins(
@@ -875,20 +791,265 @@ public class RecruiterDashboardActivity extends AppCompatActivity {
         card.setLayoutParams(params);
 
 
-        TextView calendarIcon =
-                textView(
-                        "📅",
-                        22,
-                        "#2563EB"
+        // Avatar
+
+        TextView avatar =
+                createText(
+                        safe(
+                                applicant.getInitial()
+                        ),
+                        17
                 );
 
-        calendarIcon.setGravity(
+        avatar.setTextColor(
+                android.graphics.Color.WHITE
+        );
+
+        avatar.setGravity(
+                Gravity.CENTER
+        );
+
+        avatar.setTypeface(
+                null,
+                android.graphics.Typeface.BOLD
+        );
+
+        avatar.setBackgroundResource(
+                R.drawable.recruiter_dashboard_avatar
+        );
+
+
+        card.addView(
+                avatar,
+                new LinearLayout.LayoutParams(
+                        dp(44),
+                        dp(44)
+                )
+        );
+
+
+        // Details
+
+        LinearLayout details =
+                new LinearLayout(this);
+
+        details.setOrientation(
+                LinearLayout.VERTICAL
+        );
+
+        details.setPadding(
+                dp(12),
+                0,
+                dp(8),
+                0
+        );
+
+
+        TextView name =
+                createText(
+                        safe(applicant.getName()),
+                        15
+                );
+
+        name.setTypeface(
+                null,
+                android.graphics.Typeface.BOLD
+        );
+
+
+        TextView role =
+                createText(
+                        safe(applicant.getJobTitle()),
+                        12
+                );
+
+
+        TextView experience =
+                createText(
+                        safe(applicant.getExperience())
+                                + " • "
+                                + safe(applicant.getSkill()),
+                        11
+                );
+
+        experience.setTextColor(
+                getColor(
+                        R.color.dashboard_text_secondary
+                )
+        );
+
+
+        details.addView(name);
+        details.addView(role);
+        details.addView(experience);
+
+
+        card.addView(
+                details,
+                new LinearLayout.LayoutParams(
+                        0,
+                        -2,
+                        1
+                )
+        );
+
+
+        // Status
+
+        TextView status =
+                createText(
+                        safe(applicant.getStatus()),
+                        9
+                );
+
+        status.setGravity(
+                Gravity.CENTER
+        );
+
+        status.setTypeface(
+                null,
+                android.graphics.Typeface.BOLD
+        );
+
+        status.setPadding(
+                dp(8),
+                0,
+                dp(8),
+                0
+        );
+
+        status.setBackground(
+                getApplicantStatusBackground(
+                        applicant.getStatus()
+                )
+        );
+
+
+        card.addView(
+                status,
+                new LinearLayout.LayoutParams(
+                        dp(96),
+                        dp(32)
+                )
+        );
+
+
+        applicantsContainer.addView(
+                card
+        );
+    }
+
+
+    // =========================================================
+    // INTERVIEWS
+    // =========================================================
+
+    private void loadInterviews(
+            List<Interview> interviews
+    ) {
+
+        interviewsContainer.removeAllViews();
+
+        if (interviews == null ||
+                interviews.isEmpty()) {
+
+            TextView empty =
+                    createText(
+                            "No upcoming interviews.",
+                            14
+                    );
+
+            empty.setTextColor(
+                    getColor(
+                            R.color.dashboard_text_secondary
+                    )
+            );
+
+            empty.setPadding(
+                    dp(4),
+                    dp(8),
+                    dp(4),
+                    dp(16)
+            );
+
+            interviewsContainer.addView(
+                    empty
+            );
+
+            return;
+        }
+
+
+        for (Interview interview :
+                interviews) {
+
+            addInterviewCard(
+                    interview
+            );
+        }
+    }
+
+
+    // =========================================================
+    // INTERVIEW CARD
+    // =========================================================
+
+    private void addInterviewCard(
+            Interview interview
+    ) {
+
+        LinearLayout card =
+                new LinearLayout(this);
+
+        card.setOrientation(
+                LinearLayout.HORIZONTAL
+        );
+
+        card.setGravity(
+                Gravity.CENTER_VERTICAL
+        );
+
+        card.setPadding(
+                dp(14),
+                dp(14),
+                dp(14),
+                dp(14)
+        );
+
+        card.setBackgroundResource(
+                R.drawable.recruiter_dashboard_card
+        );
+
+
+        LinearLayout.LayoutParams params =
+                new LinearLayout.LayoutParams(
+                        -1,
+                        -2
+                );
+
+        params.setMargins(
+                0,
+                0,
+                0,
+                dp(10)
+        );
+
+        card.setLayoutParams(params);
+
+
+        TextView icon =
+                createText(
+                        "📅",
+                        22
+                );
+
+        icon.setGravity(
                 Gravity.CENTER
         );
 
 
         card.addView(
-                calendarIcon,
+                icon,
                 new LinearLayout.LayoutParams(
                         dp(44),
                         dp(44)
@@ -911,184 +1072,251 @@ public class RecruiterDashboardActivity extends AppCompatActivity {
         );
 
 
-        TextView candidateView =
-                textView(
-                        candidate,
-                        14,
-                        "#111827"
+        TextView candidate =
+                createText(
+                        safe(
+                                interview.getCandidateName()
+                        ),
+                        15
                 );
 
-        candidateView.setTypeface(
+        candidate.setTypeface(
                 null,
-                Typeface.BOLD
+                android.graphics.Typeface.BOLD
         );
 
 
-        TextView roleView =
-                textView(
-                        role,
-                        12,
-                        "#374151"
+        TextView job =
+                createText(
+                        safe(
+                                interview.getJobTitle()
+                        ),
+                        12
                 );
 
 
-        TextView timeView =
-                textView(
-                        dateTime,
-                        11,
-                        "#6B7280"
+        TextView date =
+                createText(
+                        safe(
+                                interview.getDate()
+                        )
+                                + " • "
+                                + safe(
+                                interview.getTime()
+                        ),
+                        11
                 );
 
+        date.setTextColor(
+                getColor(
+                        R.color.dashboard_text_secondary
+                )
+        );
 
-        details.addView(candidateView);
 
-        details.addView(roleView);
+        TextView type =
+                createText(
+                        safe(
+                                interview.getInterviewType()
+                        ),
+                        11
+                );
 
-        details.addView(timeView);
+        type.setTextColor(
+                getColor(
+                        R.color.dashboard_primary
+                )
+        );
+
+
+        details.addView(candidate);
+        details.addView(job);
+        details.addView(date);
+        details.addView(type);
 
 
         card.addView(
                 details,
                 new LinearLayout.LayoutParams(
                         0,
-                        LinearLayout.LayoutParams.WRAP_CONTENT,
+                        -2,
                         1
                 )
         );
 
 
-        TextView statusView =
-                textView(
-                        status,
-                        9,
-                        "#2563EB"
+        TextView scheduled =
+                createText(
+                        "SCHEDULED",
+                        9
                 );
 
-        statusView.setGravity(
+        scheduled.setGravity(
                 Gravity.CENTER
         );
 
-        statusView.setTypeface(
+        scheduled.setTypeface(
                 null,
-                Typeface.BOLD
+                android.graphics.Typeface.BOLD
         );
 
-        statusView.setPadding(
-                dp(8),
-                0,
-                dp(8),
-                0
-        );
-
-        statusView.setBackground(
-                cardBackground(
-                        "#DBEAFE",
-                        "#BFDBFE",
-                        20
+        scheduled.setTextColor(
+                getColor(
+                        R.color.dashboard_primary
                 )
+        );
+
+        scheduled.setBackgroundResource(
+                R.drawable.recruiter_dashboard_interview_badge
         );
 
 
         card.addView(
-                statusView,
+                scheduled,
                 new LinearLayout.LayoutParams(
                         dp(88),
-                        dp(30)
+                        dp(32)
                 )
         );
 
 
-        interviewsContainer.addView(card);
+        interviewsContainer.addView(
+                card
+        );
     }
 
 
     // =========================================================
-    // BUTTON CLICKS
+    // CLICKS
     // =========================================================
 
     private void setupClicks() {
 
+        // Post Job
+
         findViewById(R.id.btnPostJob)
-                .setOnClickListener(
-                        v -> Toast.makeText(
-                                this,
-                                "Post New Job selected",
-                                Toast.LENGTH_SHORT
-                        ).show()
-                );
+                .setOnClickListener(v -> {
+
+                    Toast.makeText(
+                            this,
+                            "Post Job",
+                            Toast.LENGTH_SHORT
+                    ).show();
+
+                    // Later:
+                    // startActivity(
+                    //     new Intent(
+                    //         this,
+                    //         PostJobActivity.class
+                    //     )
+                    // );
+                });
 
 
-        findViewById(R.id.btnViewAllJobs)
-                .setOnClickListener(
-                        v -> Toast.makeText(
-                                this,
-                                "Opening all jobs",
-                                Toast.LENGTH_SHORT
-                        ).show()
-                );
-
-
-        findViewById(R.id.btnViewAllApplicants)
-                .setOnClickListener(
-                        v -> Toast.makeText(
-                                this,
-                                "Opening all applicants",
-                                Toast.LENGTH_SHORT
-                        ).show()
-                );
-
-
-        findViewById(R.id.btnViewAllInterviews)
-                .setOnClickListener(
-                        v -> Toast.makeText(
-                                this,
-                                "Opening all interviews",
-                                Toast.LENGTH_SHORT
-                        ).show()
-                );
-
+        // Notifications
 
         findViewById(R.id.btnNotifications)
-                .setOnClickListener(
-                        v -> Toast.makeText(
-                                this,
-                                "Notifications",
-                                Toast.LENGTH_SHORT
-                        ).show()
-                );
+                .setOnClickListener(v -> {
+
+                    startActivity(
+                            new Intent(
+                                    this,
+                                    RecruiterNotificationsActivity.class
+                            )
+                    );
+                });
 
 
-        findViewById(R.id.btnMenu)
-                .setOnClickListener(
-                        v -> Toast.makeText(
-                                this,
-                                "Menu",
-                                Toast.LENGTH_SHORT
-                        ).show()
-                );
-
+        // Bottom navigation
 
         findViewById(R.id.navHome)
-                .setOnClickListener(
-                        v -> Toast.makeText(
-                                this,
-                                "Home",
-                                Toast.LENGTH_SHORT
-                        ).show()
-                );
+                .setOnClickListener(v -> {
+                    // Already on Home
+                });
 
 
         findViewById(R.id.navJobs)
+                .setOnClickListener(v -> {
+
+                    Toast.makeText(
+                            this,
+                            "Jobs",
+                            Toast.LENGTH_SHORT
+                    ).show();
+                });
+
+
+        findViewById(R.id.navApplicants)
+                .setOnClickListener(v -> {
+
+                    Toast.makeText(
+                            this,
+                            "Applicants",
+                            Toast.LENGTH_SHORT
+                    ).show();
+                });
+
+
+        findViewById(R.id.navProfile)
+                .setOnClickListener(v -> {
+
+                    startActivity(
+                            new Intent(
+                                    this,
+                                    RecruiterProfileActivity.class
+                            )
+                    );
+                });
+
+
+        // Section buttons
+
+        findViewById(R.id.btnViewAllJobs)
+                .setOnClickListener(v -> {
+
+                    Toast.makeText(
+                            this,
+                            "All Jobs",
+                            Toast.LENGTH_SHORT
+                    ).show();
+                });
+
+
+        findViewById(R.id.btnViewAllApplicants)
+                .setOnClickListener(v -> {
+
+                    Toast.makeText(
+                            this,
+                            "All Applicants",
+                            Toast.LENGTH_SHORT
+                    ).show();
+                });
+
+
+        findViewById(R.id.btnViewAllInterviews)
+                .setOnClickListener(v -> {
+
+                    Toast.makeText(
+                            this,
+                            "All Interviews",
+                            Toast.LENGTH_SHORT
+                    ).show();
+                });
+
+
+        // Quick Actions
+
+        findViewById(R.id.quickPostJob)
                 .setOnClickListener(
                         v -> Toast.makeText(
                                 this,
-                                "Jobs",
+                                "Post Job",
                                 Toast.LENGTH_SHORT
                         ).show()
                 );
 
 
-        findViewById(R.id.navApplicants)
+        findViewById(R.id.quickApplicants)
                 .setOnClickListener(
                         v -> Toast.makeText(
                                 this,
@@ -1098,11 +1326,21 @@ public class RecruiterDashboardActivity extends AppCompatActivity {
                 );
 
 
-        findViewById(R.id.navProfile)
+        findViewById(R.id.quickInterviews)
                 .setOnClickListener(
                         v -> Toast.makeText(
                                 this,
-                                "Profile",
+                                "Interviews",
+                                Toast.LENGTH_SHORT
+                        ).show()
+                );
+
+
+        findViewById(R.id.quickShortlisted)
+                .setOnClickListener(
+                        v -> Toast.makeText(
+                                this,
+                                "Shortlisted",
                                 Toast.LENGTH_SHORT
                         ).show()
                 );
@@ -1110,54 +1348,44 @@ public class RecruiterDashboardActivity extends AppCompatActivity {
 
 
     // =========================================================
-    // CREATE TEXTVIEW
+    // JOB STATUS BACKGROUND
     // =========================================================
 
-    private TextView textView(
-            String text,
-            float size,
-            String color
-    ) {
+    private android.graphics.drawable.GradientDrawable
+    getStatusBackground(String status) {
 
-        TextView view =
-                new TextView(this);
+        String color;
 
-        view.setText(text);
+        if ("Active".equalsIgnoreCase(status)) {
 
-        view.setTextSize(size);
+            color = "#DCFCE7";
 
-        view.setTextColor(
-                Color.parseColor(color)
-        );
+        } else if ("Paused".equalsIgnoreCase(status)) {
 
-        return view;
-    }
+            color = "#FEF3C7";
+
+        } else if ("Closed".equalsIgnoreCase(status)) {
+
+            color = "#FEE2E2";
+
+        } else {
+
+            color = "#E5E7EB";
+        }
 
 
-    // =========================================================
-    // CARD BACKGROUND
-    // =========================================================
-
-    private GradientDrawable cardBackground(
-            String fill,
-            String stroke,
-            int radiusDp
-    ) {
-
-        GradientDrawable drawable =
-                new GradientDrawable();
+        android.graphics.drawable.GradientDrawable
+                drawable =
+                new android.graphics.drawable.GradientDrawable();
 
         drawable.setColor(
-                Color.parseColor(fill)
+                android.graphics.Color.parseColor(
+                        color
+                )
         );
 
         drawable.setCornerRadius(
-                dp(radiusDp)
-        );
-
-        drawable.setStroke(
-                dp(1),
-                Color.parseColor(stroke)
+                dp(20)
         );
 
         return drawable;
@@ -1165,22 +1393,51 @@ public class RecruiterDashboardActivity extends AppCompatActivity {
 
 
     // =========================================================
-    // CIRCLE BACKGROUND
+    // APPLICANT STATUS BACKGROUND
     // =========================================================
 
-    private GradientDrawable circleBackground(
-            String color
+    private android.graphics.drawable.GradientDrawable
+    getApplicantStatusBackground(
+            String status
     ) {
 
-        GradientDrawable drawable =
-                new GradientDrawable();
+        String color;
 
-        drawable.setShape(
-                GradientDrawable.OVAL
-        );
+        if ("Shortlisted".equalsIgnoreCase(status) ||
+                "Selected".equalsIgnoreCase(status)) {
+
+            color = "#DCFCE7";
+
+        } else if ("Under Review".equalsIgnoreCase(status)) {
+
+            color = "#FEF3C7";
+
+        } else if ("Rejected".equalsIgnoreCase(status)) {
+
+            color = "#FEE2E2";
+
+        } else if ("Interview".equalsIgnoreCase(status)) {
+
+            color = "#DBEAFE";
+
+        } else {
+
+            color = "#F3F4F6";
+        }
+
+
+        android.graphics.drawable.GradientDrawable
+                drawable =
+                new android.graphics.drawable.GradientDrawable();
 
         drawable.setColor(
-                Color.parseColor(color)
+                android.graphics.Color.parseColor(
+                        color
+                )
+        );
+
+        drawable.setCornerRadius(
+                dp(20)
         );
 
         return drawable;
@@ -1188,81 +1445,54 @@ public class RecruiterDashboardActivity extends AppCompatActivity {
 
 
     // =========================================================
-    // STATUS COLOR
+    // TEXTVIEW
     // =========================================================
 
-    private String statusColor(
-            String status
+    private TextView createText(
+            String text,
+            float size
     ) {
 
-        if (status.equals("SHORTLISTED")) {
+        TextView textView =
+                new TextView(this);
 
-            return "#15803D";
+        textView.setText(
+                text
+        );
 
-        } else if (status.equals("REVIEW")) {
+        textView.setTextSize(
+                size
+        );
 
-            return "#C2410C";
+        textView.setTextColor(
+                getColor(
+                        R.color.dashboard_text_primary
+                )
+        );
 
-        } else {
-
-            return "#2563EB";
-        }
+        return textView;
     }
 
 
     // =========================================================
-    // STATUS BACKGROUND
+    // SAFE TEXT
     // =========================================================
 
-    private String statusBackground(
-            String status
-    ) {
+    private String safe(String value) {
 
-        if (status.equals("SHORTLISTED")) {
-
-            return "#DCFCE7";
-
-        } else if (status.equals("REVIEW")) {
-
-            return "#FFEDD5";
-
-        } else {
-
-            return "#DBEAFE";
+        if (value == null) {
+            return "";
         }
+
+        return value;
     }
 
 
     // =========================================================
-    // STATUS BORDER
+    // DP
     // =========================================================
 
-    private String statusBorder(
-            String status
-    ) {
-
-        if (status.equals("SHORTLISTED")) {
-
-            return "#BBF7D0";
-
-        } else if (status.equals("REVIEW")) {
-
-            return "#FED7AA";
-
-        } else {
-
-            return "#BFDBFE";
-        }
-    }
-
-
-    // =========================================================
-    // DP CONVERSION
-    // =========================================================
-
-    private int dp(
-            int value
-    ) {
+    private int dp(int value) {
 
         return (int) (
                 value *

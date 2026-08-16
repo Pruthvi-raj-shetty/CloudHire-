@@ -7,5 +7,8 @@
     <color name="blue1">#1565C0</color>
     <color name="blue2">#0D47A1</color>
     <color name="lightBlue">#BBDEFB</color>
-
+    <color name="dashboard_primary">#2563EB</color>
+    <color name="dashboard_background">#F6F8FC</color>
+    <color name="dashboard_text_primary">#111827</color>
+    <color name="dashboard_text_secondary">#6B7280</color>
 </resources>
