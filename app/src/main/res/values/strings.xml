@@ -55,30 +55,107 @@
     <string name="app_title">NexHire</string>
     <string name="welcome">Welcome</string>
     <string name="choose_role">Choose your role</string>
+
     <string name="candidate">Candidate</string>
     <string name="candidate_desc">Find your next opportunity</string>
+
     <string name="recruiter">Recruiter</string>
     <string name="recruiter_desc">Find great candidates</string>
+
+    <!-- Profile -->
     <string name="back">Back</string>
     <string name="my_profile">My Profile</string>
+
+    <string name="profile_photo">Profile Photo</string>
     <string name="profile_picture">Profile Picture</string>
+
     <string name="candidate_name">Adithya Kumar</string>
     <string name="candidate_job_title">Software Developer</string>
+
     <string name="edit_profile">Edit Profile</string>
+
+    <!-- Personal Information -->
     <string name="personal_information">Personal Information</string>
+
     <string name="full_name">Full Name</string>
+    <string name="sample_full_name">Adithya Kumar</string>
+
     <string name="email">Email</string>
     <string name="sample_email">adithya@example.com</string>
+
     <string name="phone">Phone Number</string>
+    <string name="sample_phone">Phone number not provided</string>
+
     <string name="location">Location</string>
-    <string name="bangalore">Bangalore</string>
+    <string name="bangalore">Bangalore, India</string>
+
+    <!-- About -->
+    <string name="about">About</string>
+
+    <string name="about_description">
+        Software developer passionate about building applications using Java, Spring Boot and modern technologies.
+    </string>
+
+    <!-- Professional Information -->
     <string name="professional_information">Professional Information</string>
+
     <string name="job_title">Job Title</string>
+
     <string name="skills">Skills</string>
-    <string name="sample_skills">Java, Spring Boot, AWS, React</string>
-    <string name="experience">Experience</string>
+
+    <string name="sample_skills">Java • Spring Boot • AWS • SQL • React</string>
+
+    <string name="total_experience">Total Experience</string>
+
+    <!-- IMPORTANT: Used by your XML -->
+    <string name="experience">2 Years</string>
+
     <string name="sample_experience">2 Years</string>
+
+    <!-- Work Experience -->
+    <string name="work_experience">Work Experience</string>
+
+    <string name="work_job_title">Software Developer</string>
+
+    <string name="work_company">CloudHire Technologies</string>
+
+    <string name="work_duration">2024 - Present</string>
+
+    <string name="work_description">
+        Developing Android and web applications and working with Java and Spring Boot.
+    </string>
+
+    <string name="add_experience">+ Add Experience</string>
+
+    <!-- Skills Section -->
+    <string name="edit">Edit</string>
+
+    <string name="skill_java">Java</string>
+    <string name="skill_spring_boot">Spring Boot</string>
+    <string name="skill_sql">SQL</string>
+    <string name="skill_aws">AWS</string>
+    <string name="skill_git">Git</string>
+    <string name="skill_docker">Docker</string>
+
+    <!-- Education -->
     <string name="education">Education</string>
-    <string name="sample_education">B.Tech Computer Science</string>
+
+    <string name="degree_bca">BCA</string>
+
+    <string name="college_abc">ABC College</string>
+
+    <string name="education_year">2021 - 2024</string>
+
+    <string name="add_education">+ Add Education</string>
+
+    <!-- Resume -->
+    <string name="resume">Resume</string>
+
+    <string name="resume_file">📄 My_Resume.pdf</string>
+
+    <!-- Changed from View Resume to Add Resume -->
+    <string name="add_resume">Add Resume</string>
+
+    <string name="replace_resume">Replace Resume</string>
 
 </resources>
