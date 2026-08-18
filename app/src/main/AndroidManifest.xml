@@ -190,12 +190,23 @@
         <!-- =============================== -->
         <!-- RECRUITER DASHBOARD -->
         <!-- =============================== -->
+        <!-- RECRUITER DASHBOARD -->
 
         <activity
             android:name=".RecruiterDashboardActivity"
             android:exported="false" />
 
+        <!-- RECRUITER PROFILE -->
 
+        <activity
+            android:name=".RecruiterProfileActivity"
+            android:exported="false" />
+
+        <!-- EDIT RECRUITER PROFILE -->
+        <activity
+            android:name=".RecruiterEditProfileActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
     </application>
 
 </manifest>
