@@ -207,6 +207,11 @@
             android:name=".RecruiterEditProfileActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
+
+
+        <activity
+            android:name=".RecruiterMyJobsActivity"
+            android:exported="false" />
     </application>
 
 </manifest>
