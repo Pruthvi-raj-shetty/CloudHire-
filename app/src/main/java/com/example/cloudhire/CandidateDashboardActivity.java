@@ -14,16 +14,36 @@ public class CandidateDashboardActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_candidate_dashboard);
 
-        // My Profile
+        // =========================
+        // MY PROFILE
+        // =========================
         LinearLayout navProfile = findViewById(R.id.navProfile);
 
-        navProfile.setOnClickListener(v -> {
-            Intent intent = new Intent(
-                    CandidateDashboardActivity.this,
-                    CandidateProfileActivity.class
-            );
+        if (navProfile != null) {
+            navProfile.setOnClickListener(v -> {
+                Intent intent = new Intent(
+                        CandidateDashboardActivity.this,
+                        CandidateProfileActivity.class
+                );
 
-            startActivity(intent);
-        });
+                startActivity(intent);
+            });
+        }
+
+        // =========================
+        // MY APPLICATIONS
+        // =========================
+        LinearLayout navApplications = findViewById(R.id.navApplications);
+
+        if (navApplications != null) {
+            navApplications.setOnClickListener(v -> {
+                Intent intent = new Intent(
+                        CandidateDashboardActivity.this,
+                        MyApplicationsActivity.class
+                );
+
+                startActivity(intent);
+            });
+        }
     }
 }

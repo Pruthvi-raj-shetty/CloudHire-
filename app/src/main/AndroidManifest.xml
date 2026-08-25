@@ -14,7 +14,6 @@
         android:theme="@style/Theme.CloudHire"
         tools:targetApi="31">
 
-
         <!-- =============================== -->
         <!-- SPLASH SCREEN -->
         <!-- =============================== -->
@@ -66,7 +65,6 @@
 
         <!-- =============================== -->
         <!-- CANDIDATE FORGOT PASSWORD -->
-        <!-- STEP 1 - EMAIL -->
         <!-- =============================== -->
 
         <activity
@@ -77,7 +75,6 @@
 
         <!-- =============================== -->
         <!-- CANDIDATE OTP -->
-        <!-- STEP 3 -->
         <!-- =============================== -->
 
         <activity
@@ -88,7 +85,6 @@
 
         <!-- =============================== -->
         <!-- CANDIDATE NEW PASSWORD -->
-        <!-- STEP 4 -->
         <!-- =============================== -->
 
         <activity
@@ -99,7 +95,6 @@
 
         <!-- =============================== -->
         <!-- CANDIDATE PASSWORD RESET SUCCESS -->
-        <!-- STEP 5 -->
         <!-- =============================== -->
 
         <activity
@@ -115,6 +110,13 @@
             android:name=".RecruiterLoginActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name=".MyApplicationsActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ApplicationDetailsActivity"
+            android:exported="false" />
 
 
         <!-- =============================== -->
@@ -129,7 +131,6 @@
 
         <!-- =============================== -->
         <!-- RECRUITER FORGOT PASSWORD -->
-        <!-- STEP 1 - EMAIL -->
         <!-- =============================== -->
 
         <activity
@@ -150,7 +151,6 @@
 
         <!-- =============================== -->
         <!-- RECRUITER NEW PASSWORD -->
-        <!-- STEP 4 -->
         <!-- =============================== -->
 
         <activity
@@ -161,7 +161,6 @@
 
         <!-- =============================== -->
         <!-- RECRUITER PASSWORD RESET SUCCESS -->
-        <!-- STEP 5 -->
         <!-- =============================== -->
 
         <activity
@@ -190,23 +189,40 @@
         <!-- =============================== -->
         <!-- RECRUITER DASHBOARD -->
         <!-- =============================== -->
-        <!-- RECRUITER DASHBOARD -->
 
         <activity
             android:name=".RecruiterDashboardActivity"
             android:exported="false" />
 
+
+        <!-- =============================== -->
         <!-- RECRUITER PROFILE -->
+        <!-- =============================== -->
 
         <activity
             android:name=".RecruiterProfileActivity"
             android:exported="false" />
 
+
+        <!-- =============================== -->
         <!-- EDIT RECRUITER PROFILE -->
+        <!-- =============================== -->
+
         <activity
             android:name=".RecruiterEditProfileActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
+
+
+        <!-- =============================== -->
+        <!-- POST JOB -->
+        <!-- =============================== -->
+
+        <activity
+            android:name=".PostJobActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
     </application>
 
 </manifest>

@@ -157,5 +157,76 @@
     <string name="add_resume">Add Resume</string>
 
     <string name="replace_resume">Replace Resume</string>
+    <!-- Post Job -->
+    <string name="post_job">Post a Job</string>
+    <string name="create_new_job">Create a New Job</string>
+    <string name="create_new_job_subtitle">Provide the details below to post your job.</string>
+
+    <string name="job_information">Job Information</string>
+
+    <string name="job_title">Job Title</string>
+    <string name="job_title_hint">Java Developer</string>
+
+    <string name="job_description">Job Description</string>
+    <string name="job_description_hint">Describe the role, responsibilities and requirements...</string>
+
+    <string name="company_name">Company Name</string>
+    <string name="company_name_hint">NexTech Solutions</string>
+
+    <string name="job_location">Location</string>
+    <string name="job_location_hint">Mangalore, Karnataka</string>
+
+    <string name="employment_type">Employment Type</string>
+    <string name="select_employment_type">Select employment type</string>
+
+    <string name="full_time">Full Time</string>
+    <string name="part_time">Part Time</string>
+    <string name="internship">Internship</string>
+    <string name="contract">Contract</string>
+
+    <string name="experience_required">Experience Required</string>
+    <string name="experience_hint">2 - 4 Years</string>
+
+    <string name="salary_range">Salary Range</string>
+    <string name="minimum_salary">Minimum Salary</string>
+    <string name="maximum_salary">Maximum Salary</string>
+    <string name="minimum_salary_hint">600000</string>
+    <string name="maximum_salary_hint">1000000</string>
+
+    <string name="skills">Skills</string>
+    <string name="skills_hint">Java, Spring Boot, PostgreSQL, REST API</string>
+
+    <string name="post_job_button">Post Job</string>
+
+    <string name="job_title_required">Job title is required</string>
+    <string name="job_description_required">Job description is required</string>
+    <string name="company_name_required">Company name is required</string>
+    <string name="location_required">Location is required</string>
+    <string name="employment_type_required">Employment type is required</string>
+
+    <string name="job_posted_successfully">Job posted successfully</string>
+    <string name="unable_to_post_job">Unable to post job. Please try again.</string>
+    <string name="posting_job">Posting job...</string>
+    <!-- My Applications -->
+
+    <string name="my_applications">My Applications</string>
+    <string name="track_your_applications">Track your job applications and their current status.</string>
+
+    <string name="no_applications_yet">No Applications Yet</string>
+    <string name="applications_will_appear_here">Jobs you apply for will appear here.</string>
+    <string name="browse_jobs">Browse Jobs</string>
+
+    <string name="unable_to_load_applications">Unable to load applications</string>
+    <string name="retry">Retry</string>
+
+    <string name="application_details">Application Details</string>
+    <string name="employment_type">Employment Type</string>
+    <string name="applied_date">Applied Date</string>
+    <string name="application_status">Application Status</string>
+    <string name="resume_submitted">Resume Submitted</string>
+
+    <string name="my_resume">My Resume</string>
+    <string name="saved_jobs">Saved Jobs</string>
+    <string name="menu">Menu</string>
 
 </resources>

@@ -652,6 +652,18 @@
         <!-- HOME -->
 
         <LinearLayout
+            android:id="@+id/navApplications"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <!-- existing icon -->
+
+            <!-- existing My Applications text -->
+
+        </LinearLayout>
+        <LinearLayout
             android:id="@+id/navHome"
             android:layout_width="0dp"
             android:layout_height="match_parent"
