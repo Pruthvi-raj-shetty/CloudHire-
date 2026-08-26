@@ -7,14 +7,17 @@
     android:orientation="vertical"
     android:background="#F5F7FB">
 
+    <!-- ============================= -->
     <!-- TOP APP BAR -->
+    <!-- ============================= -->
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="64dp"
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
         android:background="#FFFFFF"
         android:elevation="3dp">
 
@@ -48,7 +51,11 @@
 
     </LinearLayout>
 
+
+    <!-- ============================= -->
     <!-- SCROLLABLE CONTENT -->
+    <!-- ============================= -->
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -59,9 +66,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="20dp">
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:paddingTop="24dp"
+            android:paddingBottom="24dp">
 
-            <!-- PAGE HEADING -->
+            <!-- PAGE TITLE -->
 
             <TextView
                 android:layout_width="match_parent"
@@ -79,92 +89,58 @@
                 android:textColor="#6B7280"
                 android:textSize="15sp" />
 
+
+            <!-- ============================= -->
             <!-- APPLICATIONS CONTAINER -->
+            <!-- ============================= -->
 
             <LinearLayout
                 android:id="@+id/applicationsContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:orientation="vertical">
+                android:orientation="vertical" />
 
-                <!-- APPLICATION CARD 1 -->
 
-                <LinearLayout
-                    android:id="@+id/applicationCard"
-                    android:layout_width="match_parent"
+            <!-- ============================= -->
+            <!-- LOADING -->
+            <!-- ============================= -->
+
+            <LinearLayout
+                android:id="@+id/loadingState"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <ProgressBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp"
-                    android:background="#FFFFFF"
-                    android:elevation="2dp"
-                    android:clickable="true"
-                    android:focusable="true">
-
-                    <TextView
-                        android:id="@+id/txtJobTitle"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Java Backend Developer"
-                        android:textColor="#172554"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/txtCompanyName"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="6dp"
-                        android:text="NexTech Solutions"
-                        android:textColor="#4B5563"
-                        android:textSize="15sp" />
-
-                    <TextView
-                        android:id="@+id/txtLocation"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="6dp"
-                        android:text="📍 Bangalore, India"
-                        android:textColor="#6B7280"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:id="@+id/txtAppliedAt"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="Applied: 24 Aug 2026"
-                        android:textColor="#6B7280"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:id="@+id/txtStatus"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:paddingStart="12dp"
-                        android:paddingTop="6dp"
-                        android:paddingEnd="12dp"
-                        android:paddingBottom="6dp"
-                        android:text="Application Submitted"
-                        android:textColor="#2563EB"
-                        android:textSize="13sp"
-                        android:textStyle="bold"
-                        android:background="#E8F0FE" />
-
-                </LinearLayout>
+                    android:layout_marginTop="10dp"
+                    android:text="Loading applications..."
+                    android:textColor="#6B7280"
+                    android:textSize="14sp" />
 
             </LinearLayout>
 
+
+            <!-- ============================= -->
             <!-- EMPTY STATE -->
+            <!-- ============================= -->
 
             <LinearLayout
                 android:id="@+id/emptyState"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
-                android:orientation="vertical"
+                android:layout_marginTop="50dp"
                 android:gravity="center"
+                android:orientation="vertical"
                 android:visibility="gone">
 
                 <TextView
@@ -198,11 +174,50 @@
 
             </LinearLayout>
 
+
+            <!-- ============================= -->
+            <!-- ERROR STATE -->
+            <!-- ============================= -->
+
+            <LinearLayout
+                android:id="@+id/errorState"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Unable to load applications"
+                    android:textColor="#172554"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/btnRetry"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="15dp"
+                    android:backgroundTint="#2563EB"
+                    android:text="Retry"
+                    android:textAllCaps="false"
+                    android:textColor="#FFFFFF"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
         </LinearLayout>
 
     </ScrollView>
 
+
+    <!-- ============================= -->
     <!-- BOTTOM NAVIGATION -->
+    <!-- ============================= -->
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -211,6 +226,9 @@
         android:gravity="center"
         android:background="#FFFFFF"
         android:elevation="4dp">
+
+
+        <!-- HOME -->
 
         <LinearLayout
             android:id="@+id/navHome"
@@ -238,6 +256,9 @@
 
         </LinearLayout>
 
+
+        <!-- PROFILE -->
+
         <LinearLayout
             android:id="@+id/navProfile"
             android:layout_width="0dp"
@@ -264,6 +285,9 @@
 
         </LinearLayout>
 
+
+        <!-- RESUME -->
+
         <LinearLayout
             android:id="@+id/navResume"
             android:layout_width="0dp"
@@ -289,6 +313,9 @@
                 android:textSize="12sp" />
 
         </LinearLayout>
+
+
+        <!-- MY APPLICATIONS - ACTIVE -->
 
         <LinearLayout
             android:id="@+id/navApplications"
@@ -317,6 +344,9 @@
                 android:textStyle="bold" />
 
         </LinearLayout>
+
+
+        <!-- SAVED JOBS -->
 
         <LinearLayout
             android:id="@+id/navSaved"

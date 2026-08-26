@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <resources>
 
+    ```
     <!-- App -->
     <string name="app_name">CloudHire</string>
     <string name="nexhire">NexHire</string>
@@ -93,37 +95,31 @@
     <string name="about">About</string>
 
     <string name="about_description">
-        Software developer passionate about building applications using Java, Spring Boot and modern technologies.
-    </string>
+    Software developer passionate about building applications using Java, Spring Boot and modern technologies.
+</string>
 
     <!-- Professional Information -->
     <string name="professional_information">Professional Information</string>
 
-    <string name="job_title">Job Title</string>
+    <!-- Existing profile job title -->
+    <string name="profile_job_title">Job Title</string>
 
     <string name="skills">Skills</string>
-
     <string name="sample_skills">Java • Spring Boot • AWS • SQL • React</string>
 
     <string name="total_experience">Total Experience</string>
-
-    <!-- IMPORTANT: Used by your XML -->
     <string name="experience">2 Years</string>
-
     <string name="sample_experience">2 Years</string>
 
     <!-- Work Experience -->
     <string name="work_experience">Work Experience</string>
-
     <string name="work_job_title">Software Developer</string>
-
     <string name="work_company">CloudHire Technologies</string>
-
     <string name="work_duration">2024 - Present</string>
 
     <string name="work_description">
-        Developing Android and web applications and working with Java and Spring Boot.
-    </string>
+    Developing Android and web applications and working with Java and Spring Boot.
+</string>
 
     <string name="add_experience">+ Add Experience</string>
 
@@ -139,32 +135,29 @@
 
     <!-- Education -->
     <string name="education">Education</string>
-
     <string name="degree_bca">BCA</string>
-
     <string name="college_abc">ABC College</string>
-
     <string name="education_year">2021 - 2024</string>
-
     <string name="add_education">+ Add Education</string>
 
     <!-- Resume -->
     <string name="resume">Resume</string>
-
     <string name="resume_file">📄 My_Resume.pdf</string>
-
-    <!-- Changed from View Resume to Add Resume -->
     <string name="add_resume">Add Resume</string>
-
     <string name="replace_resume">Replace Resume</string>
-    <!-- Post Job -->
+
+    <!-- =============================== -->
+    <!-- POST JOB -->
+    <!-- =============================== -->
+
     <string name="post_job">Post a Job</string>
     <string name="create_new_job">Create a New Job</string>
     <string name="create_new_job_subtitle">Provide the details below to post your job.</string>
 
     <string name="job_information">Job Information</string>
 
-    <string name="job_title">Job Title</string>
+    <!-- Post Job specific resources -->
+    <string name="post_job_title">Job Title</string>
     <string name="job_title_hint">Java Developer</string>
 
     <string name="job_description">Job Description</string>
@@ -193,11 +186,12 @@
     <string name="minimum_salary_hint">600000</string>
     <string name="maximum_salary_hint">1000000</string>
 
-    <string name="skills">Skills</string>
+    <string name="job_skills">Skills</string>
     <string name="skills_hint">Java, Spring Boot, PostgreSQL, REST API</string>
 
     <string name="post_job_button">Post Job</string>
 
+    <!-- Post Job Validation -->
     <string name="job_title_required">Job title is required</string>
     <string name="job_description_required">Job description is required</string>
     <string name="company_name_required">Company name is required</string>
@@ -207,26 +201,40 @@
     <string name="job_posted_successfully">Job posted successfully</string>
     <string name="unable_to_post_job">Unable to post job. Please try again.</string>
     <string name="posting_job">Posting job...</string>
-    <!-- My Applications -->
+
+    <!-- =============================== -->
+    <!-- MY APPLICATIONS -->
+    <!-- =============================== -->
 
     <string name="my_applications">My Applications</string>
-    <string name="track_your_applications">Track your job applications and their current status.</string>
+
+    <string name="track_your_applications">
+    Track your job applications and their current status.
+</string>
 
     <string name="no_applications_yet">No Applications Yet</string>
-    <string name="applications_will_appear_here">Jobs you apply for will appear here.</string>
+    <string name="applications_will_appear_here">
+    Jobs you apply for will appear here.
+</string>
+
     <string name="browse_jobs">Browse Jobs</string>
 
-    <string name="unable_to_load_applications">Unable to load applications</string>
+    <string name="unable_to_load_applications">
+    Unable to load applications
+</string>
+
     <string name="retry">Retry</string>
 
+    <!-- Application Details -->
     <string name="application_details">Application Details</string>
-    <string name="employment_type">Employment Type</string>
     <string name="applied_date">Applied Date</string>
     <string name="application_status">Application Status</string>
     <string name="resume_submitted">Resume Submitted</string>
 
+    <!-- Candidate Navigation -->
     <string name="my_resume">My Resume</string>
     <string name="saved_jobs">Saved Jobs</string>
     <string name="menu">Menu</string>
+    ```
 
 </resources>

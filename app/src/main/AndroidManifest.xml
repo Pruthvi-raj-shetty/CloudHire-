@@ -186,6 +186,15 @@
             android:name=".CandidateProfileActivity"
             android:exported="false" />
 
+        <!-- =============================== -->
+        <!-- CANDIDATE MY APPLICATIONS -->
+        <!-- =============================== -->
+
+        <activity
+            android:name=".MyApplicationsActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
 
         <!-- =============================== -->
         <!-- RECRUITER DASHBOARD -->
