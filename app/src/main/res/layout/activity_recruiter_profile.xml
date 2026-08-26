@@ -374,61 +374,131 @@
         </LinearLayout>
     </ScrollView>
     <!-- BOTTOM NAVIGATION -->
+    <!-- ================= BOTTOM NAVIGATION ================= -->
+
+    <!-- ===================================================== -->
+    <!-- BOTTOM NAVIGATION -->
+    <!-- ===================================================== -->
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="72dp"
         android:orientation="horizontal"
-        android:gravity="center"
+        android:gravity="center_vertical"
         android:background="#FFFFFF"
         android:elevation="8dp">
-        <TextView
+
+        <!-- ================= HOME ================= -->
+
+        <LinearLayout
             android:id="@+id/navHome"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="⌂&#10;Home"
-            android:textColor="#6B7280"
-            android:textSize="12sp"
-            android:clickable="true"
-            android:focusable="true" />
-        <TextView
-            android:id="@+id/navJobs"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="Jobs"
-            android:textColor="#6B7280"
-            android:textSize="12sp"
-            android:clickable="true"
-            android:focusable="true" />
-        <TextView
-            android:id="@+id/navApplicants"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="Applicants"
-            android:textColor="#6B7280"
-            android:textSize="12sp"
-            android:clickable="true"
-            android:focusable="true" />
-        <LinearLayout
-            android:id="@+id/navProfile"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="72dp"
             android:layout_weight="1"
             android:orientation="vertical"
             android:gravity="center"
             android:clickable="true"
             android:focusable="true">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/recruiter_dashboard_home"
+                android:scaleType="centerInside"
+                app:tint="#6B7280"
+                android:contentDescription="Home" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Home"
+                android:textColor="#6B7280"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+
+        <!-- ================= JOBS ================= -->
+
+        <LinearLayout
+            android:id="@+id/navJobs"
+            android:layout_width="0dp"
+            android:layout_height="72dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:clickable="true"
+            android:focusable="true">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="24dp"
+                android:gravity="center"
+                android:text="💼"
+                android:textSize="20sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="Jobs"
+                android:textColor="@color/dashboard_text_secondary"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+
+        <!-- ================= APPLICANTS ================= -->
+
+        <LinearLayout
+            android:id="@+id/navApplicants"
+            android:layout_width="0dp"
+            android:layout_height="72dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:clickable="true"
+            android:focusable="true">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="24dp"
+                android:gravity="center"
+                android:text="👥"
+                android:textSize="20sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="Applicants"
+                android:textColor="@color/dashboard_text_secondary"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+
+        <!-- ================= PROFILE - CURRENT PAGE ================= -->
+
+        <LinearLayout
+            android:id="@+id/navProfile"
+            android:layout_width="0dp"
+            android:layout_height="72dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:clickable="true"
+            android:focusable="true">
+
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/recruiter_dashboard_person"
+                android:scaleType="centerInside"
                 app:tint="#2563EB"
                 android:contentDescription="Profile" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -437,6 +507,8 @@
                 android:textColor="#2563EB"
                 android:textSize="12sp"
                 android:textStyle="bold" />
+
         </LinearLayout>
+
     </LinearLayout>
-</LinearLayout>
+    </LinearLayout>

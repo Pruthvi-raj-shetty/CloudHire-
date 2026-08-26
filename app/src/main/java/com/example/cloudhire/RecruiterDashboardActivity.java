@@ -1238,14 +1238,13 @@ public class RecruiterDashboardActivity extends AppCompatActivity {
         findViewById(R.id.navJobs)
                 .setOnClickListener(v -> {
 
-                    Toast.makeText(
-                            this,
-                            "Jobs",
-                            Toast.LENGTH_SHORT
-                    ).show();
+                    Intent intent = new Intent(
+                            RecruiterDashboardActivity.this,
+                            RecruiterMyJobsActivity.class
+                    );
+
+                    startActivity(intent);
                 });
-
-
         findViewById(R.id.navApplicants)
                 .setOnClickListener(v -> {
 
@@ -1274,11 +1273,12 @@ public class RecruiterDashboardActivity extends AppCompatActivity {
         findViewById(R.id.btnViewAllJobs)
                 .setOnClickListener(v -> {
 
-                    Toast.makeText(
-                            this,
-                            "All Jobs",
-                            Toast.LENGTH_SHORT
-                    ).show();
+                    Intent intent = new Intent(
+                            RecruiterDashboardActivity.this,
+                            RecruiterMyJobsActivity.class
+                    );
+
+                    startActivity(intent);
                 });
 
 
@@ -1307,14 +1307,15 @@ public class RecruiterDashboardActivity extends AppCompatActivity {
         // Quick Actions
 
         findViewById(R.id.quickPostJob)
-                .setOnClickListener(
-                        v -> Toast.makeText(
-                                this,
-                                "Post Job",
-                                Toast.LENGTH_SHORT
-                        ).show()
-                );
+                .setOnClickListener(v -> {
 
+                    Intent intent = new Intent(
+                            RecruiterDashboardActivity.this,
+                            RecruiterMyJobsActivity.class
+                    );
+
+                    startActivity(intent);
+                });
 
         findViewById(R.id.quickApplicants)
                 .setOnClickListener(

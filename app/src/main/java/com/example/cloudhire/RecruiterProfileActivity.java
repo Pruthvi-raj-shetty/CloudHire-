@@ -17,6 +17,7 @@ public class RecruiterProfileActivity extends AppCompatActivity {
 
     private ImageButton btnMenu;
 
+
     // =========================================================
     // PROFILE ACTIONS
     // =========================================================
@@ -26,13 +27,14 @@ public class RecruiterProfileActivity extends AppCompatActivity {
     private TextView btnNotificationsAccount;
     private TextView btnLogout;
 
+
     // =========================================================
     // BOTTOM NAVIGATION
     // =========================================================
 
-    private TextView navHome;
-    private TextView navJobs;
-    private TextView navApplicants;
+    private LinearLayout navHome;
+    private LinearLayout navJobs;
+    private LinearLayout navApplicants;
     private LinearLayout navProfile;
 
 
@@ -57,11 +59,19 @@ public class RecruiterProfileActivity extends AppCompatActivity {
 
     private void initializeViews() {
 
-        // Header
+        // -----------------------------------------------------
+        // HEADER
+        // -----------------------------------------------------
+
         btnMenu = findViewById(R.id.btnProfileMenu);
 
-        // Profile actions
-        btnEditProfile = findViewById(R.id.btnEditProfile);
+
+        // -----------------------------------------------------
+        // PROFILE ACTIONS
+        // -----------------------------------------------------
+
+        btnEditProfile =
+                findViewById(R.id.btnEditProfile);
 
         btnChangePassword =
                 findViewById(R.id.btnChangePassword);
@@ -72,7 +82,11 @@ public class RecruiterProfileActivity extends AppCompatActivity {
         btnLogout =
                 findViewById(R.id.btnLogout);
 
-        // Bottom navigation
+
+        // -----------------------------------------------------
+        // BOTTOM NAVIGATION
+        // -----------------------------------------------------
+
         navHome =
                 findViewById(R.id.navHome);
 
@@ -93,16 +107,17 @@ public class RecruiterProfileActivity extends AppCompatActivity {
 
     private void setupClicks() {
 
-        // -----------------------------------------------------
+
+        // =====================================================
         // MENU
-        // -----------------------------------------------------
+        // =====================================================
 
         if (btnMenu != null) {
 
             btnMenu.setOnClickListener(v -> {
 
                 Toast.makeText(
-                        this,
+                        RecruiterProfileActivity.this,
                         "Menu",
                         Toast.LENGTH_SHORT
                 ).show();
@@ -111,9 +126,9 @@ public class RecruiterProfileActivity extends AppCompatActivity {
         }
 
 
-        // -----------------------------------------------------
+        // =====================================================
         // EDIT PROFILE
-        // -----------------------------------------------------
+        // =====================================================
 
         if (btnEditProfile != null) {
 
@@ -130,9 +145,9 @@ public class RecruiterProfileActivity extends AppCompatActivity {
         }
 
 
-        // -----------------------------------------------------
+        // =====================================================
         // CHANGE PASSWORD
-        // -----------------------------------------------------
+        // =====================================================
 
         if (btnChangePassword != null) {
 
@@ -149,9 +164,9 @@ public class RecruiterProfileActivity extends AppCompatActivity {
         }
 
 
-        // -----------------------------------------------------
+        // =====================================================
         // ACCOUNT NOTIFICATIONS
-        // -----------------------------------------------------
+        // =====================================================
 
         if (btnNotificationsAccount != null) {
 
@@ -169,7 +184,7 @@ public class RecruiterProfileActivity extends AppCompatActivity {
                 } catch (Exception e) {
 
                     Toast.makeText(
-                            this,
+                            RecruiterProfileActivity.this,
                             "Notifications screen is not available yet",
                             Toast.LENGTH_SHORT
                     ).show();
@@ -180,9 +195,9 @@ public class RecruiterProfileActivity extends AppCompatActivity {
         }
 
 
-        // -----------------------------------------------------
+        // =====================================================
         // LOGOUT
-        // -----------------------------------------------------
+        // =====================================================
 
         if (btnLogout != null) {
 
@@ -209,6 +224,7 @@ public class RecruiterProfileActivity extends AppCompatActivity {
         // =====================================================
         // BOTTOM NAVIGATION
         // =====================================================
+
 
         // -----------------------------------------------------
         // HOME
@@ -239,11 +255,14 @@ public class RecruiterProfileActivity extends AppCompatActivity {
 
             navJobs.setOnClickListener(v -> {
 
-                Toast.makeText(
-                        this,
-                        "Jobs",
-                        Toast.LENGTH_SHORT
-                ).show();
+                Intent intent = new Intent(
+                        RecruiterProfileActivity.this,
+                        RecruiterMyJobsActivity.class
+                );
+
+                startActivity(intent);
+
+                finish();
 
             });
         }
@@ -258,7 +277,7 @@ public class RecruiterProfileActivity extends AppCompatActivity {
             navApplicants.setOnClickListener(v -> {
 
                 Toast.makeText(
-                        this,
+                        RecruiterProfileActivity.this,
                         "Applicants",
                         Toast.LENGTH_SHORT
                 ).show();
