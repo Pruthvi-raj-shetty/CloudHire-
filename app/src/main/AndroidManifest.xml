@@ -205,6 +205,27 @@
             android:name=".RecruiterDashboardActivity"
             android:exported="false" />
 
+        <!-- RECRUITER MY JOBS -->
+        <activity
+            android:name=".RecruiterMyJobsActivity"
+            android:exported="false" />
+
+        <!-- RECRUITER POST JOB -->
+        <activity
+            android:name=".RecruiterPostJobActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
+        <!-- RECRUITER NOTIFICATIONS -->
+        <activity
+            android:name=".RecruiterNotificationsActivity"
+            android:exported="false" />
+
+        <!-- APPLICATION DETAILS -->
+        <activity
+            android:name=".ApplicationDetailsActivity"
+            android:exported="false" />
+
         <!-- RECRUITER PROFILE -->
 
         <activity

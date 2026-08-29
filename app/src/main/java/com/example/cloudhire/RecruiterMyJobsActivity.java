@@ -700,11 +700,12 @@ public class RecruiterMyJobsActivity extends AppCompatActivity {
         findViewById(R.id.btnPostJob)
                 .setOnClickListener(v -> {
 
-                    Toast.makeText(
-                            this,
-                            "Post Job screen",
-                            Toast.LENGTH_SHORT
-                    ).show();
+                    Intent intent = new Intent(
+                            RecruiterMyJobsActivity.this,
+                            RecruiterPostJobActivity.class
+                    );
+
+                    startActivity(intent);
 
                 });
 
@@ -714,11 +715,12 @@ public class RecruiterMyJobsActivity extends AppCompatActivity {
         findViewById(R.id.btnEmptyPostJob)
                 .setOnClickListener(v -> {
 
-                    Toast.makeText(
-                            this,
-                            "Post Job screen",
-                            Toast.LENGTH_SHORT
-                    ).show();
+                    Intent intent = new Intent(
+                            RecruiterMyJobsActivity.this,
+                            RecruiterPostJobActivity.class
+                    );
+
+                    startActivity(intent);
 
                 });
 
@@ -728,24 +730,13 @@ public class RecruiterMyJobsActivity extends AppCompatActivity {
         findViewById(R.id.btnJobsNotifications)
                 .setOnClickListener(v -> {
 
-                    try {
+                    Intent intent =
+                            new Intent(
+                                    RecruiterMyJobsActivity.this,
+                                    RecruiterNotificationsActivity.class
+                            );
 
-                        Intent intent =
-                                new Intent(
-                                        RecruiterMyJobsActivity.this,
-                                        RecruiterNotificationsActivity.class
-                                );
-
-                        startActivity(intent);
-
-                    } catch (Exception e) {
-
-                        Toast.makeText(
-                                this,
-                                "Notifications screen is not available",
-                                Toast.LENGTH_SHORT
-                        ).show();
-                    }
+                    startActivity(intent);
 
                 });
 
