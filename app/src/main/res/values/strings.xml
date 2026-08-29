@@ -324,9 +324,6 @@
     <string name="my_resume">My Resume</string>
     <string name="saved_jobs">Saved Jobs</string>
     <string name="menu">Menu</string>
-    <!-- Saved Jobs -->
-
-    <string name="saved_jobs">Saved Jobs</string>
 
     <string name="saved_jobs_subtitle">
     Jobs you have saved for later.

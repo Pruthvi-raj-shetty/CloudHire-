@@ -45,5 +45,21 @@ public class CandidateDashboardActivity extends AppCompatActivity {
                 startActivity(intent);
             });
         }
+
+        // =========================
+        // SAVED JOBS
+        // =========================
+        LinearLayout navSaved = findViewById(R.id.navSaved);
+
+        if (navSaved != null) {
+            navSaved.setOnClickListener(v -> {
+                Intent intent = new Intent(
+                        CandidateDashboardActivity.this,
+                        SavedJobsActivity.class
+                );
+
+                startActivity(intent);
+            });
+        }
     }
 }
