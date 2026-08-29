@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/savedJobCard"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="16dp"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="#FFFFFF"
+    android:elevation="2dp"
+    android:clickable="true"
+    android:focusable="true">
+
+    <!-- TOP ROW -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <!-- COMPANY LOGO -->
+
+        <TextView
+            android:id="@+id/txtCompanyLogo"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:gravity="center"
+            android:text="N"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:background="#2563EB" />
+
+        <!-- JOB TITLE / COMPANY -->
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="12dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txtJobTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#172554"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:text="Job Title" />
+
+            <TextView
+                android:id="@+id/txtCompanyName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textColor="#4B5563"
+                android:textSize="14sp"
+                android:text="Company Name" />
+
+        </LinearLayout>
+
+        <!-- BOOKMARK -->
+
+        <TextView
+            android:id="@+id/btnBookmark"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:gravity="center"
+            android:text="♥"
+            android:textColor="#2563EB"
+            android:textSize="24sp"
+            android:clickable="true"
+            android:focusable="true"
+            android:contentDescription="Remove saved job" />
+
+    </LinearLayout>
+
+
+    <!-- LOCATION -->
+
+    <TextView
+        android:id="@+id/txtLocation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:text="📍 Location"
+        android:textColor="#6B7280"
+        android:textSize="14sp" />
+
+
+    <!-- EMPLOYMENT -->
+
+    <TextView
+        android:id="@+id/txtEmploymentType"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:text="Full-time"
+        android:textColor="#6B7280"
+        android:textSize="14sp" />
+
+
+    <!-- EXPERIENCE -->
+
+    <TextView
+        android:id="@+id/txtExperience"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:text="2 - 4 Years"
+        android:textColor="#6B7280"
+        android:textSize="14sp" />
+
+
+    <!-- SALARY -->
+
+    <TextView
+        android:id="@+id/txtSalary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:text="₹5 - ₹8 LPA"
+        android:textColor="#2563EB"
+        android:textSize="14sp"
+        android:textStyle="bold" />
+
+</LinearLayout>

@@ -2,31 +2,53 @@
 
 <resources>
 
-    ```
-    <!-- App -->
+    <!-- =============================== -->
+    <!-- APP -->
+    <!-- =============================== -->
+
     <string name="app_name">CloudHire</string>
     <string name="nexhire">NexHire</string>
     <string name="nexhire_logo">NexHire Logo</string>
 
-    <!-- Header -->
+
+    <!-- =============================== -->
+    <!-- HEADER -->
+    <!-- =============================== -->
+
     <string name="notifications">Notifications</string>
     <string name="profile">Profile</string>
 
-    <!-- Candidate Dashboard -->
+
+    <!-- =============================== -->
+    <!-- CANDIDATE DASHBOARD -->
+    <!-- =============================== -->
+
     <string name="welcome_candidate">Welcome, Candidate! 👋</string>
     <string name="find_opportunity">Find your next great opportunity</string>
 
-    <!-- Search -->
+
+    <!-- =============================== -->
+    <!-- SEARCH -->
+    <!-- =============================== -->
+
     <string name="search">Search</string>
     <string name="search_jobs_hint">Search jobs, skills or companies</string>
 
-    <!-- Categories -->
+
+    <!-- =============================== -->
+    <!-- CATEGORIES -->
+    <!-- =============================== -->
+
     <string name="explore_categories">Explore Categories</string>
     <string name="technology">Technology</string>
     <string name="business">Business</string>
     <string name="design">Design</string>
 
-    <!-- Jobs -->
+
+    <!-- =============================== -->
+    <!-- JOBS -->
+    <!-- =============================== -->
+
     <string name="recommended_jobs">Recommended Jobs</string>
     <string name="view_all">View All</string>
 
@@ -47,12 +69,20 @@
 
     <string name="apply_now">Apply Now</string>
 
-    <!-- Bottom Navigation -->
+
+    <!-- =============================== -->
+    <!-- BOTTOM NAVIGATION -->
+    <!-- =============================== -->
+
     <string name="home">Home</string>
     <string name="applications">Applications</string>
     <string name="saved">Saved</string>
 
-    <!-- Main Activity -->
+
+    <!-- =============================== -->
+    <!-- MAIN ACTIVITY -->
+    <!-- =============================== -->
+
     <string name="logo">NexHire Logo</string>
     <string name="app_title">NexHire</string>
     <string name="welcome">Welcome</string>
@@ -64,7 +94,11 @@
     <string name="recruiter">Recruiter</string>
     <string name="recruiter_desc">Find great candidates</string>
 
-    <!-- Profile -->
+
+    <!-- =============================== -->
+    <!-- PROFILE -->
+    <!-- =============================== -->
+
     <string name="back">Back</string>
     <string name="my_profile">My Profile</string>
 
@@ -76,7 +110,11 @@
 
     <string name="edit_profile">Edit Profile</string>
 
-    <!-- Personal Information -->
+
+    <!-- =============================== -->
+    <!-- PERSONAL INFORMATION -->
+    <!-- =============================== -->
+
     <string name="personal_information">Personal Information</string>
 
     <string name="full_name">Full Name</string>
@@ -91,18 +129,32 @@
     <string name="location">Location</string>
     <string name="bangalore">Bangalore, India</string>
 
-    <!-- About -->
+
+    <!-- =============================== -->
+    <!-- ABOUT -->
+    <!-- =============================== -->
+
     <string name="about">About</string>
 
     <string name="about_description">
-    Software developer passionate about building applications using Java, Spring Boot and modern technologies.
-</string>
+        Software developer passionate about building applications using Java, Spring Boot and modern technologies.
+    </string>
 
-    <!-- Professional Information -->
+
+    <!-- =============================== -->
+    <!-- PROFESSIONAL INFORMATION -->
+    <!-- =============================== -->
+
     <string name="professional_information">Professional Information</string>
 
     <!-- Existing profile job title -->
     <string name="profile_job_title">Job Title</string>
+
+    <!-- IMPORTANT:
+         This fixes the error:
+         resource string/job_title not found
+    -->
+    <string name="job_title">Job Title</string>
 
     <string name="skills">Skills</string>
     <string name="sample_skills">Java • Spring Boot • AWS • SQL • React</string>
@@ -111,19 +163,27 @@
     <string name="experience">2 Years</string>
     <string name="sample_experience">2 Years</string>
 
-    <!-- Work Experience -->
+
+    <!-- =============================== -->
+    <!-- WORK EXPERIENCE -->
+    <!-- =============================== -->
+
     <string name="work_experience">Work Experience</string>
     <string name="work_job_title">Software Developer</string>
     <string name="work_company">CloudHire Technologies</string>
     <string name="work_duration">2024 - Present</string>
 
     <string name="work_description">
-    Developing Android and web applications and working with Java and Spring Boot.
-</string>
+        Developing Android and web applications and working with Java and Spring Boot.
+    </string>
 
     <string name="add_experience">+ Add Experience</string>
 
-    <!-- Skills Section -->
+
+    <!-- =============================== -->
+    <!-- SKILLS -->
+    <!-- =============================== -->
+
     <string name="edit">Edit</string>
 
     <string name="skill_java">Java</string>
@@ -133,18 +193,27 @@
     <string name="skill_git">Git</string>
     <string name="skill_docker">Docker</string>
 
-    <!-- Education -->
+
+    <!-- =============================== -->
+    <!-- EDUCATION -->
+    <!-- =============================== -->
+
     <string name="education">Education</string>
     <string name="degree_bca">BCA</string>
     <string name="college_abc">ABC College</string>
     <string name="education_year">2021 - 2024</string>
     <string name="add_education">+ Add Education</string>
 
-    <!-- Resume -->
+
+    <!-- =============================== -->
+    <!-- RESUME -->
+    <!-- =============================== -->
+
     <string name="resume">Resume</string>
     <string name="resume_file">📄 My_Resume.pdf</string>
     <string name="add_resume">Add Resume</string>
     <string name="replace_resume">Replace Resume</string>
+
 
     <!-- =============================== -->
     <!-- POST JOB -->
@@ -152,16 +221,19 @@
 
     <string name="post_job">Post a Job</string>
     <string name="create_new_job">Create a New Job</string>
-    <string name="create_new_job_subtitle">Provide the details below to post your job.</string>
+    <string name="create_new_job_subtitle">
+        Provide the details below to post your job.
+    </string>
 
     <string name="job_information">Job Information</string>
 
-    <!-- Post Job specific resources -->
     <string name="post_job_title">Job Title</string>
     <string name="job_title_hint">Java Developer</string>
 
     <string name="job_description">Job Description</string>
-    <string name="job_description_hint">Describe the role, responsibilities and requirements...</string>
+    <string name="job_description_hint">
+        Describe the role, responsibilities and requirements...
+    </string>
 
     <string name="company_name">Company Name</string>
     <string name="company_name_hint">NexTech Solutions</string>
@@ -191,7 +263,11 @@
 
     <string name="post_job_button">Post Job</string>
 
-    <!-- Post Job Validation -->
+
+    <!-- =============================== -->
+    <!-- POST JOB VALIDATION -->
+    <!-- =============================== -->
+
     <string name="job_title_required">Job title is required</string>
     <string name="job_description_required">Job description is required</string>
     <string name="company_name_required">Company name is required</string>
@@ -199,8 +275,12 @@
     <string name="employment_type_required">Employment type is required</string>
 
     <string name="job_posted_successfully">Job posted successfully</string>
-    <string name="unable_to_post_job">Unable to post job. Please try again.</string>
+    <string name="unable_to_post_job">
+        Unable to post job. Please try again.
+    </string>
+
     <string name="posting_job">Posting job...</string>
+
 
     <!-- =============================== -->
     <!-- MY APPLICATIONS -->
@@ -209,32 +289,52 @@
     <string name="my_applications">My Applications</string>
 
     <string name="track_your_applications">
-    Track your job applications and their current status.
-</string>
+        Track your job applications and their current status.
+    </string>
 
     <string name="no_applications_yet">No Applications Yet</string>
+
     <string name="applications_will_appear_here">
-    Jobs you apply for will appear here.
-</string>
+        Jobs you apply for will appear here.
+    </string>
 
     <string name="browse_jobs">Browse Jobs</string>
 
     <string name="unable_to_load_applications">
-    Unable to load applications
-</string>
+        Unable to load applications
+    </string>
 
     <string name="retry">Retry</string>
 
-    <!-- Application Details -->
+
+    <!-- =============================== -->
+    <!-- APPLICATION DETAILS -->
+    <!-- =============================== -->
+
     <string name="application_details">Application Details</string>
     <string name="applied_date">Applied Date</string>
     <string name="application_status">Application Status</string>
     <string name="resume_submitted">Resume Submitted</string>
 
-    <!-- Candidate Navigation -->
+
+    <!-- =============================== -->
+    <!-- CANDIDATE NAVIGATION -->
+    <!-- =============================== -->
+
     <string name="my_resume">My Resume</string>
     <string name="saved_jobs">Saved Jobs</string>
     <string name="menu">Menu</string>
-    ```
+    <!-- Saved Jobs -->
 
+    <string name="saved_jobs">Saved Jobs</string>
+
+    <string name="saved_jobs_subtitle">
+    Jobs you have saved for later.
+</string>
+
+    <string name="no_saved_jobs">No Saved Jobs</string>
+
+    <string name="saved_jobs_empty_message">
+    Jobs you save will appear here.
+</string>
 </resources>
