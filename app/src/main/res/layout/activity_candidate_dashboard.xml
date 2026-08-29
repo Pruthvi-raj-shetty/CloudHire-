@@ -693,41 +693,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="👤"
+                android:textColor="#2563EB"
                 android:textSize="19sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="My Profile"
-                android:textColor="#475569"
-                android:textSize="10sp" />
-
-        </LinearLayout>
-
-
-        <!-- MY RESUME -->
-
-        <LinearLayout
-            android:id="@+id/navResume"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:clickable="true"
-            android:focusable="true"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="▤"
-                android:textSize="21sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="My Resume"
-                android:textColor="#475569"
+                android:textColor="#2563EB"
                 android:textSize="10sp" />
 
         </LinearLayout>
@@ -749,13 +722,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="▣"
+                android:textColor="#2563EB"
                 android:textSize="20sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="My Applications"
-                android:textColor="#475569"
+                android:textColor="#2563EB"
                 android:textSize="10sp" />
 
         </LinearLayout>
@@ -777,13 +751,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="♡"
+                android:textColor="#2563EB"
                 android:textSize="23sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Saved Jobs"
-                android:textColor="#475569"
+                android:textColor="#2563EB"
                 android:textSize="10sp" />
 
         </LinearLayout>

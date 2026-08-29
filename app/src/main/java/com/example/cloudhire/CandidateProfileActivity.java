@@ -21,6 +21,7 @@ public class CandidateProfileActivity extends AppCompatActivity {
     private Button btnAddEducation;
     private Button btnAddResume;
     private Button btnReplaceResume;
+    private Button btnLogout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +45,8 @@ public class CandidateProfileActivity extends AppCompatActivity {
 
         btnReplaceResume = findViewById(R.id.btnReplaceResume);
 
+        btnLogout = findViewById(R.id.btnLogout);
+
 
         // -----------------------------
         // Back Button
@@ -64,13 +67,8 @@ public class CandidateProfileActivity extends AppCompatActivity {
         btnEditProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Toast.makeText(
-                        CandidateProfileActivity.this,
-                        "Edit Profile",
-                        Toast.LENGTH_SHORT
-                ).show();
-
+                Intent intent = new Intent(CandidateProfileActivity.this, CandidateEditProfileActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -135,6 +133,35 @@ public class CandidateProfileActivity extends AppCompatActivity {
 
                 openResumePicker();
 
+            }
+        });
+
+
+        // -----------------------------
+        // LOGOUT
+        // -----------------------------
+
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                // CLEAR ACTIVITY STACK AND GO TO LOGIN/MAIN
+                Intent intent = new Intent(
+                        CandidateProfileActivity.this,
+                        MainActivity.class
+                );
+
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+                startActivity(intent);
+
+                Toast.makeText(
+                        CandidateProfileActivity.this,
+                        "Logged out successfully",
+                        Toast.LENGTH_SHORT
+                ).show();
+
+                finish();
             }
         });
     }

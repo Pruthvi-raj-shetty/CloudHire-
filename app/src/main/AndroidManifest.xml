@@ -197,6 +197,12 @@
 
 
         <!-- =============================== -->
+        <!-- CANDIDATE EDIT PROFILE -->
+        <activity
+            android:name=".CandidateEditProfileActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
         <!-- RECRUITER DASHBOARD -->
         <!-- =============================== -->
         <!-- RECRUITER DASHBOARD -->
