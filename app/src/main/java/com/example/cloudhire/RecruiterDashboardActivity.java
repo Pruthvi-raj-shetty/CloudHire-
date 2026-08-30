@@ -89,12 +89,14 @@ public class RecruiterDashboardActivity extends AppCompatActivity {
         View applicantsCard = (View) findViewById(R.id.txtApplicantsCount).getParent();
         applicantsCard.setOnClickListener(v -> {
             Intent intent = new Intent(this, RecruiterApplicantsActivity.class);
+            intent.putExtra("filter", "ALL"); // Shows everyone from the total count card
             startActivity(intent);
         });
 
         View jobsCard = (View) findViewById(R.id.txtJobsCount).getParent();
         jobsCard.setOnClickListener(v -> {
             Intent intent = new Intent(this, RecruiterMyJobsActivity.class);
+            intent.putExtra("filter", "ALL"); // Shows all jobs from the total count card
             startActivity(intent);
         });
 
@@ -1224,6 +1226,13 @@ public class RecruiterDashboardActivity extends AppCompatActivity {
                 )
         );
 
+        // Link to Applicants screen with Interview filter
+        card.setOnClickListener(v -> {
+            Intent intent = new Intent(this, RecruiterApplicantsActivity.class);
+            intent.putExtra("filter", "INTERVIEW");
+            startActivity(intent);
+        });
+
 
         interviewsContainer.addView(
                 card
@@ -1327,7 +1336,7 @@ public class RecruiterDashboardActivity extends AppCompatActivity {
                             RecruiterDashboardActivity.this,
                             RecruiterMyJobsActivity.class
                     );
-
+                    intent.putExtra("filter", "OPEN");
                     startActivity(intent);
                 });
 
@@ -1339,7 +1348,7 @@ public class RecruiterDashboardActivity extends AppCompatActivity {
                             RecruiterDashboardActivity.this,
                             RecruiterApplicantsActivity.class
                     );
-
+                    intent.putExtra("filter", "APPLIED"); // Specifically shows NEW applicants
                     startActivity(intent);
                 });
 
@@ -1347,11 +1356,12 @@ public class RecruiterDashboardActivity extends AppCompatActivity {
         findViewById(R.id.btnViewAllInterviews)
                 .setOnClickListener(v -> {
 
-                    Toast.makeText(
-                            this,
-                            "All Interviews",
-                            Toast.LENGTH_SHORT
-                    ).show();
+                    Intent intent = new Intent(
+                            RecruiterDashboardActivity.this,
+                            RecruiterApplicantsActivity.class
+                    );
+                    intent.putExtra("filter", "INTERVIEW");
+                    startActivity(intent);
                 });
 
 
@@ -1375,6 +1385,7 @@ public class RecruiterDashboardActivity extends AppCompatActivity {
                                     RecruiterDashboardActivity.this,
                                     RecruiterApplicantsActivity.class
                             );
+                            intent.putExtra("filter", "APPLIED"); // Quick link to NEW applicants
                             startActivity(intent);
                         }
                 );

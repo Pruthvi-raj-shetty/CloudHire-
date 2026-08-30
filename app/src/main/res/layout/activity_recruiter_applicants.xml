@@ -239,6 +239,19 @@
                         android:textSize="13sp"
                         android:background="@drawable/bg_filter_inactive" />
 
+                    <TextView
+                        android:id="@+id/filterHired"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="8dp"
+                        android:gravity="center"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp"
+                        android:text="Hired"
+                        android:textColor="#475467"
+                        android:textSize="13sp"
+                        android:background="@drawable/bg_filter_inactive" />
+
                 </LinearLayout>
 
             </HorizontalScrollView>

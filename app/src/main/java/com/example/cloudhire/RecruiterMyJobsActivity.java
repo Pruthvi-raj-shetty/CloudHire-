@@ -23,6 +23,12 @@ public class RecruiterMyJobsActivity extends AppCompatActivity {
     private TextView txtJobCount;
     private TextView txtNotificationBadge;
 
+    private TextView filterAll;
+    private TextView filterOpen;
+    private TextView filterClosed;
+
+    private String selectedFilter = "ALL";
+
     private final List<Job> jobs = new ArrayList<>();
 
 
@@ -33,14 +39,61 @@ public class RecruiterMyJobsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_recruiter_my_jobs);
 
         initializeViews();
+        setupFilters();
 
         loadMockJobs();
+
+        // Handle filter from Intent
+        String filter = getIntent().getStringExtra("filter");
+        if (filter != null) {
+            applyInitialFilter(filter);
+        }
 
         displayJobs();
 
         setupClicks();
 
         updateNotificationBadge(3); // Mock notification count
+    }
+
+    private void applyInitialFilter(String filter) {
+        selectedFilter = filter;
+        TextView selectedView;
+
+        if (filter.equals("OPEN")) {
+            selectedView = filterOpen;
+        } else if (filter.equals("CLOSED")) {
+            selectedView = filterClosed;
+        } else {
+            selectedFilter = "ALL";
+            selectedView = filterAll;
+        }
+
+        updateFilterUI(selectedView);
+    }
+
+    private void setupFilters() {
+        filterAll.setOnClickListener(v -> selectFilter("ALL", filterAll));
+        filterOpen.setOnClickListener(v -> selectFilter("OPEN", filterOpen));
+        filterClosed.setOnClickListener(v -> selectFilter("CLOSED", filterClosed));
+    }
+
+    private void selectFilter(String filter, TextView view) {
+        selectedFilter = filter;
+        updateFilterUI(view);
+        displayJobs();
+    }
+
+    private void updateFilterUI(TextView selected) {
+        TextView[] filters = {filterAll, filterOpen, filterClosed};
+        for (TextView f : filters) {
+            f.setBackgroundResource(R.drawable.bg_filter_inactive);
+            f.setTextColor(Color.parseColor("#6B7280"));
+            f.setTypeface(null, Typeface.NORMAL);
+        }
+        selected.setBackgroundResource(R.drawable.bg_filter_active);
+        selected.setTextColor(Color.WHITE);
+        selected.setTypeface(null, Typeface.BOLD);
     }
 
     private void updateNotificationBadge(int count) {
@@ -67,6 +120,10 @@ public class RecruiterMyJobsActivity extends AppCompatActivity {
         txtJobCount = findViewById(R.id.txtJobCount);
 
         txtNotificationBadge = findViewById(R.id.txtJobsNotificationBadge);
+
+        filterAll = findViewById(R.id.filterJobsAll);
+        filterOpen = findViewById(R.id.filterJobsOpen);
+        filterClosed = findViewById(R.id.filterJobsClosed);
     }
 
 
@@ -148,11 +205,26 @@ public class RecruiterMyJobsActivity extends AppCompatActivity {
 
         emptyState.setVisibility(View.GONE);
 
-        txtJobCount.setText(jobs.size() + " Jobs");
+        int visibleCount = 0;
 
         for (Job job : jobs) {
 
+            if (!selectedFilter.equals("ALL") && !job.status.equalsIgnoreCase(selectedFilter)) {
+                continue;
+            }
+
             createJobCard(job);
+            visibleCount++;
+        }
+
+        txtJobCount.setText(visibleCount + " Jobs");
+
+        if (visibleCount == 0) {
+            jobsContainer.setVisibility(View.GONE);
+            emptyState.setVisibility(View.VISIBLE);
+        } else {
+            jobsContainer.setVisibility(View.VISIBLE);
+            emptyState.setVisibility(View.GONE);
         }
     }
 
@@ -546,12 +618,73 @@ public class RecruiterMyJobsActivity extends AppCompatActivity {
 
         edit.setOnClickListener(v -> {
 
-            Toast.makeText(
-                    this,
-                    "Edit " + job.title,
-                    Toast.LENGTH_SHORT
-            ).show();
+            Intent intent =
+                    new Intent(
+                            RecruiterMyJobsActivity.this,
+                            RecruiterEditJobActivity.class
+                    );
 
+            intent.putExtra(
+                    "jobId",
+                    job.jobId
+            );
+
+            intent.putExtra(
+                    "title",
+                    job.title
+            );
+
+            intent.putExtra(
+                    "company",
+                    job.company
+            );
+
+            intent.putExtra(
+                    "location",
+                    job.location
+            );
+
+            intent.putExtra(
+                    "employmentType",
+                    job.employmentType
+            );
+
+            intent.putExtra(
+                    "experience",
+                    job.experience
+            );
+
+            intent.putExtra(
+                    "salary",
+                    job.salary
+            );
+
+            intent.putExtra(
+                    "applicants",
+                    job.applicants
+            );
+
+            intent.putExtra(
+                    "postedDate",
+                    job.postedDate
+            );
+
+            intent.putExtra(
+                    "description",
+                    job.description
+            );
+
+            intent.putExtra(
+                    "skills",
+                    job.skills
+            );
+
+            intent.putExtra(
+                    "status",
+                    job.status
+            );
+
+            startActivity(intent);
         });
 
 

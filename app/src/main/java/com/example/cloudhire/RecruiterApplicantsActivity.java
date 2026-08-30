@@ -41,6 +41,7 @@ public class RecruiterApplicantsActivity extends AppCompatActivity {
     private TextView filterShortlisted;
     private TextView filterInterview;
     private TextView filterRejected;
+    private TextView filterHired;
 
     private final List<RecruiterApplicant> applicants =
             new ArrayList<>();
@@ -87,6 +88,9 @@ public class RecruiterApplicantsActivity extends AppCompatActivity {
             case "REJECTED":
                 selectedView = filterRejected;
                 break;
+            case "HIRED":
+                selectedView = filterHired;
+                break;
             default:
                 selectedFilter = "ALL";
                 selectedView = filterAll;
@@ -99,7 +103,8 @@ public class RecruiterApplicantsActivity extends AppCompatActivity {
                 filterApplied,
                 filterShortlisted,
                 filterInterview,
-                filterRejected
+                filterRejected,
+                filterHired
         };
 
         for (TextView filterView : filters) {
@@ -174,6 +179,9 @@ public class RecruiterApplicantsActivity extends AppCompatActivity {
 
         filterRejected =
                 findViewById(R.id.filterRejected);
+
+        filterHired =
+                findViewById(R.id.filterHired);
     }
 
 
@@ -265,6 +273,38 @@ public class RecruiterApplicantsActivity extends AppCompatActivity {
                 "",
                 "",
                 "APPLIED"
+        ));
+
+        applicants.add(new RecruiterApplicant(
+                "APP_004",
+                "CAND_004",
+                "Anjali Verma",
+                "Frontend Developer | 2 Years Exp",
+                "Senior Java Developer",
+                "NexTech Solutions",
+                "Bangalore",
+                "20 Aug 2026",
+                "anjali.v@email.com",
+                "+91 6543210987",
+                "",
+                "",
+                "REJECTED"
+        ));
+
+        applicants.add(new RecruiterApplicant(
+                "APP_005",
+                "CAND_005",
+                "Suresh Kumar",
+                "Backend Engineer | 5 Years Exp",
+                "Senior Java Developer",
+                "NexTech Solutions",
+                "Bangalore",
+                "15 Aug 2026",
+                "suresh.k@email.com",
+                "+91 5432109876",
+                "",
+                "",
+                "HIRED"
         ));
 
         showApplicants();
@@ -977,6 +1017,13 @@ public class RecruiterApplicantsActivity extends AppCompatActivity {
                         filterRejected
                 )
         );
+
+        filterHired.setOnClickListener(
+                v -> selectFilter(
+                        "HIRED",
+                        filterHired
+                )
+        );
     }
 
 
@@ -992,7 +1039,8 @@ public class RecruiterApplicantsActivity extends AppCompatActivity {
                 filterApplied,
                 filterShortlisted,
                 filterInterview,
-                filterRejected
+                filterRejected,
+                filterHired
         };
 
         for (TextView filterView : filters) {
@@ -1168,10 +1216,7 @@ public class RecruiterApplicantsActivity extends AppCompatActivity {
     // =========================================================
 
     private TextView createTextView(
-            String text,
-            int size,
-            String color,
-            boolean bold
+            String text, int size, String color, boolean bold
     ) {
 
         TextView view =

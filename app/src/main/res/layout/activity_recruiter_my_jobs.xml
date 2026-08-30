@@ -118,6 +118,63 @@
                 android:textSize="15sp" />
 
 
+            <!-- STATUS FILTERS -->
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/filterJobsAll"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:gravity="center"
+                        android:paddingStart="20dp"
+                        android:paddingEnd="20dp"
+                        android:text="All Jobs"
+                        android:textColor="#FFFFFF"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        android:background="@drawable/bg_filter_active" />
+
+                    <TextView
+                        android:id="@+id/filterJobsOpen"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="8dp"
+                        android:gravity="center"
+                        android:paddingStart="18dp"
+                        android:paddingEnd="18dp"
+                        android:text="Active"
+                        android:textColor="#6B7280"
+                        android:textSize="13sp"
+                        android:background="@drawable/bg_filter_inactive" />
+
+                    <TextView
+                        android:id="@+id/filterJobsClosed"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="8dp"
+                        android:gravity="center"
+                        android:paddingStart="18dp"
+                        android:paddingEnd="18dp"
+                        android:text="Closed"
+                        android:textColor="#6B7280"
+                        android:textSize="13sp"
+                        android:background="@drawable/bg_filter_inactive" />
+
+                </LinearLayout>
+
+            </HorizontalScrollView>
+
+
             <!-- POST JOB BUTTON -->
 
             <TextView
