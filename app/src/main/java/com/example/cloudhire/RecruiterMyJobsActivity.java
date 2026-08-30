@@ -79,18 +79,22 @@ public class RecruiterMyJobsActivity extends AppCompatActivity {
         jobs.clear();
 
         jobs.add(new Job(
+                "JOB_001",
                 "Java Developer",
                 "NexTech Solutions",
                 "Mangalore, Karnataka",
                 "Full Time",
                 "2 - 4 Years",
                 "₹5 - ₹8 LPA",
-                "12 Applicants",
+                "12",
                 "OPEN",
-                "18 Aug 2026"
+                "18 Aug 2026",
+                "We are looking for a skilled Java Developer to join our development team. The candidate will be responsible for designing, developing, testing and maintaining high-quality Java applications. The role involves working with the development team to build scalable applications, develop REST APIs, work with databases and participate in the complete software development lifecycle.",
+                "Java, Spring Boot, MySQL, REST API"
         ));
 
         jobs.add(new Job(
+                "JOB_002",
                 "Python Developer",
                 "NexTech Solutions",
                 "Mangalore, Karnataka",
@@ -99,10 +103,13 @@ public class RecruiterMyJobsActivity extends AppCompatActivity {
                 "₹4 - ₹7 LPA",
                 "8 Applicants",
                 "OPEN",
-                "15 Aug 2026"
+                "15 Aug 2026",
+                "Python developer role description.",
+                "Python, Django"
         ));
 
         jobs.add(new Job(
+                "JOB_003",
                 "Frontend Developer",
                 "NexTech Solutions",
                 "Bangalore, Karnataka",
@@ -111,7 +118,9 @@ public class RecruiterMyJobsActivity extends AppCompatActivity {
                 "₹6 - ₹10 LPA",
                 "15 Applicants",
                 "CLOSED",
-                "10 Aug 2026"
+                "10 Aug 2026",
+                "Frontend developer role description.",
+                "React, Vue"
         ));
     }
 
@@ -463,12 +472,73 @@ public class RecruiterMyJobsActivity extends AppCompatActivity {
 
         viewDetails.setOnClickListener(v -> {
 
-            Toast.makeText(
-                    this,
-                    "Opening " + job.title,
-                    Toast.LENGTH_SHORT
-            ).show();
+            Intent intent =
+                    new Intent(
+                            RecruiterMyJobsActivity.this,
+                            RecruiterJobDetailsActivity.class
+                    );
 
+            intent.putExtra(
+                    "jobId",
+                    job.jobId
+            );
+
+            intent.putExtra(
+                    "title",
+                    job.title
+            );
+
+            intent.putExtra(
+                    "company",
+                    job.company
+            );
+
+            intent.putExtra(
+                    "location",
+                    job.location
+            );
+
+            intent.putExtra(
+                    "employmentType",
+                    job.employmentType
+            );
+
+            intent.putExtra(
+                    "experience",
+                    job.experience
+            );
+
+            intent.putExtra(
+                    "salary",
+                    job.salary
+            );
+
+            intent.putExtra(
+                    "applicants",
+                    job.applicants
+            );
+
+            intent.putExtra(
+                    "postedDate",
+                    job.postedDate
+            );
+
+            intent.putExtra(
+                    "description",
+                    job.description
+            );
+
+            intent.putExtra(
+                    "skills",
+                    job.skills
+            );
+
+            intent.putExtra(
+                    "status",
+                    job.status
+            );
+
+            startActivity(intent);
         });
 
 
@@ -846,6 +916,8 @@ public class RecruiterMyJobsActivity extends AppCompatActivity {
 
     private static class Job {
 
+        String jobId;
+
         String title;
         String company;
         String location;
@@ -856,8 +928,12 @@ public class RecruiterMyJobsActivity extends AppCompatActivity {
         String status;
         String postedDate;
 
+        String description;
+        String skills;
+
 
         Job(
+                String jobId,
                 String title,
                 String company,
                 String location,
@@ -866,18 +942,46 @@ public class RecruiterMyJobsActivity extends AppCompatActivity {
                 String salary,
                 String applicants,
                 String status,
-                String postedDate
+                String postedDate,
+                String description,
+                String skills
         ) {
 
-            this.title = title;
-            this.company = company;
-            this.location = location;
-            this.employmentType = employmentType;
-            this.experience = experience;
-            this.salary = salary;
-            this.applicants = applicants;
-            this.status = status;
-            this.postedDate = postedDate;
+            this.jobId =
+                    jobId;
+
+            this.title =
+                    title;
+
+            this.company =
+                    company;
+
+            this.location =
+                    location;
+
+            this.employmentType =
+                    employmentType;
+
+            this.experience =
+                    experience;
+
+            this.salary =
+                    salary;
+
+            this.applicants =
+                    applicants;
+
+            this.status =
+                    status;
+
+            this.postedDate =
+                    postedDate;
+
+            this.description =
+                    description;
+
+            this.skills =
+                    skills;
         }
     }
 }
