@@ -98,6 +98,20 @@ public class RecruiterDashboardActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
+        View shortlistedCard = (View) findViewById(R.id.txtShortlistedCount).getParent();
+        shortlistedCard.setOnClickListener(v -> {
+            Intent intent = new Intent(this, RecruiterApplicantsActivity.class);
+            intent.putExtra("filter", "SHORTLISTED");
+            startActivity(intent);
+        });
+
+        View interviewsCard = (View) findViewById(R.id.txtInterviewsCount).getParent();
+        interviewsCard.setOnClickListener(v -> {
+            Intent intent = new Intent(this, RecruiterApplicantsActivity.class);
+            intent.putExtra("filter", "INTERVIEW");
+            startActivity(intent);
+        });
+
         txtNotificationBadge =
                 findViewById(R.id.txtNotificationBadge);
 
@@ -1368,21 +1382,27 @@ public class RecruiterDashboardActivity extends AppCompatActivity {
 
         findViewById(R.id.quickInterviews)
                 .setOnClickListener(
-                        v -> Toast.makeText(
-                                this,
-                                "Interviews",
-                                Toast.LENGTH_SHORT
-                        ).show()
+                        v -> {
+                            Intent intent = new Intent(
+                                    RecruiterDashboardActivity.this,
+                                    RecruiterApplicantsActivity.class
+                            );
+                            intent.putExtra("filter", "INTERVIEW");
+                            startActivity(intent);
+                        }
                 );
 
 
         findViewById(R.id.quickShortlisted)
                 .setOnClickListener(
-                        v -> Toast.makeText(
-                                this,
-                                "Shortlisted",
-                                Toast.LENGTH_SHORT
-                        ).show()
+                        v -> {
+                            Intent intent = new Intent(
+                                    RecruiterDashboardActivity.this,
+                                    RecruiterApplicantsActivity.class
+                            );
+                            intent.putExtra("filter", "SHORTLISTED");
+                            startActivity(intent);
+                        }
                 );
     }
 

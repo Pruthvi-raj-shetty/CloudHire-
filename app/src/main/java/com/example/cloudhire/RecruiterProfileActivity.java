@@ -15,7 +15,7 @@ public class RecruiterProfileActivity extends AppCompatActivity {
     // HEADER
     // =========================================================
 
-    private ImageButton btnMenu;
+    private ImageButton btnBack;
     private ImageButton btnNotifications;
     private TextView txtNotificationBadge;
 
@@ -77,7 +77,7 @@ public class RecruiterProfileActivity extends AppCompatActivity {
         // HEADER
         // -----------------------------------------------------
 
-        btnMenu = findViewById(R.id.btnProfileMenu);
+        btnBack = findViewById(R.id.btnProfileBack);
 
         btnNotifications = findViewById(R.id.btnProfileNotifications);
 
@@ -127,20 +127,12 @@ public class RecruiterProfileActivity extends AppCompatActivity {
 
 
         // =====================================================
-        // MENU
+        // BACK
         // =====================================================
 
-        if (btnMenu != null) {
+        if (btnBack != null) {
 
-            btnMenu.setOnClickListener(v -> {
-
-                Toast.makeText(
-                        RecruiterProfileActivity.this,
-                        "Menu",
-                        Toast.LENGTH_SHORT
-                ).show();
-
-            });
+            btnBack.setOnClickListener(v -> finish());
         }
 
 

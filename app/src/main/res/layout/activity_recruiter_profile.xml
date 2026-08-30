@@ -18,13 +18,14 @@
         android:background="#FFFFFF"
         android:elevation="4dp">
         <ImageButton
-            android:id="@+id/btnProfileMenu"
+            android:id="@+id/btnProfileBack"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:background="@android:color/transparent"
-            android:src="@drawable/recruiter_dashboard_menu"
-            android:contentDescription="Menu"
-            android:padding="10dp" />
+            android:src="@drawable/ic_arrow_back"
+            android:padding="10dp"
+            app:tint="@color/dashboard_text_primary"
+            android:contentDescription="Back" />
         <TextView
             android:id="@+id/txtProfileTitle"
             android:layout_width="0dp"

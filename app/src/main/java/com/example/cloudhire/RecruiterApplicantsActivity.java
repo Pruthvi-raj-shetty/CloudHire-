@@ -60,8 +60,63 @@ public class RecruiterApplicantsActivity extends AppCompatActivity {
         setupSearch();
         setupNavigation();
 
+        // Handle filter from Intent
+        String filter = getIntent().getStringExtra("filter");
+        if (filter != null) {
+            applyInitialFilter(filter);
+        }
+
         loadApplicants();
         updateNotificationBadge(3); // Mock notification count
+    }
+
+    private void applyInitialFilter(String filter) {
+        selectedFilter = filter;
+        TextView selectedView;
+
+        switch (filter) {
+            case "SHORTLISTED":
+                selectedView = filterShortlisted;
+                break;
+            case "INTERVIEW":
+                selectedView = filterInterview;
+                break;
+            case "APPLIED":
+                selectedView = filterApplied;
+                break;
+            case "REJECTED":
+                selectedView = filterRejected;
+                break;
+            default:
+                selectedFilter = "ALL";
+                selectedView = filterAll;
+                break;
+        }
+
+        // Update UI for the selected filter
+        TextView[] filters = {
+                filterAll,
+                filterApplied,
+                filterShortlisted,
+                filterInterview,
+                filterRejected
+        };
+
+        for (TextView filterView : filters) {
+            filterView.setBackgroundResource(
+                    R.drawable.bg_filter_inactive
+            );
+            filterView.setTextColor(
+                    Color.parseColor("#6B7280")
+            );
+        }
+
+        selectedView.setBackgroundResource(
+                R.drawable.bg_filter_active
+        );
+        selectedView.setTextColor(
+                Color.WHITE
+        );
     }
 
     private void updateNotificationBadge(int count) {
@@ -1008,6 +1063,10 @@ public class RecruiterApplicantsActivity extends AppCompatActivity {
 
     private void setupNavigation() {
 
+        findViewById(R.id.btnApplicantsBack)
+                .setOnClickListener(v -> finish());
+
+
         findViewById(R.id.navHome)
                 .setOnClickListener(v -> {
 
@@ -1062,17 +1121,6 @@ public class RecruiterApplicantsActivity extends AppCompatActivity {
                     Toast.makeText(
                             this,
                             "Notifications",
-                            Toast.LENGTH_SHORT
-                    ).show();
-                });
-
-
-        findViewById(R.id.btnApplicantsMenu)
-                .setOnClickListener(v -> {
-
-                    Toast.makeText(
-                            this,
-                            "Menu",
                             Toast.LENGTH_SHORT
                     ).show();
                 });

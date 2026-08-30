@@ -23,17 +23,18 @@
         android:paddingEnd="16dp"
         android:paddingTop="10dp">
 
-        <!-- MENU -->
+        <!-- BACK BUTTON -->
 
         <ImageButton
-            android:id="@+id/btnApplicantsMenu"
+            android:id="@+id/btnApplicantsBack"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:background="@android:color/transparent"
-            android:src="@drawable/recruiter_dashboard_menu"
+            android:src="@drawable/ic_arrow_back"
             android:scaleType="centerInside"
             android:padding="10dp"
-            android:contentDescription="Menu" />
+            app:tint="@color/dashboard_text_primary"
+            android:contentDescription="Back" />
 
         <!-- TITLE -->
 

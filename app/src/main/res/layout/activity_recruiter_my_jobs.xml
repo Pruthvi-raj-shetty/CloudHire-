@@ -21,16 +21,17 @@
         android:background="#FFFFFF"
         android:elevation="4dp">
 
-        <!-- MENU -->
+        <!-- BACK BUTTON -->
 
         <ImageButton
-            android:id="@+id/btnJobsMenu"
+            android:id="@+id/btnJobsBack"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:background="@android:color/transparent"
-            android:src="@drawable/recruiter_dashboard_menu"
+            android:src="@drawable/ic_arrow_back"
             android:padding="10dp"
-            android:contentDescription="Menu" />
+            app:tint="@color/dashboard_text_primary"
+            android:contentDescription="Back" />
 
         <!-- TITLE -->
 

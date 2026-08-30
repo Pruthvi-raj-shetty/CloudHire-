@@ -756,6 +756,12 @@ public class RecruiterMyJobsActivity extends AppCompatActivity {
                 });
 
 
+        // Back
+
+        findViewById(R.id.btnJobsBack)
+                .setOnClickListener(v -> finish());
+
+
         // Home
 
         findViewById(R.id.navHome)
@@ -799,34 +805,22 @@ public class RecruiterMyJobsActivity extends AppCompatActivity {
 
         // Profile
 
-        findViewById(R.id.navProfile)
-                .setOnClickListener(v -> {
+        if (findViewById(R.id.navProfile) != null) {
+            findViewById(R.id.navProfile)
+                    .setOnClickListener(v -> {
 
-                    Intent intent =
-                            new Intent(
-                                    RecruiterMyJobsActivity.this,
-                                    RecruiterProfileActivity.class
-                            );
+                        Intent intent =
+                                new Intent(
+                                        RecruiterMyJobsActivity.this,
+                                        RecruiterProfileActivity.class
+                                );
 
-                    startActivity(intent);
+                        startActivity(intent);
 
-                    finish();
+                        finish();
 
-                });
-
-
-        // Menu
-
-        findViewById(R.id.btnJobsMenu)
-                .setOnClickListener(v -> {
-
-                    Toast.makeText(
-                            this,
-                            "Menu",
-                            Toast.LENGTH_SHORT
-                    ).show();
-
-                });
+                    });
+        }
     }
 
 

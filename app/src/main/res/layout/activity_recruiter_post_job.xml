@@ -122,6 +122,7 @@
                             android:id="@+id/etJobTitle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:contentDescription="Job Title"
                             android:inputType="textCapSentences"
                             android:textSize="15sp" />
                     </com.google.android.material.textfield.TextInputLayout>
@@ -142,6 +143,7 @@
                             android:id="@+id/etCompanyName"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:contentDescription="Company Name"
                             android:inputType="textCapWords"
                             android:textSize="15sp" />
                     </com.google.android.material.textfield.TextInputLayout>
@@ -162,6 +164,7 @@
                             android:id="@+id/etLocation"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:contentDescription="Location"
                             android:inputType="textCapWords"
                             android:textSize="15sp" />
                     </com.google.android.material.textfield.TextInputLayout>
@@ -182,6 +185,7 @@
                             android:id="@+id/actEmploymentType"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:contentDescription="Employment Type"
                             android:inputType="none"
                             android:textSize="15sp" />
                     </com.google.android.material.textfield.TextInputLayout>
@@ -202,6 +206,7 @@
                             android:id="@+id/etExperience"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:contentDescription="Experience"
                             android:inputType="text"
                             android:textSize="15sp" />
                     </com.google.android.material.textfield.TextInputLayout>
@@ -239,6 +244,7 @@
                                 android:id="@+id/etSalaryMin"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:contentDescription="Minimum Salary"
                                 android:inputType="number"
                                 android:textSize="14sp" />
                         </com.google.android.material.textfield.TextInputLayout>
@@ -260,6 +266,7 @@
                                 android:id="@+id/etSalaryMax"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:contentDescription="Maximum Salary"
                                 android:inputType="number"
                                 android:textSize="14sp" />
                         </com.google.android.material.textfield.TextInputLayout>
@@ -281,6 +288,7 @@
                             android:id="@+id/etSkills"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:contentDescription="Skills"
                             android:inputType="textCapSentences"
                             android:textSize="15sp" />
                     </com.google.android.material.textfield.TextInputLayout>
@@ -303,6 +311,7 @@
                             android:id="@+id/etJobDescription"
                             android:layout_width="match_parent"
                             android:layout_height="160dp"
+                            android:contentDescription="Job Description"
                             android:gravity="top"
                             android:inputType="textCapSentences|textMultiLine"
                             android:textSize="15sp" />
