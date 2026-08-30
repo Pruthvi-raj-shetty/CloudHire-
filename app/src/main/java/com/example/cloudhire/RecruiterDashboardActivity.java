@@ -108,7 +108,7 @@ public class RecruiterDashboardActivity extends AppCompatActivity {
         /*
          * IMPORTANT:
          *
-         * Currentlys this uses an empty data object.
+         * Currently this uses an empty data object.
          *
          * Later REST API data can be assigned here:
          *
@@ -1197,19 +1197,12 @@ public class RecruiterDashboardActivity extends AppCompatActivity {
         findViewById(R.id.btnPostJob)
                 .setOnClickListener(v -> {
 
-                    Toast.makeText(
-                            this,
-                            "Post Job",
-                            Toast.LENGTH_SHORT
-                    ).show();
+                    Intent intent = new Intent(
+                            RecruiterDashboardActivity.this,
+                            RecruiterPostJobActivity.class
+                    );
 
-                    // Later:
-                    // startActivity(
-                    //     new Intent(
-                    //         this,
-                    //         PostJobActivity.class
-                    //     )
-                    // );
+                    startActivity(intent);
                 });
 
 
@@ -1281,6 +1274,17 @@ public class RecruiterDashboardActivity extends AppCompatActivity {
                     startActivity(intent);
                 });
 
+        findViewById(R.id.btnViewAllJobs2)
+                .setOnClickListener(v -> {
+
+                    Intent intent = new Intent(
+                            RecruiterDashboardActivity.this,
+                            RecruiterMyJobsActivity.class
+                    );
+
+                    startActivity(intent);
+                });
+
 
         findViewById(R.id.btnViewAllApplicants)
                 .setOnClickListener(v -> {
@@ -1311,7 +1315,7 @@ public class RecruiterDashboardActivity extends AppCompatActivity {
 
                     Intent intent = new Intent(
                             RecruiterDashboardActivity.this,
-                            RecruiterMyJobsActivity.class
+                            RecruiterPostJobActivity.class
                     );
 
                     startActivity(intent);
