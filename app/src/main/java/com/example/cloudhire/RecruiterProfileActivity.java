@@ -16,6 +16,8 @@ public class RecruiterProfileActivity extends AppCompatActivity {
     // =========================================================
 
     private ImageButton btnMenu;
+    private ImageButton btnNotifications;
+    private TextView txtNotificationBadge;
 
 
     // =========================================================
@@ -50,6 +52,18 @@ public class RecruiterProfileActivity extends AppCompatActivity {
 
         initializeViews();
         setupClicks();
+
+        updateNotificationBadge(3); // Mock notification count
+    }
+
+    private void updateNotificationBadge(int count) {
+        if (txtNotificationBadge == null) return;
+        if (count > 0) {
+            txtNotificationBadge.setVisibility(android.view.View.VISIBLE);
+            txtNotificationBadge.setText(String.valueOf(count));
+        } else {
+            txtNotificationBadge.setVisibility(android.view.View.GONE);
+        }
     }
 
 
@@ -64,6 +78,10 @@ public class RecruiterProfileActivity extends AppCompatActivity {
         // -----------------------------------------------------
 
         btnMenu = findViewById(R.id.btnProfileMenu);
+
+        btnNotifications = findViewById(R.id.btnProfileNotifications);
+
+        txtNotificationBadge = findViewById(R.id.txtProfileNotificationBadge);
 
 
         // -----------------------------------------------------
@@ -121,6 +139,25 @@ public class RecruiterProfileActivity extends AppCompatActivity {
                         "Menu",
                         Toast.LENGTH_SHORT
                 ).show();
+
+            });
+        }
+
+
+        // =====================================================
+        // NOTIFICATIONS
+        // =====================================================
+
+        if (btnNotifications != null) {
+
+            btnNotifications.setOnClickListener(v -> {
+
+                Intent intent = new Intent(
+                        RecruiterProfileActivity.this,
+                        RecruiterNotificationsActivity.class
+                );
+
+                startActivity(intent);
 
             });
         }
@@ -276,11 +313,14 @@ public class RecruiterProfileActivity extends AppCompatActivity {
 
             navApplicants.setOnClickListener(v -> {
 
-                Toast.makeText(
+                Intent intent = new Intent(
                         RecruiterProfileActivity.this,
-                        "Applicants",
-                        Toast.LENGTH_SHORT
-                ).show();
+                        RecruiterApplicantsActivity.class
+                );
+
+                startActivity(intent);
+
+                finish();
 
             });
         }

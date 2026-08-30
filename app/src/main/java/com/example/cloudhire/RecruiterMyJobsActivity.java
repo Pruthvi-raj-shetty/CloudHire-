@@ -21,6 +21,7 @@ public class RecruiterMyJobsActivity extends AppCompatActivity {
     private LinearLayout jobsContainer;
     private LinearLayout emptyState;
     private TextView txtJobCount;
+    private TextView txtNotificationBadge;
 
     private final List<Job> jobs = new ArrayList<>();
 
@@ -38,6 +39,18 @@ public class RecruiterMyJobsActivity extends AppCompatActivity {
         displayJobs();
 
         setupClicks();
+
+        updateNotificationBadge(3); // Mock notification count
+    }
+
+    private void updateNotificationBadge(int count) {
+        if (txtNotificationBadge == null) return;
+        if (count > 0) {
+            txtNotificationBadge.setVisibility(View.VISIBLE);
+            txtNotificationBadge.setText(String.valueOf(count));
+        } else {
+            txtNotificationBadge.setVisibility(View.GONE);
+        }
     }
 
 
@@ -52,6 +65,8 @@ public class RecruiterMyJobsActivity extends AppCompatActivity {
         emptyState = findViewById(R.id.emptyState);
 
         txtJobCount = findViewById(R.id.txtJobCount);
+
+        txtNotificationBadge = findViewById(R.id.txtJobsNotificationBadge);
     }
 
 
@@ -743,7 +758,7 @@ public class RecruiterMyJobsActivity extends AppCompatActivity {
 
         // Home
 
-        findViewById(R.id.navJobsHome)
+        findViewById(R.id.navHome)
                 .setOnClickListener(v -> {
 
                     Intent intent =
@@ -761,7 +776,7 @@ public class RecruiterMyJobsActivity extends AppCompatActivity {
 
         // Jobs
 
-        findViewById(R.id.navJobsCurrent)
+        findViewById(R.id.navJobs)
                 .setOnClickListener(v -> {
                     // Already on My Jobs
                 });
@@ -769,21 +784,22 @@ public class RecruiterMyJobsActivity extends AppCompatActivity {
 
         // Applicants
 
-        findViewById(R.id.navJobsApplicants)
+        findViewById(R.id.navApplicants)
                 .setOnClickListener(v -> {
 
-                    Toast.makeText(
-                            this,
-                            "Applicants",
-                            Toast.LENGTH_SHORT
-                    ).show();
+                    Intent intent = new Intent(
+                            RecruiterMyJobsActivity.this,
+                            RecruiterApplicantsActivity.class
+                    );
+
+                    startActivity(intent);
 
                 });
 
 
         // Profile
 
-        findViewById(R.id.navJobsProfile)
+        findViewById(R.id.navProfile)
                 .setOnClickListener(v -> {
 
                     Intent intent =

@@ -85,6 +85,19 @@ public class RecruiterDashboardActivity extends AppCompatActivity {
         txtInterviewsCount =
                 findViewById(R.id.txtInterviewsCount);
 
+        // Make statistics cards clickable
+        View applicantsCard = (View) findViewById(R.id.txtApplicantsCount).getParent();
+        applicantsCard.setOnClickListener(v -> {
+            Intent intent = new Intent(this, RecruiterApplicantsActivity.class);
+            startActivity(intent);
+        });
+
+        View jobsCard = (View) findViewById(R.id.txtJobsCount).getParent();
+        jobsCard.setOnClickListener(v -> {
+            Intent intent = new Intent(this, RecruiterMyJobsActivity.class);
+            startActivity(intent);
+        });
+
         txtNotificationBadge =
                 findViewById(R.id.txtNotificationBadge);
 
@@ -105,19 +118,26 @@ public class RecruiterDashboardActivity extends AppCompatActivity {
 
     private void loadDashboardData() {
 
-        /*
-         * IMPORTANT:
-         *
-         * Currently this uses an empty data object.
-         *
-         * Later REST API data can be assigned here:
-         *
-         * dashboardData = apiResponse;
-         *
-         * Then call:
-         *
-         * updateDashboard();
-         */
+        dashboardData.setRecruiterName("NexTech Recruiter");
+
+        dashboardData.setJobsCount(12);
+        dashboardData.setApplicantsCount(45);
+        dashboardData.setShortlistedCount(8);
+        dashboardData.setInterviewsCount(5);
+        dashboardData.setUnreadNotifications(3);
+
+        // Add Mock Applicants
+        List<Applicant> mockApplicants = new ArrayList<>();
+        mockApplicants.add(new Applicant("APP_001", "Arjun Sharma", "Java Developer", "3 Years", "Java, Spring", "Shortlisted", "A"));
+        mockApplicants.add(new Applicant("APP_002", "Priya Patel", "UI/UX Designer", "2 Years", "Figma, Adobe", "Interview", "P"));
+        mockApplicants.add(new Applicant("APP_003", "Rohan Gupta", "Full Stack", "4 Years", "React, Node", "Under Review", "R"));
+        dashboardData.setApplicants(mockApplicants);
+
+        // Add Mock Jobs
+        List<Job> mockJobs = new ArrayList<>();
+        mockJobs.add(new Job("JOB_001", "Senior Java Developer", "NexTech Solutions", "12 Applicants", "2 days ago", "Active"));
+        mockJobs.add(new Job("JOB_002", "Product Designer", "NexTech Solutions", "8 Applicants", "5 days ago", "Active"));
+        dashboardData.setJobs(mockJobs);
 
         updateDashboard();
     }
@@ -933,6 +953,17 @@ public class RecruiterDashboardActivity extends AppCompatActivity {
                 )
         );
 
+        // Link to RecruiterApplicationDetailsActivity
+        card.setOnClickListener(v -> {
+            Intent intent = new Intent(this, RecruiterApplicationDetailsActivity.class);
+            intent.putExtra("applicationId", applicant.getId());
+            intent.putExtra("candidateName", applicant.getName());
+            intent.putExtra("professionalTitle", applicant.getExperience() + " | " + applicant.getSkill());
+            intent.putExtra("jobTitle", applicant.getJobTitle());
+            intent.putExtra("status", applicant.getStatus());
+            startActivity(intent);
+        });
+
 
         applicantsContainer.addView(
                 card
@@ -1241,11 +1272,12 @@ public class RecruiterDashboardActivity extends AppCompatActivity {
         findViewById(R.id.navApplicants)
                 .setOnClickListener(v -> {
 
-                    Toast.makeText(
-                            this,
-                            "Applicants",
-                            Toast.LENGTH_SHORT
-                    ).show();
+                    Intent intent = new Intent(
+                            RecruiterDashboardActivity.this,
+                            RecruiterApplicantsActivity.class
+                    );
+
+                    startActivity(intent);
                 });
 
 
@@ -1289,11 +1321,12 @@ public class RecruiterDashboardActivity extends AppCompatActivity {
         findViewById(R.id.btnViewAllApplicants)
                 .setOnClickListener(v -> {
 
-                    Toast.makeText(
-                            this,
-                            "All Applicants",
-                            Toast.LENGTH_SHORT
-                    ).show();
+                    Intent intent = new Intent(
+                            RecruiterDashboardActivity.this,
+                            RecruiterApplicantsActivity.class
+                    );
+
+                    startActivity(intent);
                 });
 
 
@@ -1323,11 +1356,13 @@ public class RecruiterDashboardActivity extends AppCompatActivity {
 
         findViewById(R.id.quickApplicants)
                 .setOnClickListener(
-                        v -> Toast.makeText(
-                                this,
-                                "Applicants",
-                                Toast.LENGTH_SHORT
-                        ).show()
+                        v -> {
+                            Intent intent = new Intent(
+                                    RecruiterDashboardActivity.this,
+                                    RecruiterApplicantsActivity.class
+                            );
+                            startActivity(intent);
+                        }
                 );
 
 

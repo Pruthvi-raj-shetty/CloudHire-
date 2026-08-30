@@ -248,6 +248,23 @@
         <activity
             android:name=".SavedJobsActivity"
             android:exported="false" />
+        <!-- =============================== -->
+        <!-- RECRUITER APPLICANTS -->
+        <!-- =============================== -->
+
+        <activity
+            android:name=".RecruiterApplicantsActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
+        <!-- =============================== -->
+        <!-- RECRUITER APPLICATION DETAILS -->
+        <!-- =============================== -->
+
+        <activity
+            android:name=".RecruiterApplicationDetailsActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
     </application>
 
 </manifest>

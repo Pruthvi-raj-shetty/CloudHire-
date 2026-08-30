@@ -9,12 +9,12 @@
     <!-- TOP APP BAR -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="82dp"
+        android:layout_height="76dp"
         android:orientation="horizontal"
         android:gravity="center_vertical"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
-        android:paddingTop="6dp"
+        android:paddingTop="10dp"
         android:background="#FFFFFF"
         android:elevation="4dp">
         <ImageButton
@@ -24,22 +24,45 @@
             android:background="@android:color/transparent"
             android:src="@drawable/recruiter_dashboard_menu"
             android:contentDescription="Menu"
-            android:padding="12dp" />
+            android:padding="10dp" />
         <TextView
             android:id="@+id/txtProfileTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:translationY="3dp"
-            android:text="My Profile"
-            android:textColor="#111827"
-            android:textSize="21sp"
+            android:text="Profile"
+            android:textColor="@color/dashboard_text_primary"
+            android:textSize="25sp"
             android:textStyle="bold" />
-        <!-- No notification/bell -->
-        <View
+
+        <FrameLayout
             android:layout_width="48dp"
-            android:layout_height="48dp" />
+            android:layout_height="48dp">
+
+            <ImageButton
+                android:id="@+id/btnProfileNotifications"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/recruiter_dashboard_notifications"
+                android:padding="10dp"
+                android:contentDescription="Notifications" />
+
+            <TextView
+                android:id="@+id/txtProfileNotificationBadge"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="top|end"
+                android:gravity="center"
+                android:text="0"
+                android:textColor="@android:color/white"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:background="@drawable/recruiter_dashboard_notification_badge"
+                android:visibility="gone" />
+
+        </FrameLayout>
     </LinearLayout>
     <!-- SCROLLABLE CONTENT -->
     <ScrollView
@@ -374,12 +397,6 @@
         </LinearLayout>
     </ScrollView>
     <!-- BOTTOM NAVIGATION -->
-    <!-- ================= BOTTOM NAVIGATION ================= -->
-
-    <!-- ===================================================== -->
-    <!-- BOTTOM NAVIGATION -->
-    <!-- ===================================================== -->
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="72dp"
@@ -405,15 +422,15 @@
                 android:layout_height="24dp"
                 android:src="@drawable/recruiter_dashboard_home"
                 android:scaleType="centerInside"
-                app:tint="#6B7280"
+                app:tint="@color/dashboard_primary"
                 android:contentDescription="Home" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="2dp"
                 android:text="Home"
-                android:textColor="#6B7280"
+                android:textColor="@color/dashboard_text_secondary"
                 android:textSize="12sp" />
 
         </LinearLayout>
@@ -431,12 +448,12 @@
             android:clickable="true"
             android:focusable="true">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <ImageView
+                android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:gravity="center"
-                android:text="💼"
-                android:textSize="20sp" />
+                android:src="@drawable/recruiter_dashboard_briefcase"
+                app:tint="#A85D36"
+                android:contentDescription="Jobs" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -461,12 +478,12 @@
             android:clickable="true"
             android:focusable="true">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <ImageView
+                android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:gravity="center"
-                android:text="👥"
-                android:textSize="20sp" />
+                android:src="@drawable/recruiter_dashboard_people"
+                app:tint="@color/dashboard_primary"
+                android:contentDescription="Applicants" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -496,15 +513,15 @@
                 android:layout_height="24dp"
                 android:src="@drawable/recruiter_dashboard_person"
                 android:scaleType="centerInside"
-                app:tint="#2563EB"
+                app:tint="@color/dashboard_primary"
                 android:contentDescription="Profile" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="2dp"
                 android:text="Profile"
-                android:textColor="#2563EB"
+                android:textColor="@color/dashboard_primary"
                 android:textSize="12sp"
                 android:textStyle="bold" />
 

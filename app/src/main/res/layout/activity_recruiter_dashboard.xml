@@ -215,18 +215,18 @@
                         android:background="@drawable/recruiter_dashboard_card">
 
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="💼"
-                            android:textSize="23sp" />
+                        <ImageView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:src="@drawable/recruiter_dashboard_briefcase"
+                            app:tint="#A85D36" />
 
 
                         <TextView
                             android:id="@+id/txtJobsCount"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
+                            android:layout_marginTop="12dp"
                             android:text="0"
                             android:textColor="@color/dashboard_text_primary"
                             android:textSize="26sp"
@@ -255,18 +255,18 @@
                         android:background="@drawable/recruiter_dashboard_card">
 
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="👥"
-                            android:textSize="23sp" />
+                        <ImageView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:src="@drawable/recruiter_dashboard_people"
+                            app:tint="@color/dashboard_primary" />
 
 
                         <TextView
                             android:id="@+id/txtApplicantsCount"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
+                            android:layout_marginTop="12dp"
                             android:text="0"
                             android:textColor="@color/dashboard_text_primary"
                             android:textSize="26sp"
@@ -310,14 +310,15 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="⭐"
-                            android:textSize="23sp" />
+                            android:textColor="#FACC15"
+                            android:textSize="26sp" />
 
 
                         <TextView
                             android:id="@+id/txtShortlistedCount"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
+                            android:layout_marginTop="12dp"
                             android:text="0"
                             android:textColor="@color/dashboard_text_primary"
                             android:textSize="26sp"
@@ -350,14 +351,15 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="📅"
-                            android:textSize="23sp" />
+                            android:textColor="#F87171"
+                            android:textSize="26sp" />
 
 
                         <TextView
                             android:id="@+id/txtInterviewsCount"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
+                            android:layout_marginTop="12dp"
                             android:text="0"
                             android:textColor="@color/dashboard_text_primary"
                             android:textSize="26sp"
@@ -618,14 +620,12 @@
             android:clickable="true"
             android:focusable="true">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <ImageView
+                android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:gravity="center"
-                android:text="⌂"
-                android:textColor="@color/dashboard_primary"
-                android:textSize="23sp"
-                android:textStyle="bold" />
+                android:src="@drawable/recruiter_dashboard_home"
+                app:tint="@color/dashboard_primary"
+                android:contentDescription="Home" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -651,12 +651,12 @@
             android:clickable="true"
             android:focusable="true">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <ImageView
+                android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:gravity="center"
-                android:text="💼"
-                android:textSize="20sp" />
+                android:src="@drawable/recruiter_dashboard_briefcase"
+                app:tint="#A85D36"
+                android:contentDescription="Jobs" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -681,12 +681,12 @@
             android:clickable="true"
             android:focusable="true">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <ImageView
+                android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:gravity="center"
-                android:text="👥"
-                android:textSize="20sp" />
+                android:src="@drawable/recruiter_dashboard_people"
+                app:tint="@color/dashboard_primary"
+                android:contentDescription="Applicants" />
 
             <TextView
                 android:layout_width="wrap_content"
