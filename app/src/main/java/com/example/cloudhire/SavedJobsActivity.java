@@ -50,7 +50,6 @@ public class SavedJobsActivity extends AppCompatActivity {
         // Bottom navigation
         LinearLayout navHome = findViewById(R.id.navHome);
         LinearLayout navProfile = findViewById(R.id.navProfile);
-        LinearLayout navResume = findViewById(R.id.navResume);
         LinearLayout navApplications = findViewById(R.id.navApplications);
         LinearLayout navSaved = findViewById(R.id.navSaved);
 
@@ -72,14 +71,6 @@ public class SavedJobsActivity extends AppCompatActivity {
                     MyApplicationsActivity.class
             );
             startActivity(intent);
-        });
-
-        navResume.setOnClickListener(v -> {
-            Toast.makeText(
-                    SavedJobsActivity.this,
-                    "My Resume",
-                    Toast.LENGTH_SHORT
-            ).show();
         });
 
         // Already on Saved Jobs

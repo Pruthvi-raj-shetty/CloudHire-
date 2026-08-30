@@ -16,6 +16,7 @@ import android.widget.Toast;
 import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.android.material.textfield.TextInputEditText;
 
 public class CandidateLoginActivity extends AppCompatActivity {
@@ -26,6 +27,8 @@ public class CandidateLoginActivity extends AppCompatActivity {
 
     private TextInputEditText etEmail;
     private TextInputEditText etPassword;
+    private TextInputLayout emailInputLayout;
+    private TextInputLayout passwordInputLayout;
 
     private Button btnLogin;
     private TextView txtForgotPassword;
@@ -55,6 +58,8 @@ public class CandidateLoginActivity extends AppCompatActivity {
 
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
+        emailInputLayout = findViewById(R.id.emailInputLayout);
+        passwordInputLayout = findViewById(R.id.passwordInputLayout);
 
         btnLogin = findViewById(R.id.btnLogin);
         txtForgotPassword = findViewById(R.id.txtForgotPassword);
@@ -106,16 +111,8 @@ public class CandidateLoginActivity extends AppCompatActivity {
         // LOGIN BUTTON
         // =================================================
 
-        Button btnLogin = findViewById(R.id.btnLogin);
-
         btnLogin.setOnClickListener(v -> {
-            Intent intent = new Intent(
-                    CandidateLoginActivity.this,
-                    CandidateDashboardActivity.class
-            );
-
-            startActivity(intent);
-            finish();
+            loginCandidate();
         });
 
         // =================================================
@@ -172,8 +169,8 @@ public class CandidateLoginActivity extends AppCompatActivity {
     private void loginCandidate() {
 
         // Clear previous errors
-        etEmail.setError(null);
-        etPassword.setError(null);
+        emailInputLayout.setError(null);
+        passwordInputLayout.setError(null);
 
         String email = getEmailText();
         String password = getPasswordText();
@@ -184,7 +181,7 @@ public class CandidateLoginActivity extends AppCompatActivity {
 
         if (TextUtils.isEmpty(email)) {
 
-            etEmail.setError("Enter your email");
+            emailInputLayout.setError("Enter your email");
             etEmail.requestFocus();
             showKeyboard(etEmail);
 
@@ -193,7 +190,7 @@ public class CandidateLoginActivity extends AppCompatActivity {
 
         if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
 
-            etEmail.setError("Enter a valid email address");
+            emailInputLayout.setError("Enter a valid email address");
             etEmail.requestFocus();
             showKeyboard(etEmail);
 
@@ -206,7 +203,7 @@ public class CandidateLoginActivity extends AppCompatActivity {
 
         if (TextUtils.isEmpty(password)) {
 
-            etPassword.setError("Enter your password");
+            passwordInputLayout.setError("Enter your password");
             etPassword.requestFocus();
             showKeyboard(etPassword);
 
@@ -216,7 +213,7 @@ public class CandidateLoginActivity extends AppCompatActivity {
         // Minimum 8 characters
         if (password.length() < 8) {
 
-            etPassword.setError(
+            passwordInputLayout.setError(
                     "Password must contain at least 8 characters"
             );
 

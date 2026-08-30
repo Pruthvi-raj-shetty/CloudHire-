@@ -125,6 +125,7 @@
             app:boxStrokeWidth="1dp"
             app:boxStrokeWidthFocused="2dp"
 
+            app:errorEnabled="true"
             app:hintEnabled="false">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -185,6 +186,7 @@
             app:boxStrokeWidthFocused="2dp"
 
             app:endIconMode="password_toggle"
+            app:errorEnabled="true"
             app:hintEnabled="false">
 
             <com.google.android.material.textfield.TextInputEditText

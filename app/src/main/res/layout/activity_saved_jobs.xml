@@ -190,15 +190,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="⌂"
-                android:textColor="#6B7280"
+                android:textColor="#2563EB"
                 android:textSize="22sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/home"
-                android:textColor="#6B7280"
-                android:textSize="12sp" />
+                android:textColor="#2563EB"
+                android:textSize="10sp" />
 
         </LinearLayout>
 
@@ -219,44 +219,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="●"
-                android:textColor="#6B7280"
+                android:textColor="#2563EB"
                 android:textSize="20sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/my_profile"
-                android:textColor="#6B7280"
-                android:textSize="12sp" />
-
-        </LinearLayout>
-
-
-        <!-- RESUME -->
-
-        <LinearLayout
-            android:id="@+id/navResume"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:clickable="true"
-            android:focusable="true">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="▣"
-                android:textColor="#6B7280"
-                android:textSize="20sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/my_resume"
-                android:textColor="#6B7280"
-                android:textSize="12sp" />
+                android:textColor="#2563EB"
+                android:textSize="10sp" />
 
         </LinearLayout>
 
@@ -277,15 +248,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="✓"
-                android:textColor="#6B7280"
+                android:textColor="#2563EB"
                 android:textSize="20sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/applications"
-                android:textColor="#6B7280"
-                android:textSize="12sp" />
+                android:textColor="#2563EB"
+                android:textSize="10sp" />
 
         </LinearLayout>
 
@@ -315,7 +286,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/saved_jobs"
                 android:textColor="#2563EB"
-                android:textSize="12sp"
+                android:textSize="10sp"
                 android:textStyle="bold" />
 
         </LinearLayout>
