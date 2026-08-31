@@ -3,16 +3,22 @@ package com.example.cloudhire;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.material.textfield.TextInputLayout;
 
 public class RecruiterEditJobActivity extends AppCompatActivity {
 
@@ -26,6 +32,12 @@ public class RecruiterEditJobActivity extends AppCompatActivity {
     private EditText edtSalaryMax;
     private EditText edtSkills;
     private EditText edtJobDescription;
+
+    private RadioGroup rgApplicationMethod;
+    private RadioButton rbNexHire;
+    private RadioButton rbExternalLink;
+    private TextInputLayout tilApplicationUrl;
+    private EditText edtApplicationUrl;
 
     private AutoCompleteTextView actEmploymentType;
 
@@ -122,6 +134,12 @@ public class RecruiterEditJobActivity extends AppCompatActivity {
                 findViewById(
                         R.id.edtJobDescription
                 );
+
+        rgApplicationMethod = findViewById(R.id.rgApplicationMethodEdit);
+        rbNexHire = findViewById(R.id.rbNexHireEdit);
+        rbExternalLink = findViewById(R.id.rbExternalLinkEdit);
+        tilApplicationUrl = findViewById(R.id.tilApplicationUrlEdit);
+        edtApplicationUrl = findViewById(R.id.etApplicationUrlEdit);
 
         btnSaveChanges =
                 findViewById(
@@ -228,6 +246,16 @@ public class RecruiterEditJobActivity extends AppCompatActivity {
                         "description"
                 );
 
+        String applicationMethod =
+                intent.getStringExtra(
+                        "applicationMethod"
+                );
+
+        String applicationUrl =
+                intent.getStringExtra(
+                        "applicationUrl"
+                );
+
 
         originalStatus =
                 intent.getStringExtra(
@@ -272,6 +300,20 @@ public class RecruiterEditJobActivity extends AppCompatActivity {
         edtJobDescription.setText(
                 safe(description)
         );
+
+
+        // =====================================================
+        // APPLICATION METHOD
+        // =====================================================
+
+        if ("External".equalsIgnoreCase(applicationMethod)) {
+            rbExternalLink.setChecked(true);
+            tilApplicationUrl.setVisibility(View.VISIBLE);
+            edtApplicationUrl.setText(safe(applicationUrl));
+        } else {
+            rbNexHire.setChecked(true);
+            tilApplicationUrl.setVisibility(View.GONE);
+        }
 
 
         // =====================================================
@@ -368,6 +410,16 @@ public class RecruiterEditJobActivity extends AppCompatActivity {
         btnBack.setOnClickListener(
                 v -> finish()
         );
+
+
+        rgApplicationMethod.setOnCheckedChangeListener((group, checkedId) -> {
+            if (checkedId == R.id.rbExternalLinkEdit) {
+                tilApplicationUrl.setVisibility(View.VISIBLE);
+            } else {
+                tilApplicationUrl.setVisibility(View.GONE);
+                tilApplicationUrl.setError(null);
+            }
+        });
 
 
         btnSaveChanges.setOnClickListener(
@@ -526,7 +578,28 @@ public class RecruiterEditJobActivity extends AppCompatActivity {
         }
 
 
+        // APPLICATION METHOD & URL
+
+        if (rbExternalLink.isChecked()) {
+            String url = edtApplicationUrl.getText().toString().trim();
+            if (TextUtils.isEmpty(url)) {
+                tilApplicationUrl.setError("Application URL is required");
+                edtApplicationUrl.requestFocus();
+                return false;
+            }
+            if (!isValidUrl(url)) {
+                tilApplicationUrl.setError("Please enter a valid HTTP/HTTPS URL");
+                edtApplicationUrl.requestFocus();
+                return false;
+            }
+        }
+
+
         return true;
+    }
+
+    private boolean isValidUrl(String url) {
+        return !TextUtils.isEmpty(url) && (url.startsWith("http://") || url.startsWith("https://")) && Patterns.WEB_URL.matcher(url).matches();
     }
 
 
@@ -655,6 +728,9 @@ public class RecruiterEditJobActivity extends AppCompatActivity {
                         .toString()
                         .trim();
 
+        String applicationMethod = rbNexHire.isChecked() ? "NexHire" : "External";
+        String applicationUrl = edtApplicationUrl.getText().toString().trim();
+
 
         String salary =
                 "₹" +
@@ -720,6 +796,16 @@ public class RecruiterEditJobActivity extends AppCompatActivity {
         result.putExtra(
                 "description",
                 description
+        );
+
+        result.putExtra(
+                "applicationMethod",
+                applicationMethod
+        );
+
+        result.putExtra(
+                "applicationUrl",
+                applicationUrl
         );
 
         // Keep backend-controlled fields unchanged

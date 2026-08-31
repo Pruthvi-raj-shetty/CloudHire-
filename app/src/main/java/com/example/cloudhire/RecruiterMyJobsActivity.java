@@ -147,7 +147,9 @@ public class RecruiterMyJobsActivity extends AppCompatActivity {
                 "OPEN",
                 "18 Aug 2026",
                 "We are looking for a skilled Java Developer to join our development team. The candidate will be responsible for designing, developing, testing and maintaining high-quality Java applications. The role involves working with the development team to build scalable applications, develop REST APIs, work with databases and participate in the complete software development lifecycle.",
-                "Java, Spring Boot, MySQL, REST API"
+                "Java, Spring Boot, MySQL, REST API",
+                "NexHire",
+                ""
         ));
 
         jobs.add(new Job(
@@ -162,7 +164,9 @@ public class RecruiterMyJobsActivity extends AppCompatActivity {
                 "OPEN",
                 "15 Aug 2026",
                 "Python developer role description.",
-                "Python, Django"
+                "Python, Django",
+                "NexHire",
+                ""
         ));
 
         jobs.add(new Job(
@@ -177,7 +181,9 @@ public class RecruiterMyJobsActivity extends AppCompatActivity {
                 "CLOSED",
                 "10 Aug 2026",
                 "Frontend developer role description.",
-                "React, Vue"
+                "React, Vue",
+                "External",
+                "https://nextech.com/careers/frontend"
         ));
     }
 
@@ -610,6 +616,16 @@ public class RecruiterMyJobsActivity extends AppCompatActivity {
                     job.status
             );
 
+            intent.putExtra(
+                    "applicationMethod",
+                    job.applicationMethod
+            );
+
+            intent.putExtra(
+                    "applicationUrl",
+                    job.applicationUrl
+            );
+
             startActivity(intent);
         });
 
@@ -682,6 +698,16 @@ public class RecruiterMyJobsActivity extends AppCompatActivity {
             intent.putExtra(
                     "status",
                     job.status
+            );
+
+            intent.putExtra(
+                    "applicationMethod",
+                    job.applicationMethod
+            );
+
+            intent.putExtra(
+                    "applicationUrl",
+                    job.applicationUrl
             );
 
             startActivity(intent);
@@ -1064,6 +1090,9 @@ public class RecruiterMyJobsActivity extends AppCompatActivity {
         String description;
         String skills;
 
+        String applicationMethod;
+        String applicationUrl;
+
 
         Job(
                 String jobId,
@@ -1077,7 +1106,9 @@ public class RecruiterMyJobsActivity extends AppCompatActivity {
                 String status,
                 String postedDate,
                 String description,
-                String skills
+                String skills,
+                String applicationMethod,
+                String applicationUrl
         ) {
 
             this.jobId =
@@ -1115,6 +1146,12 @@ public class RecruiterMyJobsActivity extends AppCompatActivity {
 
             this.skills =
                     skills;
+
+            this.applicationMethod =
+                    applicationMethod;
+
+            this.applicationUrl =
+                    applicationUrl;
         }
     }
 }

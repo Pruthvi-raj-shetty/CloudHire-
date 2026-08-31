@@ -47,6 +47,8 @@ public class RecruiterJobDetailsActivity extends AppCompatActivity {
     private String description;
     private String skills;
     private String status;
+    private String applicationMethod;
+    private String applicationUrl;
 
 
     @Override
@@ -216,6 +218,16 @@ public class RecruiterJobDetailsActivity extends AppCompatActivity {
         status =
                 intent.getStringExtra(
                         "status"
+                );
+
+        applicationMethod =
+                intent.getStringExtra(
+                        "applicationMethod"
+                );
+
+        applicationUrl =
+                intent.getStringExtra(
+                        "applicationUrl"
                 );
 
 
@@ -626,6 +638,16 @@ public class RecruiterJobDetailsActivity extends AppCompatActivity {
         intent.putExtra(
                 "status",
                 status
+        );
+
+        intent.putExtra(
+                "applicationMethod",
+                applicationMethod
+        );
+
+        intent.putExtra(
+                "applicationUrl",
+                applicationUrl
         );
 
         startActivity(

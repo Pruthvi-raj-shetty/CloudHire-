@@ -1,19 +1,23 @@
 package com.example.cloudhire;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Patterns;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.content.Context;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 public class RecruiterPostJobActivity extends AppCompatActivity {
 
@@ -34,6 +38,12 @@ public class RecruiterPostJobActivity extends AppCompatActivity {
     private TextInputEditText etSalaryMin;
     private TextInputEditText etSalaryMax;
     private TextInputEditText etSkills;
+
+    private RadioGroup rgApplicationMethod;
+    private RadioButton rbNexHire;
+    private RadioButton rbExternalLink;
+    private TextInputLayout tilApplicationUrl;
+    private TextInputEditText etApplicationUrl;
 
     private MaterialButton btnPostJobSubmit;
 
@@ -90,6 +100,12 @@ public class RecruiterPostJobActivity extends AppCompatActivity {
         etSkills =
                 findViewById(R.id.etSkills);
 
+        rgApplicationMethod = findViewById(R.id.rgApplicationMethod);
+        rbNexHire = findViewById(R.id.rbNexHire);
+        rbExternalLink = findViewById(R.id.rbExternalLink);
+        tilApplicationUrl = findViewById(R.id.tilApplicationUrl);
+        etApplicationUrl = findViewById(R.id.etApplicationUrl);
+
         btnPostJobSubmit =
                 findViewById(R.id.btnPostJobSubmit);
     }
@@ -145,6 +161,18 @@ public class RecruiterPostJobActivity extends AppCompatActivity {
             hideKeyboard();
 
             finish();
+        });
+
+
+        // APPLICATION METHOD RADIO GROUP
+
+        rgApplicationMethod.setOnCheckedChangeListener((group, checkedId) -> {
+            if (checkedId == R.id.rbExternalLink) {
+                tilApplicationUrl.setVisibility(View.VISIBLE);
+            } else {
+                tilApplicationUrl.setVisibility(View.GONE);
+                tilApplicationUrl.setError(null);
+            }
         });
 
 
@@ -256,6 +284,25 @@ public class RecruiterPostJobActivity extends AppCompatActivity {
         }
 
 
+        // APPLICATION METHOD & URL
+
+        String applicationMethod = rbNexHire.isChecked() ? "NexHire" : "External";
+        String applicationUrl = getText(etApplicationUrl);
+
+        if (rbExternalLink.isChecked()) {
+            if (TextUtils.isEmpty(applicationUrl)) {
+                tilApplicationUrl.setError("Application URL is required");
+                etApplicationUrl.requestFocus();
+                return;
+            }
+            if (!isValidUrl(applicationUrl)) {
+                tilApplicationUrl.setError("Please enter a valid HTTP/HTTPS URL");
+                etApplicationUrl.requestFocus();
+                return;
+            }
+        }
+
+
         // =====================================================
         // OPTIONAL VALUES
         // =====================================================
@@ -287,7 +334,9 @@ public class RecruiterPostJobActivity extends AppCompatActivity {
                         experience,
                         salaryMin,
                         salaryMax,
-                        skills
+                        skills,
+                        applicationMethod,
+                        applicationUrl
                 );
 
 
@@ -296,6 +345,10 @@ public class RecruiterPostJobActivity extends AppCompatActivity {
         // =====================================================
 
         postJob(jobData);
+    }
+
+    private boolean isValidUrl(String url) {
+        return !TextUtils.isEmpty(url) && (url.startsWith("http://") || url.startsWith("https://")) && Patterns.WEB_URL.matcher(url).matches();
     }
 
 
@@ -517,6 +570,10 @@ public class RecruiterPostJobActivity extends AppCompatActivity {
 
         public String skills;
 
+        public String applicationMethod;
+
+        public String applicationUrl;
+
 
         public JobData(
                 String title,
@@ -527,7 +584,9 @@ public class RecruiterPostJobActivity extends AppCompatActivity {
                 String experienceRequired,
                 String salaryMin,
                 String salaryMax,
-                String skills
+                String skills,
+                String applicationMethod,
+                String applicationUrl
         ) {
 
             this.title = title;
@@ -548,6 +607,10 @@ public class RecruiterPostJobActivity extends AppCompatActivity {
             this.salaryMax = salaryMax;
 
             this.skills = skills;
+
+            this.applicationMethod = applicationMethod;
+
+            this.applicationUrl = applicationUrl;
         }
     }
 }

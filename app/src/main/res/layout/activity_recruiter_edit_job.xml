@@ -322,6 +322,66 @@
                     </com.google.android.material.textfield.TextInputLayout>
 
 
+                    <!-- APPLICATION METHOD -->
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="22dp"
+                        android:text="Application Method"
+                        android:textColor="@color/dashboard_text_primary"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <RadioGroup
+                        android:id="@+id/rgApplicationMethodEdit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:orientation="vertical">
+
+                        <RadioButton
+                            android:id="@+id/rbNexHireEdit"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:checked="true"
+                            android:text="Apply through NexHire"
+                            android:textColor="@color/dashboard_text_primary"
+                            android:textSize="14sp" />
+
+                        <RadioButton
+                            android:id="@+id/rbExternalLinkEdit"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Apply through External Link"
+                            android:textColor="@color/dashboard_text_primary"
+                            android:textSize="14sp" />
+                    </RadioGroup>
+
+                    <!-- APPLICATION URL -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tilApplicationUrlEdit"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:hint="Application URL"
+                        android:visibility="gone"
+                        app:boxCornerRadiusBottomEnd="12dp"
+                        app:boxCornerRadiusBottomStart="12dp"
+                        app:boxCornerRadiusTopEnd="12dp"
+                        app:boxCornerRadiusTopStart="12dp"
+                        app:placeholderText="https://company.com/careers/..."
+                        app:helperText="Candidates will be redirected to this link to apply.">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etApplicationUrlEdit"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textUri"
+                            android:textSize="15sp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
                     <!-- SAVE -->
 
                     <com.google.android.material.button.MaterialButton

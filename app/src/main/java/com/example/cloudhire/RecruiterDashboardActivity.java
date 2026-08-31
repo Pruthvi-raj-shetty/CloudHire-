@@ -151,8 +151,8 @@ public class RecruiterDashboardActivity extends AppCompatActivity {
 
         // Add Mock Jobs
         List<Job> mockJobs = new ArrayList<>();
-        mockJobs.add(new Job("JOB_001", "Senior Java Developer", "NexTech Solutions", "12 Applicants", "2 days ago", "Active"));
-        mockJobs.add(new Job("JOB_002", "Product Designer", "NexTech Solutions", "8 Applicants", "5 days ago", "Active"));
+        mockJobs.add(new Job("JOB_001", "Senior Java Developer", "NexTech Solutions", "12 Applicants", "2 days ago", "Active", "Bangalore", "Full Time", "3 Years", "₹12 - ₹15 LPA"));
+        mockJobs.add(new Job("JOB_002", "Product Designer", "NexTech Solutions", "8 Applicants", "5 days ago", "Active", "Mumbai", "Full Time", "2 Years", "₹8 - ₹10 LPA"));
         dashboardData.setJobs(mockJobs);
 
         updateDashboard();
@@ -208,6 +208,19 @@ public class RecruiterDashboardActivity extends AppCompatActivity {
                         dashboardData.getInterviewsCount()
                 )
         );
+
+        // Make Active Jobs cards clickable to My Jobs screen with "OPEN" filter
+        txtJobsCount.setOnClickListener(v -> {
+            Intent intent = new Intent(this, RecruiterMyJobsActivity.class);
+            intent.putExtra("filter", "OPEN");
+            startActivity(intent);
+        });
+
+        ((View)txtJobsCount.getParent()).setOnClickListener(v -> {
+            Intent intent = new Intent(this, RecruiterMyJobsActivity.class);
+            intent.putExtra("filter", "OPEN");
+            startActivity(intent);
+        });
 
 
         // Notification badge
@@ -573,27 +586,27 @@ public class RecruiterDashboardActivity extends AppCompatActivity {
 
 
         // -----------------------------------------------------
-        // VIEW APPLICANTS
+        // VIEW DETAILS
         // -----------------------------------------------------
 
-        TextView viewApplicants =
+        TextView viewDetails =
                 createText(
-                        "View Applicants  →",
+                        "View Details  →",
                         14
                 );
 
-        viewApplicants.setTextColor(
+        viewDetails.setTextColor(
                 getColor(
                         R.color.dashboard_primary
                 )
         );
 
-        viewApplicants.setTypeface(
+        viewDetails.setTypeface(
                 null,
                 android.graphics.Typeface.BOLD
         );
 
-        viewApplicants.setPadding(
+        viewDetails.setPadding(
                 0,
                 dp(14),
                 0,
@@ -601,28 +614,35 @@ public class RecruiterDashboardActivity extends AppCompatActivity {
         );
 
 
-        viewApplicants.setOnClickListener(
+        viewDetails.setOnClickListener(
                 v -> {
 
-                    Toast.makeText(
+                    Intent intent = new Intent(
                             this,
-                            "Opening applicants",
-                            Toast.LENGTH_SHORT
-                    ).show();
+                            RecruiterJobDetailsActivity.class
+                    );
 
-                    // Later:
-                    // startActivity(
-                    //     new Intent(
-                    //         this,
-                    //         ApplicantsActivity.class
-                    //     )
-                    // );
+                    intent.putExtra("jobId", job.getId());
+                    intent.putExtra("title", job.getTitle());
+                    intent.putExtra("company", job.getCompany());
+                    intent.putExtra("location", job.getLocation());
+                    intent.putExtra("employmentType", job.getType());
+                    intent.putExtra("experience", job.getExperience());
+                    intent.putExtra("salary", job.getSalary());
+                    intent.putExtra("applicants", job.getApplicantsCountText());
+                    intent.putExtra("postedDate", job.getPostedText());
+                    intent.putExtra("status", job.getStatus());
+                    // Dashboard job model might not have full description/skills, passing placeholder
+                    intent.putExtra("description", "Job description for " + job.getTitle());
+                    intent.putExtra("skills", "Required skills for this role");
+
+                    startActivity(intent);
                 }
         );
 
 
         card.addView(
-                viewApplicants
+                viewDetails
         );
 
 
@@ -1323,9 +1343,9 @@ public class RecruiterDashboardActivity extends AppCompatActivity {
 
                     Intent intent = new Intent(
                             RecruiterDashboardActivity.this,
-                            RecruiterMyJobsActivity.class
+                            RecruiterApplicantsActivity.class
                     );
-
+                    intent.putExtra("filter", "ALL");
                     startActivity(intent);
                 });
 
