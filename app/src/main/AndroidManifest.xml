@@ -248,6 +248,12 @@
         <activity
             android:name=".SavedJobsActivity"
             android:exported="false" />
+
+        <!-- APPLY JOB -->
+        <activity
+            android:name=".ApplyJobActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
         <!-- =============================== -->
         <!-- RECRUITER APPLICANTS -->
         <!-- =============================== -->

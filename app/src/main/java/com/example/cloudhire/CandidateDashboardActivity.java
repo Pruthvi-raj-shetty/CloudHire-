@@ -61,5 +61,32 @@ public class CandidateDashboardActivity extends AppCompatActivity {
                 startActivity(intent);
             });
         }
+
+        // =========================
+        // APPLY NOW BUTTONS
+        // =========================
+        findViewById(R.id.btnApplyGoogle).setOnClickListener(v -> {
+            Intent intent = new Intent(this, ApplyJobActivity.class);
+            intent.putExtra("job_title", "Software Engineer");
+            intent.putExtra("company_name", "Google");
+            intent.putExtra("location", "Bangalore, India");
+            startActivity(intent);
+        });
+
+        findViewById(R.id.btnApplyMicrosoft).setOnClickListener(v -> {
+            Intent intent = new Intent(this, ApplyJobActivity.class);
+            intent.putExtra("job_title", "Backend Developer");
+            intent.putExtra("company_name", "Microsoft");
+            intent.putExtra("location", "Hyderabad, India");
+            startActivity(intent);
+        });
+
+        findViewById(R.id.btnApplyAmazon).setOnClickListener(v -> {
+            Intent intent = new Intent(this, ApplyJobActivity.class);
+            intent.putExtra("job_title", "SDE - II");
+            intent.putExtra("company_name", "Amazon");
+            intent.putExtra("location", "Bangalore, India");
+            startActivity(intent);
+        });
     }
 }
