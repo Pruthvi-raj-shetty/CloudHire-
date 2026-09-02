@@ -12,6 +12,10 @@ public class Job {
     private String type;
     private String experience;
     private String salary;
+    private String description;
+    private String skills;
+    private String applicationMethod;
+    private String applicationUrl;
 
     public Job() {
     }
@@ -31,14 +35,30 @@ public class Job {
         this.id = id;
         this.title = title;
         this.company = company;
-        this.applicantsCountText =
-                applicantsCountText;
+        this.applicantsCountText = applicantsCountText;
         this.postedText = postedText;
         this.status = status;
         this.location = location;
         this.type = type;
         this.experience = experience;
         this.salary = salary;
+    }
+
+    public Job(String id, String title, String company, String applicantsCountText, String postedText, String status, String location, String type, String experience, String salary, String description, String skills, String applicationMethod, String applicationUrl) {
+        this.id = id;
+        this.title = title;
+        this.company = company;
+        this.applicantsCountText = applicantsCountText;
+        this.postedText = postedText;
+        this.status = status;
+        this.location = location;
+        this.type = type;
+        this.experience = experience;
+        this.salary = salary;
+        this.description = description;
+        this.skills = skills;
+        this.applicationMethod = applicationMethod;
+        this.applicationUrl = applicationUrl;
     }
 
 
@@ -73,11 +93,8 @@ public class Job {
         return applicantsCountText;
     }
 
-    public void setApplicantsCountText(
-            String applicantsCountText
-    ) {
-        this.applicantsCountText =
-                applicantsCountText;
+    public void setApplicantsCountText(String applicantsCountText) {
+        this.applicantsCountText = applicantsCountText;
     }
 
 
@@ -132,5 +149,37 @@ public class Job {
 
     public void setSalary(String salary) {
         this.salary = salary;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getSkills() {
+        return skills;
+    }
+
+    public void setSkills(String skills) {
+        this.skills = skills;
+    }
+
+    public String getApplicationMethod() {
+        return applicationMethod;
+    }
+
+    public void setApplicationMethod(String applicationMethod) {
+        this.applicationMethod = applicationMethod;
+    }
+
+    public String getApplicationUrl() {
+        return applicationUrl;
+    }
+
+    public void setApplicationUrl(String applicationUrl) {
+        this.applicationUrl = applicationUrl;
     }
 }

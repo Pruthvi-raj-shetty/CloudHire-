@@ -90,9 +90,17 @@ public class AdminJobsActivity extends AppCompatActivity {
     }
 
     private void loadMockJobs() {
-        allJobs.add(new Job("1", "Senior Java Developer", "NexTech Solutions", "12 Applicants", "Posted 2 days ago", "Active", "Bangalore", "Full Time", "3-5 Years", "₹12-18 LPA"));
-        allJobs.add(new Job("2", "UI/UX Designer", "Design Pros", "8 Applicants", "Posted 5 days ago", "Active", "Remote", "Contract", "2+ Years", "₹8-12 LPA"));
-        allJobs.add(new Job("3", "Python Engineer", "Data Analytics", "15 Applicants", "Posted 1 week ago", "Closed", "Mumbai", "Full Time", "4-6 Years", "₹15-22 LPA"));
+        allJobs.add(new Job("1", "Senior Java Developer", "NexTech Solutions", "12 Applicants", "30 Aug 2026", "Active", "Bangalore", "Full Time", "3-5 Years", "₹12-18 LPA", 
+            "We are looking for a Senior Java Developer to lead our backend team. You will be responsible for designing and implementing high-performance services.", 
+            "Java, Spring Boot, Microservices, PostgreSQL", "NexHire Platform", ""));
+            
+        allJobs.add(new Job("2", "UI/UX Designer", "Design Pros", "8 Applicants", "28 Aug 2026", "Active", "Remote", "Contract", "2+ Years", "₹8-12 LPA", 
+            "Design Pros is seeking a creative UI/UX Designer to craft beautiful user experiences for our global clients.", 
+            "Figma, Adobe XD, User Research, Prototyping", "External Link", "https://designpros.com/careers/apply"));
+            
+        allJobs.add(new Job("3", "Python Engineer", "Data Analytics", "15 Applicants", "25 Aug 2026", "Closed", "Mumbai", "Full Time", "4-6 Years", "₹15-22 LPA", 
+            "Join our data team to build scalable data pipelines and analytics engines using Python and Big Data technologies.", 
+            "Python, Django, AWS, SQL, Spark", "NexHire Platform", ""));
     }
 
     private void displayJobs() {
@@ -163,7 +171,23 @@ public class AdminJobsActivity extends AppCompatActivity {
         btnView.setTextSize(13);
         btnView.setTextColor(getResources().getColor(R.color.dashboard_primary));
         btnView.setTypeface(null, android.graphics.Typeface.BOLD);
-        btnView.setOnClickListener(v -> Toast.makeText(this, "Job: " + job.getTitle(), Toast.LENGTH_SHORT).show());
+        btnView.setOnClickListener(v -> {
+            Intent intent = new Intent(this, AdminJobDetailsActivity.class);
+            intent.putExtra("jobId", job.getId());
+            intent.putExtra("title", job.getTitle());
+            intent.putExtra("company", job.getCompany());
+            intent.putExtra("location", job.getLocation());
+            intent.putExtra("type", job.getType());
+            intent.putExtra("experience", job.getExperience());
+            intent.putExtra("salary", job.getSalary());
+            intent.putExtra("status", job.getStatus());
+            intent.putExtra("postedDate", job.getPostedText());
+            intent.putExtra("description", job.getDescription());
+            intent.putExtra("skills", job.getSkills());
+            intent.putExtra("appMethod", job.getApplicationMethod());
+            intent.putExtra("appUrl", job.getApplicationUrl());
+            startActivity(intent);
+        });
         actionRow.addView(btnView);
 
         TextView btnAction = new TextView(this);

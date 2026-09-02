@@ -302,6 +302,14 @@
             android:name=".AdminApplicationsActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name=".AdminJobDetailsActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".AdminApplicationDetailsActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

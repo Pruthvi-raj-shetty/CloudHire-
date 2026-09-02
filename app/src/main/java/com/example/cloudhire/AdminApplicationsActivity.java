@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -92,9 +91,9 @@ public class AdminApplicationsActivity extends AppCompatActivity {
     }
 
     private void loadMockApps() {
-        allApps.add(new AdminApplication("1", "JOB1", "Arjun Sharma", "Senior Java Developer", "NexTech Solutions", "Bangalore", "Full Time", "Applied", "30 Aug 2026", "30 Aug 2026"));
-        allApps.add(new AdminApplication("2", "JOB2", "Priya Patel", "Product Designer", "Design Pros", "Remote", "Contract", "Shortlisted", "28 Aug 2026", "29 Aug 2026"));
-        allApps.add(new AdminApplication("3", "JOB1", "Rohan Gupta", "Senior Java Developer", "NexTech Solutions", "Bangalore", "Full Time", "Rejected", "25 Aug 2026", "26 Aug 2026"));
+        allApps.add(new AdminApplication("1", "JOB1", "Arjun Sharma", "arjun.s@email.com", "+91 9876543210", "Java Developer | 3 Years Exp", "Senior Java Developer", "NexTech Solutions", "Bangalore", "Full Time", "Shortlisted", "30 Aug 2026", "30 Aug 2026"));
+        allApps.add(new AdminApplication("2", "JOB2", "Priya Patel", "priya.p@email.com", "+91 8765432109", "UI/UX Designer | 2 Years Exp", "Product Designer", "Design Pros", "Remote", "Contract", "Applied", "28 Aug 2026", "29 Aug 2026"));
+        allApps.add(new AdminApplication("3", "JOB1", "Rohan Gupta", "rohan.g@email.com", "+91 7654321098", "Full Stack Developer | 4 Years Exp", "Senior Java Developer", "NexTech Solutions", "Bangalore", "Full Time", "Rejected", "25 Aug 2026", "26 Aug 2026"));
     }
 
     private void displayApps() {
@@ -171,7 +170,21 @@ public class AdminApplicationsActivity extends AppCompatActivity {
         btnView.setTextSize(13);
         btnView.setTextColor(getResources().getColor(R.color.dashboard_primary));
         btnView.setTypeface(null, android.graphics.Typeface.BOLD);
-        btnView.setOnClickListener(v -> Toast.makeText(this, "App Details for " + app.getCandidateName(), Toast.LENGTH_SHORT).show());
+        btnView.setOnClickListener(v -> {
+            Intent intent = new Intent(this, AdminApplicationDetailsActivity.class);
+            intent.putExtra("applicationId", app.getApplicationId());
+            intent.putExtra("candidateName", app.getCandidateName());
+            intent.putExtra("candidateEmail", app.getCandidateEmail());
+            intent.putExtra("candidatePhone", app.getCandidatePhone());
+            intent.putExtra("candidateTitle", app.getCandidateTitle());
+            intent.putExtra("jobTitle", app.getJobTitle());
+            intent.putExtra("companyName", app.getCompanyName());
+            intent.putExtra("location", app.getLocation());
+            intent.putExtra("employmentType", app.getEmploymentType());
+            intent.putExtra("status", app.getStatus());
+            intent.putExtra("appliedAt", app.getAppliedAt());
+            startActivity(intent);
+        });
         statusRow.addView(btnView);
 
         card.addView(statusRow);

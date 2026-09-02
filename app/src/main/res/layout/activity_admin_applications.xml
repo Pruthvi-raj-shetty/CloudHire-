@@ -3,18 +3,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/dashboard_background">
+    android:background="@color/dashboard_background"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
 
     <!-- HEADER -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="64dp"
+        android:layout_height="102dp"
         android:background="@android:color/white"
         android:elevation="4dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingStart="8dp"
+        android:paddingTop="42dp"
         android:paddingEnd="16dp">
 
         <ImageButton
