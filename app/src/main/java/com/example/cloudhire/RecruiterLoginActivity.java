@@ -287,6 +287,23 @@ public class RecruiterLoginActivity extends AppCompatActivity {
 
         hideKeyboard();
 
+        // Admin Mock Login
+        if (email.equalsIgnoreCase("admin@nexhire.com") && password.equals("Admin123")) {
+            Toast.makeText(
+                    RecruiterLoginActivity.this,
+                    "Admin Login successful",
+                    Toast.LENGTH_SHORT
+            ).show();
+
+            Intent intent = new Intent(
+                    RecruiterLoginActivity.this,
+                    AdminDashboardActivity.class
+            );
+            startActivity(intent);
+            finish();
+            return;
+        }
+
         Toast.makeText(
                 RecruiterLoginActivity.this,
                 "Login successful",

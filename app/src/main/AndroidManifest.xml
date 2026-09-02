@@ -279,6 +279,29 @@
             android:name=".RecruiterEditJobActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
+
+        <!-- =============================== -->
+        <!-- ADMIN PAGES -->
+        <!-- =============================== -->
+
+        <activity
+            android:name=".AdminDashboardActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".AdminUsersActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name=".AdminJobsActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name=".AdminApplicationsActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
     </application>
 
 </manifest>
