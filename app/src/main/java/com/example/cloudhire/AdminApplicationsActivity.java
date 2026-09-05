@@ -91,9 +91,9 @@ public class AdminApplicationsActivity extends AppCompatActivity {
     }
 
     private void loadMockApps() {
-        allApps.add(new AdminApplication("1", "JOB1", "Arjun Sharma", "arjun.s@email.com", "+91 9876543210", "Java Developer | 3 Years Exp", "Senior Java Developer", "NexTech Solutions", "Bangalore", "Full Time", "Shortlisted", "30 Aug 2026", "30 Aug 2026"));
-        allApps.add(new AdminApplication("2", "JOB2", "Priya Patel", "priya.p@email.com", "+91 8765432109", "UI/UX Designer | 2 Years Exp", "Product Designer", "Design Pros", "Remote", "Contract", "Applied", "28 Aug 2026", "29 Aug 2026"));
-        allApps.add(new AdminApplication("3", "JOB1", "Rohan Gupta", "rohan.g@email.com", "+91 7654321098", "Full Stack Developer | 4 Years Exp", "Senior Java Developer", "NexTech Solutions", "Bangalore", "Full Time", "Rejected", "25 Aug 2026", "26 Aug 2026"));
+        allApps.add(new AdminApplication("1", "JOB1", "Arjun Sharma", "arjun.s@email.com", "+91 9876543210", "Java Developer | 3 Years Exp", "Java, Spring Boot, SQL", "Senior Java Developer", "NexTech Solutions", "Bangalore", "Full Time", "Shortlisted", "30 Aug 2026", "30 Aug 2026"));
+        allApps.add(new AdminApplication("2", "JOB2", "Priya Patel", "priya.p@email.com", "+91 8765432109", "UI/UX Designer | 2 Years Exp", "Figma, Adobe XD, Prototyping", "Product Designer", "Design Pros", "Remote", "Contract", "Applied", "28 Aug 2026", "29 Aug 2026"));
+        allApps.add(new AdminApplication("3", "JOB1", "Rohan Gupta", "rohan.g@email.com", "+91 7654321098", "Full Stack Developer | 4 Years Exp", "React, Node.js, MongoDB", "Senior Java Developer", "NexTech Solutions", "Bangalore", "Full Time", "Rejected", "25 Aug 2026", "26 Aug 2026"));
     }
 
     private void displayApps() {
@@ -177,6 +177,7 @@ public class AdminApplicationsActivity extends AppCompatActivity {
             intent.putExtra("candidateEmail", app.getCandidateEmail());
             intent.putExtra("candidatePhone", app.getCandidatePhone());
             intent.putExtra("candidateTitle", app.getCandidateTitle());
+            intent.putExtra("candidateSkills", app.getCandidateSkills());
             intent.putExtra("jobTitle", app.getJobTitle());
             intent.putExtra("companyName", app.getCompanyName());
             intent.putExtra("location", app.getLocation());

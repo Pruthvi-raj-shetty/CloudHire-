@@ -7,36 +7,43 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
-    <!-- HEADER -->
+    <!-- ================= HEADER ================= -->
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="102dp"
-        android:background="@android:color/white"
-        android:elevation="4dp"
-        android:gravity="center_vertical"
+        android:layout_height="76dp"
         android:orientation="horizontal"
-        android:paddingStart="8dp"
-        android:paddingTop="42dp"
-        android:paddingEnd="16dp">
+        android:gravity="center_vertical"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:background="#FFFFFF"
+        android:elevation="4dp">
 
         <ImageButton
             android:id="@+id/btnBack"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="Back"
-            android:padding="12dp"
+            android:background="@android:color/transparent"
             android:src="@drawable/ic_arrow_back"
+            android:padding="12dp"
+            android:contentDescription="Back"
             app:tint="#1E293B" />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:gravity="center"
             android:text="Application Profile"
-            android:textColor="#1E293B"
-            android:textSize="20sp"
+            android:textColor="#111827"
+            android:textSize="21sp"
             android:textStyle="bold" />
+
+        <!-- Keeps title perfectly centered -->
+        <View
+            android:layout_width="48dp"
+            android:layout_height="48dp" />
+
     </LinearLayout>
 
     <androidx.core.widget.NestedScrollView
@@ -159,12 +166,29 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
+            <!-- SKILLS -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="Candidate Skills"
+                android:textColor="#1E293B"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:id="@+id/skillsContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="horizontal" />
+
             <!-- JOB DETAILS SECTION -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:text="Application Details"
+                android:text="Job Applied For"
                 android:textColor="#1E293B"
                 android:textSize="16sp"
                 android:textStyle="bold" />

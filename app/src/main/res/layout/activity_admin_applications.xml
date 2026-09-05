@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,39 +9,48 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
-    <!-- HEADER -->
+    <!-- ================= HEADER ================= -->
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="102dp"
-        android:background="@android:color/white"
-        android:elevation="4dp"
-        android:gravity="center_vertical"
+        android:layout_height="76dp"
         android:orientation="horizontal"
-        android:paddingStart="8dp"
-        android:paddingTop="42dp"
-        android:paddingEnd="16dp">
+        android:gravity="center_vertical"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:background="#FFFFFF"
+        android:elevation="4dp">
 
         <ImageButton
             android:id="@+id/btnAdminAppsBack"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="Back"
-            android:padding="12dp"
+            android:background="@android:color/transparent"
             android:src="@drawable/ic_arrow_back"
+            android:padding="12dp"
+            android:contentDescription="Back"
             app:tint="@color/dashboard_text_primary" />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:gravity="center"
             android:text="Platform Applications"
             android:textColor="@color/dashboard_text_primary"
-            android:textSize="20sp"
+            android:textSize="21sp"
             android:textStyle="bold" />
+
+        <!-- Keeps title perfectly centered -->
+        <View
+            android:layout_width="48dp"
+            android:layout_height="48dp" />
+
     </LinearLayout>
 
+
     <!-- SEARCH & FILTERS -->
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -54,10 +65,12 @@
             android:orientation="horizontal"
             android:paddingStart="14dp"
             android:paddingEnd="14dp">
+
             <ImageView
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:src="@drawable/ic_search" />
+
             <EditText
                 android:id="@+id/etAppSearch"
                 android:layout_width="match_parent"
@@ -67,17 +80,21 @@
                 android:inputType="text"
                 android:paddingStart="10dp"
                 android:textSize="14sp" />
+
         </LinearLayout>
+
 
         <HorizontalScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:scrollbars="none">
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
+
                 <TextView
                     android:id="@+id/filterAppAll"
                     android:layout_width="wrap_content"
@@ -89,6 +106,7 @@
                     android:text="All"
                     android:textColor="@android:color/white"
                     android:textStyle="bold" />
+
                 <TextView
                     android:id="@+id/filterAppApplied"
                     android:layout_width="wrap_content"
@@ -100,6 +118,7 @@
                     android:paddingEnd="16dp"
                     android:text="Applied"
                     android:textColor="@color/dashboard_text_secondary" />
+
                 <TextView
                     android:id="@+id/filterAppShortlisted"
                     android:layout_width="wrap_content"
@@ -111,6 +130,7 @@
                     android:paddingEnd="16dp"
                     android:text="Shortlisted"
                     android:textColor="@color/dashboard_text_secondary" />
+
                 <TextView
                     android:id="@+id/filterAppRejected"
                     android:layout_width="wrap_content"
@@ -122,15 +142,22 @@
                     android:paddingEnd="16dp"
                     android:text="Rejected"
                     android:textColor="@color/dashboard_text_secondary" />
+
             </LinearLayout>
+
         </HorizontalScrollView>
+
     </LinearLayout>
 
+
     <!-- LIST -->
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:contentDescription="Applications list">
+
         <LinearLayout
             android:id="@+id/appListContainer"
             android:layout_width="match_parent"
@@ -139,9 +166,12 @@
             android:paddingStart="20dp"
             android:paddingEnd="20dp"
             android:paddingBottom="20dp" />
+
     </ScrollView>
 
+
     <!-- BOTTOM NAVIGATION -->
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="72dp"
@@ -149,6 +179,8 @@
         android:elevation="8dp"
         android:gravity="center_vertical"
         android:orientation="horizontal">
+
+        <!-- DASHBOARD -->
 
         <LinearLayout
             android:id="@+id/navAdminHome"
@@ -159,18 +191,24 @@
             android:focusable="true"
             android:gravity="center"
             android:orientation="vertical">
+
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/recruiter_dashboard_home"
                 app:tint="@color/dashboard_text_secondary" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Dashboard"
                 android:textColor="@color/dashboard_text_secondary"
                 android:textSize="11sp" />
+
         </LinearLayout>
+
+
+        <!-- USERS -->
 
         <LinearLayout
             android:id="@+id/navAdminUsers"
@@ -181,18 +219,24 @@
             android:focusable="true"
             android:gravity="center"
             android:orientation="vertical">
+
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/recruiter_dashboard_people"
                 app:tint="@color/dashboard_text_secondary" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Users"
                 android:textColor="@color/dashboard_text_secondary"
                 android:textSize="11sp" />
+
         </LinearLayout>
+
+
+        <!-- JOBS -->
 
         <LinearLayout
             android:id="@+id/navAdminJobs"
@@ -203,18 +247,24 @@
             android:focusable="true"
             android:gravity="center"
             android:orientation="vertical">
+
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/recruiter_dashboard_briefcase"
                 app:tint="@color/dashboard_text_secondary" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Jobs"
                 android:textColor="@color/dashboard_text_secondary"
                 android:textSize="11sp" />
+
         </LinearLayout>
+
+
+        <!-- APPLICATIONS -->
 
         <LinearLayout
             android:id="@+id/navAdminApps"
@@ -225,6 +275,7 @@
             android:focusable="true"
             android:gravity="center"
             android:orientation="vertical">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="24dp"
@@ -232,13 +283,17 @@
                 android:textColor="@color/dashboard_primary"
                 android:textSize="18sp"
                 android:textStyle="bold" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Apps"
+                android:text="Applications"
                 android:textColor="@color/dashboard_primary"
                 android:textSize="11sp"
                 android:textStyle="bold" />
+
         </LinearLayout>
+
     </LinearLayout>
+
 </LinearLayout>

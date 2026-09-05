@@ -4,8 +4,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,6 +15,7 @@ public class AdminApplicationDetailsActivity extends AppCompatActivity {
 
     private TextView txtInitial, txtCandidateName, txtProfessionalTitle, txtStatusBadge;
     private TextView txtEmail, txtPhone, txtJobTitle, txtCompany, txtLocationType, txtDates;
+    private LinearLayout skillsContainer;
     private Button btnViewResume;
 
     @Override
@@ -37,6 +38,7 @@ public class AdminApplicationDetailsActivity extends AppCompatActivity {
         txtCompany = findViewById(R.id.txtCompany);
         txtLocationType = findViewById(R.id.txtLocationType);
         txtDates = findViewById(R.id.txtDates);
+        skillsContainer = findViewById(R.id.skillsContainer);
         btnViewResume = findViewById(R.id.btnViewResume);
 
         findViewById(R.id.btnBack).setOnClickListener(v -> finish());
@@ -61,6 +63,13 @@ public class AdminApplicationDetailsActivity extends AppCompatActivity {
         txtLocationType.setText("Location: " + intent.getStringExtra("location") + " | " + intent.getStringExtra("employmentType"));
         txtDates.setText("Applied on: " + intent.getStringExtra("appliedAt"));
 
+        String skills = intent.getStringExtra("candidateSkills");
+        if (skills != null && !skills.isEmpty()) {
+            for (String skill : skills.split(",")) {
+                addSkillChip(skill.trim());
+            }
+        }
+
         String status = intent.getStringExtra("status");
         txtStatusBadge.setText(status != null ? status.toUpperCase() : "APPLIED");
         
@@ -69,6 +78,25 @@ public class AdminApplicationDetailsActivity extends AppCompatActivity {
         btnViewResume.setOnClickListener(v -> {
             Toast.makeText(this, "Opening resume for " + name, Toast.LENGTH_SHORT).show();
         });
+    }
+
+    private void addSkillChip(String skill) {
+        TextView chip = new TextView(this);
+        chip.setText(skill);
+        chip.setTextSize(12);
+        chip.setPadding(dp(12), dp(6), dp(12), dp(6));
+        chip.setTextColor(Color.parseColor("#475569"));
+        
+        GradientDrawable gd = new GradientDrawable();
+        gd.setColor(Color.parseColor("#F1F5F9"));
+        gd.setCornerRadius(dp(8));
+        chip.setBackground(gd);
+
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(-2, -2);
+        params.setMargins(0, 0, dp(8), 0);
+        chip.setLayoutParams(params);
+        
+        skillsContainer.addView(chip);
     }
 
     private void updateStatusBadge(String status) {
