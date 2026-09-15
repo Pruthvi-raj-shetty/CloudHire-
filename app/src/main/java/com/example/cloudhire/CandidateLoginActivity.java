@@ -19,6 +19,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.android.material.textfield.TextInputEditText;
 
+import com.example.cloudhire.api.ApiService;
+import com.example.cloudhire.api.RetrofitClient;
+import com.example.cloudhire.model.LoginRequest;
+import com.example.cloudhire.model.LoginResponse;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class CandidateLoginActivity extends AppCompatActivity {
 
     // =====================================================
@@ -83,8 +92,8 @@ public class CandidateLoginActivity extends AppCompatActivity {
         });
 
         // =====================================================
-// SYSTEM / MOBILE BACK BUTTON → CANDIDATE REGISTER
-// =====================================================
+        // SYSTEM / MOBILE BACK BUTTON
+        // =====================================================
 
         getOnBackPressedDispatcher().addCallback(
                 this,
@@ -107,6 +116,7 @@ public class CandidateLoginActivity extends AppCompatActivity {
                     }
                 }
         );
+
         // =================================================
         // LOGIN BUTTON
         // =================================================
@@ -119,10 +129,6 @@ public class CandidateLoginActivity extends AppCompatActivity {
         // FORGOT PASSWORD
         // =================================================
 
-        // ==========================================
-// FORGOT PASSWORD
-// ==========================================
-
         txtForgotPassword.setOnClickListener(v -> {
 
             hideKeyboard();
@@ -133,7 +139,6 @@ public class CandidateLoginActivity extends AppCompatActivity {
             );
 
             startActivity(intent);
-
         });
 
         // =================================================
@@ -154,16 +159,10 @@ public class CandidateLoginActivity extends AppCompatActivity {
 
             startActivity(intent);
         });
-
-        // =================================================
-        // MODERN BACK HANDLING
-        // =================================================
-
-
     }
 
     // =====================================================
-    // LOGIN VALIDATION
+    // LOGIN VALIDATION + BACKEND LOGIN
     // =====================================================
 
     private void loginCandidate() {
@@ -224,72 +223,146 @@ public class CandidateLoginActivity extends AppCompatActivity {
         }
 
         // =================================================
-        // FRONTEND MOCK LOGIN
-        // =================================================
-        //
-        // TEMPORARY ONLY.
-        //
-        // No Android database.
-        // No real authentication.
-        // No password verification.
-        //
-        // Later this section will call:
-        //
-        // Android App
-        //      ↓
-        // Spring Boot REST API
-        //      ↓
-        // PostgreSQL
-        //
-        // Backend will handle:
-        // - Login
-        // - Password verification
-        // - User role
-        // - JWT authentication
-        //
+        // REAL BACKEND LOGIN
         // =================================================
 
         hideKeyboard();
 
-        // Admin Mock Login
-        if (email.equalsIgnoreCase("admin@nexhire.com") && password.equals("Admin123")) {
-            Toast.makeText(
-                    CandidateLoginActivity.this,
-                    "Admin Login successful",
-                    Toast.LENGTH_SHORT
-            ).show();
+        // Create login request
+        LoginRequest request =
+                new LoginRequest(email, password);
 
-            Intent intent = new Intent(
-                    CandidateLoginActivity.this,
-                    AdminDashboardActivity.class
-            );
-            startActivity(intent);
-            finish();
-            return;
-        }
+        // Get Retrofit API service
+        ApiService apiService =
+                RetrofitClient.getApiService(
+                        CandidateLoginActivity.this
+                );
 
-        Toast.makeText(
-                CandidateLoginActivity.this,
-                "Login successful",
-                Toast.LENGTH_SHORT
-        ).show();
+        // Call Spring Boot backend
+        apiService.login(request).enqueue(
+                new Callback<LoginResponse>() {
 
-        // =================================================
-        // OPEN CANDIDATE DASHBOARD
-        // =================================================
+                    @Override
+                    public void onResponse(
+                            Call<LoginResponse> call,
+                            Response<LoginResponse> response
+                    ) {
 
-        Intent intent = new Intent(
-                CandidateLoginActivity.this,
-                CandidateDashboardActivity.class
+                        // =================================================
+                        // SUCCESS
+                        // =================================================
+
+                        if (response.isSuccessful()
+                                && response.body() != null) {
+
+                            LoginResponse loginResponse =
+                                    response.body();
+
+                            // =================================================
+                            // CHECK ROLE
+                            // =================================================
+
+                            if (!"CANDIDATE".equalsIgnoreCase(
+                                    loginResponse.getRole()
+                            )) {
+
+                                Toast.makeText(
+                                        CandidateLoginActivity.this,
+                                        "This account is not a candidate account",
+                                        Toast.LENGTH_LONG
+                                ).show();
+
+                                return;
+                            }
+
+                            // =================================================
+                            // SAVE JWT SESSION
+                            // =================================================
+
+                            SessionManager sessionManager =
+                                    new SessionManager(
+                                            CandidateLoginActivity.this
+                                    );
+
+                            sessionManager.saveSession(
+                                    loginResponse.getToken(),
+                                    loginResponse.getId(),
+                                    loginResponse.getName(),
+                                    loginResponse.getEmail(),
+                                    loginResponse.getRole()
+                            );
+
+                            // =================================================
+                            // LOGIN SUCCESS
+                            // =================================================
+
+                            Toast.makeText(
+                                    CandidateLoginActivity.this,
+                                    "Login successful",
+                                    Toast.LENGTH_SHORT
+                            ).show();
+
+                            // =================================================
+                            // OPEN CANDIDATE DASHBOARD
+                            // =================================================
+
+                            Intent intent =
+                                    new Intent(
+                                            CandidateLoginActivity.this,
+                                            CandidateDashboardActivity.class
+                                    );
+
+                            intent.putExtra(
+                                    "EMAIL",
+                                    loginResponse.getEmail()
+                            );
+
+                            intent.putExtra(
+                                    "ROLE",
+                                    loginResponse.getRole()
+                            );
+
+                            intent.putExtra(
+                                    "NAME",
+                                    loginResponse.getName()
+                            );
+
+                            startActivity(intent);
+
+                            finish();
+
+                        } else {
+
+                            // =================================================
+                            // LOGIN FAILED
+                            // =================================================
+
+                            Toast.makeText(
+                                    CandidateLoginActivity.this,
+                                    "Invalid email or password",
+                                    Toast.LENGTH_LONG
+                            ).show();
+                        }
+                    }
+
+                    // =====================================================
+                    // NETWORK FAILURE
+                    // =====================================================
+
+                    @Override
+                    public void onFailure(
+                            Call<LoginResponse> call,
+                            Throwable t
+                    ) {
+
+                        Toast.makeText(
+                                CandidateLoginActivity.this,
+                                "Unable to connect to server",
+                                Toast.LENGTH_LONG
+                        ).show();
+                    }
+                }
         );
-
-        // Temporary data for UI testing
-        intent.putExtra("EMAIL", email);
-        intent.putExtra("ROLE", "Candidate");
-
-        startActivity(intent);
-
-        finish();
     }
 
     // =====================================================
