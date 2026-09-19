@@ -6,8 +6,19 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.cloudhire.api.ApiService;
+import com.example.cloudhire.api.RetrofitClient;
+import com.example.cloudhire.model.ApplicationResponse;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MyApplicationsActivity extends AppCompatActivity {
 
@@ -25,11 +36,13 @@ public class MyApplicationsActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_my_applications);
 
+
         // ==============================
         // FIND VIEWS
         // ==============================
 
-        ImageButton btnBack = findViewById(R.id.btnBack);
+        ImageButton btnBack =
+                findViewById(R.id.btnBack);
 
         applicationsContainer =
                 findViewById(R.id.applicationsContainer);
@@ -51,12 +64,10 @@ public class MyApplicationsActivity extends AppCompatActivity {
 
 
         // ==============================
-        // BACK BUTTON
+        // BACK
         // ==============================
 
-        btnBack.setOnClickListener(v -> {
-            finish();
-        });
+        btnBack.setOnClickListener(v -> finish());
 
 
         // ==============================
@@ -66,15 +77,19 @@ public class MyApplicationsActivity extends AppCompatActivity {
         LinearLayout navProfile =
                 findViewById(R.id.navProfile);
 
-        navProfile.setOnClickListener(v -> {
+        if (navProfile != null) {
 
-            Intent intent = new Intent(
-                    MyApplicationsActivity.this,
-                    CandidateProfileActivity.class
-            );
+            navProfile.setOnClickListener(v -> {
 
-            startActivity(intent);
-        });
+                Intent intent =
+                        new Intent(
+                                MyApplicationsActivity.this,
+                                CandidateProfileActivity.class
+                        );
+
+                startActivity(intent);
+            });
+        }
 
 
         // ==============================
@@ -84,29 +99,36 @@ public class MyApplicationsActivity extends AppCompatActivity {
         LinearLayout navHome =
                 findViewById(R.id.navHome);
 
-        navHome.setOnClickListener(v -> {
+        if (navHome != null) {
 
-            Intent intent = new Intent(
-                    MyApplicationsActivity.this,
-                    CandidateDashboardActivity.class
-            );
+            navHome.setOnClickListener(v -> {
 
-            startActivity(intent);
+                Intent intent =
+                        new Intent(
+                                MyApplicationsActivity.this,
+                                CandidateDashboardActivity.class
+                        );
 
-            finish();
-        });
+                startActivity(intent);
+
+                finish();
+            });
+        }
 
 
         // ==============================
-        // MY APPLICATIONS
+        // APPLICATIONS
         // ==============================
 
         LinearLayout navApplications =
                 findViewById(R.id.navApplications);
 
-        navApplications.setOnClickListener(v -> {
-            // Already on My Applications
-        });
+        if (navApplications != null) {
+
+            navApplications.setOnClickListener(v -> {
+                // Already here
+            });
+        }
 
 
         // ==============================
@@ -115,19 +137,15 @@ public class MyApplicationsActivity extends AppCompatActivity {
 
         btnBrowseJobs.setOnClickListener(v -> {
 
-            /*
-             * Later connect this to your Search Jobs screen.
-             *
-             * Example:
-             *
-             * Intent intent = new Intent(
-             *      MyApplicationsActivity.this,
-             *      SearchJobsActivity.class
-             * );
-             *
-             * startActivity(intent);
-             */
+            Intent intent =
+                    new Intent(
+                            MyApplicationsActivity.this,
+                            CandidateDashboardActivity.class
+                    );
 
+            startActivity(intent);
+
+            finish();
         });
 
 
@@ -135,15 +153,13 @@ public class MyApplicationsActivity extends AppCompatActivity {
         // RETRY
         // ==============================
 
-        btnRetry.setOnClickListener(v -> {
-
-            loadApplications();
-
-        });
+        btnRetry.setOnClickListener(v ->
+                loadApplications()
+        );
 
 
         // ==============================
-        // LOAD APPLICATIONS
+        // LOAD
         // ==============================
 
         loadApplications();
@@ -158,47 +174,278 @@ public class MyApplicationsActivity extends AppCompatActivity {
 
         showLoading();
 
-        /*
-         * BACKEND INTEGRATION WILL GO HERE.
-         *
-         * Expected application object:
-         *
-         * applicationId
-         * jobId
-         * jobTitle
-         * companyName
-         * location
-         * employmentType
-         * appliedAt
-         * status
-         * resume information
-         *
-         * Later connect this method to your Spring Boot API.
-         *
-         * Do NOT put recruiterId or userId into the UI.
-         */
+        ApiService apiService =
+                RetrofitClient.getApiService(this);
 
-        /*
-         * For now we don't create fake application data.
-         *
-         * When API integration is added:
-         *
-         * API SUCCESS:
-         *      displayApplications(applications);
-         *
-         * API EMPTY:
-         *      showEmpty();
-         *
-         * API ERROR:
-         *      showError();
-         */
 
-        showEmpty();
+        apiService.getMyApplications()
+                .enqueue(new Callback<List<ApplicationResponse>>() {
+
+                    @Override
+                    public void onResponse(
+                            Call<List<ApplicationResponse>> call,
+                            Response<List<ApplicationResponse>> response) {
+
+                        if (response.isSuccessful()
+                                && response.body() != null) {
+
+                            List<ApplicationResponse> applications =
+                                    response.body();
+
+
+                            if (applications.isEmpty()) {
+
+                                showEmpty();
+
+                            } else {
+
+                                displayApplications(
+                                        applications
+                                );
+                            }
+
+                        } else {
+
+                            showError();
+                        }
+                    }
+
+
+                    @Override
+                    public void onFailure(
+                            Call<List<ApplicationResponse>> call,
+                            Throwable t) {
+
+                        showError();
+                    }
+                });
     }
 
 
     // =====================================================
-    // LOADING STATE
+    // DISPLAY APPLICATIONS
+    // =====================================================
+
+    private void displayApplications(
+            List<ApplicationResponse> applications) {
+
+        applicationsContainer.removeAllViews();
+
+        loadingState.setVisibility(View.GONE);
+
+        emptyState.setVisibility(View.GONE);
+
+        errorState.setVisibility(View.GONE);
+
+        applicationsContainer.setVisibility(View.VISIBLE);
+
+
+        for (ApplicationResponse application : applications) {
+
+            LinearLayout card =
+                    new LinearLayout(this);
+
+            card.setOrientation(
+                    LinearLayout.VERTICAL
+            );
+
+            card.setPadding(
+                    24,
+                    20,
+                    24,
+                    20
+            );
+
+
+            // =========================
+            // JOB TITLE
+            // =========================
+
+            TextView jobTitle =
+                    new TextView(this);
+
+            jobTitle.setText(
+                    safeText(
+                            application.getJobTitle(),
+                            "Job"
+                    )
+            );
+
+            jobTitle.setTextSize(18);
+
+            jobTitle.setTextColor(
+                    0xFF111827
+            );
+
+            jobTitle.setTypeface(
+                    null,
+                    android.graphics.Typeface.BOLD
+            );
+
+
+            // =========================
+            // COMPANY
+            // =========================
+
+            TextView company =
+                    new TextView(this);
+
+            company.setText(
+                    safeText(
+                            application.getCompanyName(),
+                            "Company"
+                    )
+            );
+
+            company.setTextSize(15);
+
+            company.setTextColor(
+                    0xFF2563EB
+            );
+
+
+            // =========================
+            // LOCATION
+            // =========================
+
+            TextView location =
+                    new TextView(this);
+
+            location.setText(
+                    "📍 " +
+                            safeText(
+                                    application.getLocation(),
+                                    "Location"
+                            )
+            );
+
+            location.setTextSize(13);
+
+            location.setTextColor(
+                    0xFF64748B
+            );
+
+
+            // =========================
+            // STATUS
+            // =========================
+
+            TextView status =
+                    new TextView(this);
+
+            status.setText(
+                    "Status: " +
+                            safeText(
+                                    application.getStatus(),
+                                    "APPLIED"
+                            )
+            );
+
+            status.setTextSize(14);
+
+            status.setTextColor(
+                    0xFF334155
+            );
+
+
+            // =========================
+            // APPLIED DATE
+            // =========================
+
+            TextView appliedAt =
+                    new TextView(this);
+
+            appliedAt.setText(
+                    "Applied: " +
+                            safeText(
+                                    application.getAppliedAt(),
+                                    "-"
+                            )
+            );
+
+            appliedAt.setTextSize(12);
+
+            appliedAt.setTextColor(
+                    0xFF64748B
+            );
+
+
+            // =========================
+            // OPEN DETAILS
+            // =========================
+
+            card.setClickable(true);
+
+            card.setOnClickListener(v -> {
+
+                Intent intent =
+                        new Intent(
+                                MyApplicationsActivity.this,
+                                ApplicationDetailsActivity.class
+                        );
+
+                intent.putExtra(
+                        "applicationId",
+                        application.getId()
+                );
+
+                startActivity(intent);
+            });
+
+
+            // =========================
+            // ADD VIEWS
+            // =========================
+
+            card.addView(jobTitle);
+
+            card.addView(company);
+
+            card.addView(location);
+
+            card.addView(status);
+
+            card.addView(appliedAt);
+
+
+            // =========================
+            // DIVIDER
+            // =========================
+
+            View divider =
+                    new View(this);
+
+            divider.setBackgroundColor(
+                    0xFFE5E7EB
+            );
+
+
+            LinearLayout.LayoutParams dividerParams =
+                    new LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.MATCH_PARENT,
+                            1
+                    );
+
+            dividerParams.setMargins(
+                    0,
+                    15,
+                    0,
+                    15
+            );
+
+
+            applicationsContainer.addView(card);
+
+            applicationsContainer.addView(
+                    divider,
+                    dividerParams
+            );
+        }
+    }
+
+
+    // =====================================================
+    // LOADING
     // =====================================================
 
     private void showLoading() {
@@ -214,7 +461,7 @@ public class MyApplicationsActivity extends AppCompatActivity {
 
 
     // =====================================================
-    // EMPTY STATE
+    // EMPTY
     // =====================================================
 
     private void showEmpty() {
@@ -230,7 +477,7 @@ public class MyApplicationsActivity extends AppCompatActivity {
 
 
     // =====================================================
-    // ERROR STATE
+    // ERROR
     // =====================================================
 
     private void showError() {
@@ -242,5 +489,23 @@ public class MyApplicationsActivity extends AppCompatActivity {
         emptyState.setVisibility(View.GONE);
 
         errorState.setVisibility(View.VISIBLE);
+    }
+
+
+    // =====================================================
+    // SAFE TEXT
+    // =====================================================
+
+    private String safeText(
+            String value,
+            String fallback) {
+
+        if (value == null ||
+                value.trim().isEmpty()) {
+
+            return fallback;
+        }
+
+        return value;
     }
 }
