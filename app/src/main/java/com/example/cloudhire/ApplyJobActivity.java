@@ -1,6 +1,10 @@
 package com.example.cloudhire;
 
+import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.OpenableColumns;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -8,21 +12,36 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cloudhire.api.ApiService;
 import com.example.cloudhire.api.RetrofitClient;
 import com.example.cloudhire.model.ApplicationResponse;
+import com.example.cloudhire.model.ResumeResponse;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Locale;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ApplyJobActivity extends AppCompatActivity {
 
+    private static final long MAX_FILE_SIZE =
+            5L * 1024 * 1024; // 5 MB
+
     private TextView txtJobTitle;
     private TextView txtCompanyName;
     private TextView txtLocation;
+    private TextView txtResumeName;
 
     private EditText etFullName;
     private EditText etEmail;
@@ -31,56 +50,120 @@ public class ApplyJobActivity extends AppCompatActivity {
     private LinearLayout layoutUploadResume;
 
     private Button btnSubmitApplication;
-
     private ImageButton btnBack;
 
     private Long jobId;
+
+    // Selected file is kept ONLY in Android memory.
+    // It is NOT uploaded when selected.
+    private Uri selectedResumeUri;
+
+    private String selectedResumeFileName;
+
+
+    // =========================================================
+    // FILE PICKER
+    // =========================================================
+
+    private final ActivityResultLauncher<Intent> resumePicker =
+            registerForActivityResult(
+                    new ActivityResultContracts.StartActivityForResult(),
+                    result -> {
+
+                        if (result.getResultCode()
+                                != RESULT_OK
+                                || result.getData() == null) {
+
+                            return;
+                        }
+
+                        Uri uri =
+                                result.getData().getData();
+
+                        if (uri == null) {
+                            return;
+                        }
+
+
+
+                        handleSelectedResume(uri);
+                    }
+            );
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_apply_job);
+        setContentView(
+                R.layout.activity_apply_job
+        );
 
-        // =========================
+
+        // =====================================================
         // INITIALIZE VIEWS
-        // =========================
+        // =====================================================
 
-        txtJobTitle = findViewById(R.id.txtJobTitle);
-        txtCompanyName = findViewById(R.id.txtCompanyName);
-        txtLocation = findViewById(R.id.txtLocation);
+        txtJobTitle =
+                findViewById(R.id.txtJobTitle);
 
-        etFullName = findViewById(R.id.etFullName);
-        etEmail = findViewById(R.id.etEmail);
-        etCoverLetter = findViewById(R.id.etCoverLetter);
+        txtCompanyName =
+                findViewById(R.id.txtCompanyName);
 
-        layoutUploadResume = findViewById(R.id.layoutUploadResume);
+        txtLocation =
+                findViewById(R.id.txtLocation);
+
+        txtResumeName =
+                findViewById(R.id.txtResumeName);
+
+        etFullName =
+                findViewById(R.id.etFullName);
+
+        etEmail =
+                findViewById(R.id.etEmail);
+
+        etCoverLetter =
+                findViewById(R.id.etCoverLetter);
+
+        layoutUploadResume =
+                findViewById(R.id.layoutUploadResume);
 
         btnSubmitApplication =
                 findViewById(R.id.btnSubmitApplication);
 
-        btnBack = findViewById(R.id.btnBack);
+        btnBack =
+                findViewById(R.id.btnBack);
 
 
-        // =========================
-        // GET REAL JOB DATA
-        // =========================
+        // =====================================================
+        // GET JOB DATA
+        // =====================================================
 
-        jobId = getIntent().getLongExtra("job_id", -1);
+        jobId =
+                getIntent().getLongExtra(
+                        "job_id",
+                        -1
+                );
 
         String jobTitle =
-                getIntent().getStringExtra("job_title");
+                getIntent().getStringExtra(
+                        "job_title"
+                );
 
         String companyName =
-                getIntent().getStringExtra("company_name");
+                getIntent().getStringExtra(
+                        "company_name"
+                );
 
         String location =
-                getIntent().getStringExtra("location");
+                getIntent().getStringExtra(
+                        "location"
+                );
 
 
-        // =========================
-        // VALIDATE JOB ID
-        // =========================
+        // =====================================================
+        // VALIDATE JOB
+        // =====================================================
 
         if (jobId == -1) {
 
@@ -95,9 +178,9 @@ public class ApplyJobActivity extends AppCompatActivity {
         }
 
 
-        // =========================
+        // =====================================================
         // DISPLAY JOB
-        // =========================
+        // =====================================================
 
         if (jobTitle != null) {
             txtJobTitle.setText(jobTitle);
@@ -112,9 +195,9 @@ public class ApplyJobActivity extends AppCompatActivity {
         }
 
 
-        // =========================
+        // =====================================================
         // LOAD LOGGED-IN USER
-        // =========================
+        // =====================================================
 
         SessionManager sessionManager =
                 new SessionManager(this);
@@ -126,166 +209,647 @@ public class ApplyJobActivity extends AppCompatActivity {
                 sessionManager.getEmail();
 
 
-        if (name != null && !name.isEmpty()) {
+        if (name != null
+                && !name.isEmpty()) {
+
             etFullName.setText(name);
         }
 
-        if (email != null && !email.isEmpty()) {
+        if (email != null
+                && !email.isEmpty()) {
+
             etEmail.setText(email);
         }
 
 
-        // =========================
+        // =====================================================
         // BACK
-        // =========================
+        // =====================================================
 
-        btnBack.setOnClickListener(v -> finish());
+        btnBack.setOnClickListener(
+                v -> finish()
+        );
 
 
-        // =========================
-        // RESUME
-        // =========================
+        // =====================================================
+        // SELECT RESUME
+        // =====================================================
 
-        layoutUploadResume.setOnClickListener(v -> {
+        layoutUploadResume.setOnClickListener(
+                v -> openResumePicker()
+        );
+
+
+        // =====================================================
+        // SUBMIT APPLICATION
+        // =====================================================
+
+        btnSubmitApplication.setOnClickListener(
+                v -> validateAndSubmit()
+        );
+    }
+
+
+    // =========================================================
+    // OPEN FILE PICKER
+    // =========================================================
+
+    private void openResumePicker() {
+
+        Intent intent =
+                new Intent(
+                        Intent.ACTION_OPEN_DOCUMENT
+                );
+
+        intent.addCategory(
+                Intent.CATEGORY_OPENABLE
+        );
+
+        intent.setType(
+                "application/pdf"
+        );
+
+        intent.putExtra(
+                Intent.EXTRA_MIME_TYPES,
+                new String[]{
+                        "application/pdf"
+                }
+        );
+
+        resumePicker.launch(intent);
+    }
+
+
+    // =========================================================
+    // HANDLE SELECTED FILE
+    // =========================================================
+
+    private void handleSelectedResume(
+            Uri uri
+    ) {
+
+        String fileName =
+                getFileName(uri);
+
+        if (fileName == null
+                || fileName.isEmpty()) {
 
             Toast.makeText(
                     this,
-                    "Resume upload will be connected next",
+                    "Unable to read selected file",
                     Toast.LENGTH_SHORT
             ).show();
 
-        });
+            return;
+        }
 
 
-        // =========================
-        // SUBMIT APPLICATION
-        // =========================
+        // =====================================================
+        // CHECK PDF EXTENSION
+        // =====================================================
 
-        btnSubmitApplication.setOnClickListener(v -> {
+        if (!fileName
+                .toLowerCase(Locale.ROOT)
+                .endsWith(".pdf")) {
 
-            String fullName =
-                    etFullName.getText()
-                            .toString()
-                            .trim();
+            Toast.makeText(
+                    this,
+                    "Only PDF resumes are allowed",
+                    Toast.LENGTH_LONG
+            ).show();
 
-            String enteredemail =
-                    etEmail.getText()
-                            .toString()
-                            .trim();
+            return;
+        }
 
-            if (fullName.isEmpty() || enteredemail.isEmpty()) {
+
+        // =====================================================
+        // CHECK MIME TYPE
+        // =====================================================
+
+        String mimeType =
+                getContentResolver()
+                        .getType(uri);
+
+        if (mimeType != null
+                && !mimeType.equalsIgnoreCase(
+                "application/pdf"
+        )) {
+
+            Toast.makeText(
+                    this,
+                    "Only PDF resumes are allowed",
+                    Toast.LENGTH_LONG
+            ).show();
+
+            return;
+        }
+
+
+        // =====================================================
+        // CHECK FILE SIZE
+        // =====================================================
+
+        long fileSize =
+                getFileSize(uri);
+
+        if (fileSize > MAX_FILE_SIZE) {
+
+            Toast.makeText(
+                    this,
+                    "Resume must be smaller than 5 MB",
+                    Toast.LENGTH_LONG
+            ).show();
+
+            return;
+        }
+
+
+        // =====================================================
+        // SAVE FILE LOCALLY
+        // =====================================================
+
+        selectedResumeUri = uri;
+        selectedResumeFileName = fileName;
+
+
+        // =====================================================
+        // UPDATE UI
+        // =====================================================
+
+        txtResumeName.setText(
+                "📄 " + fileName
+        );
+
+        Toast.makeText(
+                this,
+                "Resume selected",
+                Toast.LENGTH_SHORT
+        ).show();
+    }
+
+
+    // =========================================================
+    // VALIDATE FORM
+    // =========================================================
+
+    private void validateAndSubmit() {
+
+        String fullName =
+                etFullName.getText()
+                        .toString()
+                        .trim();
+
+        String email =
+                etEmail.getText()
+                        .toString()
+                        .trim();
+
+
+        if (fullName.isEmpty()
+                || email.isEmpty()) {
+
+            Toast.makeText(
+                    this,
+                    "Please fill in all required fields",
+                    Toast.LENGTH_SHORT
+            ).show();
+
+            return;
+        }
+
+
+        // Resume is required for this flow
+        if (selectedResumeUri == null) {
+
+            Toast.makeText(
+                    this,
+                    "Please select your resume",
+                    Toast.LENGTH_LONG
+            ).show();
+
+            return;
+        }
+
+
+        // =====================================================
+        // START SUBMISSION
+        // =====================================================
+
+        uploadResumeThenApply();
+    }
+
+
+    // =========================================================
+    // UPLOAD RESUME THEN APPLY
+    // =========================================================
+
+    private void uploadResumeThenApply() {
+
+        btnSubmitApplication.setEnabled(false);
+
+        btnSubmitApplication.setText(
+                "Uploading Resume..."
+        );
+
+
+        try {
+
+            InputStream inputStream =
+                    getContentResolver()
+                            .openInputStream(
+                                    selectedResumeUri
+                            );
+
+            if (inputStream == null) {
+
+                resetSubmitButton();
 
                 Toast.makeText(
                         this,
-                        "Please fill in all required fields",
-                        Toast.LENGTH_SHORT
+                        "Unable to read selected resume",
+                        Toast.LENGTH_LONG
                 ).show();
 
                 return;
             }
 
-            submitApplication();
-        });
+
+            byte[] fileBytes =
+                    readInputStream(inputStream);
+
+            inputStream.close();
+
+
+            // =================================================
+            // FINAL SIZE CHECK
+            // =================================================
+
+            if (fileBytes.length
+                    > MAX_FILE_SIZE) {
+
+                resetSubmitButton();
+
+                Toast.makeText(
+                        this,
+                        "Resume must be smaller than 5 MB",
+                        Toast.LENGTH_LONG
+                ).show();
+
+                return;
+            }
+
+
+            // =================================================
+            // CREATE REQUEST BODY
+            // =================================================
+
+            RequestBody requestBody =
+                    RequestBody.create(
+                            MediaType.parse(
+                                    "application/pdf"
+                            ),
+                            fileBytes
+                    );
+
+
+            MultipartBody.Part filePart =
+                    MultipartBody.Part.createFormData(
+                            "file",
+                            selectedResumeFileName,
+                            requestBody
+                    );
+
+
+            // =================================================
+            // UPLOAD TO BACKEND
+            // =================================================
+
+            ApiService apiService =
+                    RetrofitClient.getApiService(
+                            this
+                    );
+
+            apiService.uploadResume(
+                    filePart
+            ).enqueue(
+                    new Callback<ResumeResponse>() {
+
+                        @Override
+                        public void onResponse(
+                                Call<ResumeResponse> call,
+                                Response<ResumeResponse> response
+                        ) {
+
+                            if (response.isSuccessful()
+                                    && response.body() != null) {
+
+                                // Resume has now reached
+                                // the backend/MinIO.
+
+                                submitApplication();
+
+                            } else {
+
+                                resetSubmitButton();
+
+                                String message =
+                                        "Resume upload failed";
+
+                                if (response.errorBody()
+                                        != null) {
+
+                                    try {
+
+                                        String error =
+                                                response.errorBody()
+                                                        .string();
+
+                                        if (error != null
+                                                && !error.isEmpty()) {
+
+                                            message = error;
+                                        }
+
+                                    } catch (Exception ignored) {
+                                    }
+                                }
+
+                                Toast.makeText(
+                                        ApplyJobActivity.this,
+                                        message,
+                                        Toast.LENGTH_LONG
+                                ).show();
+                            }
+                        }
+
+
+                        @Override
+                        public void onFailure(
+                                Call<ResumeResponse> call,
+                                Throwable t
+                        ) {
+
+                            resetSubmitButton();
+
+                            Toast.makeText(
+                                    ApplyJobActivity.this,
+                                    "Unable to upload resume",
+                                    Toast.LENGTH_LONG
+                            ).show();
+                        }
+                    }
+            );
+
+        } catch (Exception e) {
+
+            resetSubmitButton();
+
+            Toast.makeText(
+                    this,
+                    "Unable to read resume",
+                    Toast.LENGTH_LONG
+            ).show();
+        }
     }
 
 
     // =========================================================
-    // SUBMIT APPLICATION TO BACKEND
+    // SUBMIT APPLICATION
     // =========================================================
 
     private void submitApplication() {
 
-        btnSubmitApplication.setEnabled(false);
-
-        btnSubmitApplication.setText("Submitting...");
+        btnSubmitApplication.setText(
+                "Submitting Application..."
+        );
 
 
         ApiService apiService =
-                RetrofitClient.getApiService(this);
+                RetrofitClient.getApiService(
+                        this
+                );
 
 
         apiService.applyToJob(jobId)
-                .enqueue(new Callback<ApplicationResponse>() {
+                .enqueue(
+                        new Callback<ApplicationResponse>() {
 
-                    @Override
-                    public void onResponse(
-                            Call<ApplicationResponse> call,
-                            Response<ApplicationResponse> response) {
+                            @Override
+                            public void onResponse(
+                                    Call<ApplicationResponse> call,
+                                    Response<ApplicationResponse> response
+                            ) {
 
-                        btnSubmitApplication.setEnabled(true);
+                                resetSubmitButton();
 
-                        btnSubmitApplication.setText(
-                                "Submit Application"
+
+                                if (response.isSuccessful()
+                                        && response.body() != null) {
+
+                                    Toast.makeText(
+                                            ApplyJobActivity.this,
+                                            "Application submitted successfully",
+                                            Toast.LENGTH_LONG
+                                    ).show();
+
+                                    finish();
+
+                                    return;
+                                }
+
+
+                                // =================================
+                                // DUPLICATE APPLICATION
+                                // =================================
+
+                                if (response.code() == 400
+                                        || response.code() == 409) {
+
+                                    Toast.makeText(
+                                            ApplyJobActivity.this,
+                                            "You have already applied for this job",
+                                            Toast.LENGTH_LONG
+                                    ).show();
+
+                                    return;
+                                }
+
+
+                                Toast.makeText(
+                                        ApplyJobActivity.this,
+                                        "Unable to submit application",
+                                        Toast.LENGTH_LONG
+                                ).show();
+                            }
+
+
+                            @Override
+                            public void onFailure(
+                                    Call<ApplicationResponse> call,
+                                    Throwable t
+                            ) {
+
+                                resetSubmitButton();
+
+                                Toast.makeText(
+                                        ApplyJobActivity.this,
+                                        "Unable to connect to server",
+                                        Toast.LENGTH_LONG
+                                ).show();
+                            }
+                        }
+                );
+    }
+
+
+    // =========================================================
+    // READ FILE
+    // =========================================================
+
+    private byte[] readInputStream(
+            InputStream inputStream
+    ) throws IOException {
+
+        ByteArrayOutputStream outputStream =
+                new ByteArrayOutputStream();
+
+        byte[] buffer =
+                new byte[8192];
+
+        int bytesRead;
+
+        while ((bytesRead =
+                inputStream.read(buffer)) != -1) {
+
+            outputStream.write(
+                    buffer,
+                    0,
+                    bytesRead
+            );
+
+            // Prevent unnecessarily reading
+            // very large files into memory.
+            if (outputStream.size()
+                    > MAX_FILE_SIZE) {
+
+                break;
+            }
+        }
+
+        return outputStream.toByteArray();
+    }
+
+
+    // =========================================================
+    // GET FILE NAME
+    // =========================================================
+
+    private String getFileName(
+            Uri uri
+    ) {
+
+        String result = null;
+
+        Cursor cursor =
+                getContentResolver()
+                        .query(
+                                uri,
+                                null,
+                                null,
+                                null,
+                                null
                         );
 
+        if (cursor != null) {
 
-                        if (response.isSuccessful()
-                                && response.body() != null) {
+            try {
 
-                            ApplicationResponse application =
-                                    response.body();
-
-
-                            Toast.makeText(
-                                    ApplyJobActivity.this,
-                                    "Application submitted successfully",
-                                    Toast.LENGTH_LONG
-                            ).show();
-
-
-                            finish();
-
-                            return;
-                        }
-
-
-                        // =========================
-                        // DUPLICATE APPLICATION
-                        // =========================
-
-                        if (response.code() == 400
-                                || response.code() == 409) {
-
-                            Toast.makeText(
-                                    ApplyJobActivity.this,
-                                    "You have already applied for this job",
-                                    Toast.LENGTH_LONG
-                            ).show();
-
-                            return;
-                        }
-
-
-                        // =========================
-                        // OTHER SERVER ERROR
-                        // =========================
-
-                        Toast.makeText(
-                                ApplyJobActivity.this,
-                                "Unable to submit application",
-                                Toast.LENGTH_LONG
-                        ).show();
-                    }
-
-
-                    @Override
-                    public void onFailure(
-                            Call<ApplicationResponse> call,
-                            Throwable t) {
-
-                        btnSubmitApplication.setEnabled(true);
-
-                        btnSubmitApplication.setText(
-                                "Submit Application"
+                int nameIndex =
+                        cursor.getColumnIndex(
+                                OpenableColumns.DISPLAY_NAME
                         );
 
+                if (nameIndex >= 0
+                        && cursor.moveToFirst()) {
 
-                        Toast.makeText(
-                                ApplyJobActivity.this,
-                                "Unable to connect to server",
-                                Toast.LENGTH_LONG
-                        ).show();
-                    }
-                });
+                    result =
+                            cursor.getString(
+                                    nameIndex
+                            );
+                }
+
+            } finally {
+
+                cursor.close();
+            }
+        }
+
+        if (result == null) {
+
+            result =
+                    uri.getLastPathSegment();
+        }
+
+        return result;
+    }
+
+
+    // =========================================================
+    // GET FILE SIZE
+    // =========================================================
+
+    private long getFileSize(
+            Uri uri
+    ) {
+
+        Cursor cursor =
+                getContentResolver()
+                        .query(
+                                uri,
+                                null,
+                                null,
+                                null,
+                                null
+                        );
+
+        if (cursor != null) {
+
+            try {
+
+                int sizeIndex =
+                        cursor.getColumnIndex(
+                                OpenableColumns.SIZE
+                        );
+
+                if (sizeIndex >= 0
+                        && cursor.moveToFirst()
+                        && !cursor.isNull(sizeIndex)) {
+
+                    return cursor.getLong(
+                            sizeIndex
+                    );
+                }
+
+            } finally {
+
+                cursor.close();
+            }
+        }
+
+        return 0;
+    }
+
+
+    // =========================================================
+    // RESET SUBMIT BUTTON
+    // =========================================================
+
+    private void resetSubmitButton() {
+
+        btnSubmitApplication.setEnabled(true);
+
+        btnSubmitApplication.setText(
+                "Submit Application"
+        );
     }
 }

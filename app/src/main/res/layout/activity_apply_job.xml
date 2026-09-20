@@ -21,8 +21,8 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:src="@drawable/ic_arrow_back"
-            android:contentDescription="Back" />
+            android:contentDescription="Back"
+            android:src="@drawable/ic_arrow_back" />
 
         <TextView
             android:layout_width="0dp"
@@ -37,6 +37,7 @@
         <View
             android:layout_width="40dp"
             android:layout_height="40dp" />
+
     </LinearLayout>
 
     <ScrollView
@@ -85,9 +86,11 @@
                     android:text="Bangalore, India"
                     android:textColor="#64748B"
                     android:textSize="14sp" />
+
             </LinearLayout>
 
             <!-- Application Form -->
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -130,6 +133,8 @@
                 android:paddingEnd="12dp"
                 android:textSize="14sp" />
 
+            <!-- Resume -->
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -142,28 +147,38 @@
             <LinearLayout
                 android:id="@+id/layoutUploadResume"
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
+                android:layout_height="90dp"
                 android:layout_marginTop="8dp"
                 android:background="#F8FAFC"
                 android:gravity="center"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="8dp">
 
                 <TextView
                     android:id="@+id/txtResumeName"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:maxLines="1"
                     android:text="Upload Resume (PDF)"
                     android:textColor="#2563EB"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:id="@+id/txtResumeStatus"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center"
                     android:text="Max file size 5MB"
                     android:textColor="#94A3B8"
                     android:textSize="12sp" />
+
             </LinearLayout>
+
+            <!-- Cover Letter -->
 
             <TextView
                 android:layout_width="wrap_content"
@@ -186,6 +201,8 @@
                 android:padding="12dp"
                 android:textSize="14sp" />
 
+            <!-- Submit -->
+
             <Button
                 android:id="@+id/btnSubmitApplication"
                 android:layout_width="match_parent"
@@ -203,6 +220,7 @@
                 android:layout_height="20dp" />
 
         </LinearLayout>
+
     </ScrollView>
 
 </LinearLayout>
