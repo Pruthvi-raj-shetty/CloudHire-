@@ -1,10 +1,12 @@
 package com.example.cloudhire.api;
 
 import com.example.cloudhire.model.ApplicationResponse;
+import com.example.cloudhire.model.JobDashboardResponse;
 import com.example.cloudhire.model.JobResponse;
 import com.example.cloudhire.model.LoginRequest;
 import com.example.cloudhire.model.LoginResponse;
 import com.example.cloudhire.model.ResumeResponse;
+import com.example.cloudhire.RecruiterApplicant;
 
 import java.util.List;
 
@@ -16,6 +18,7 @@ import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface ApiService {
 
@@ -36,6 +39,17 @@ public interface ApiService {
     @GET("api/jobs")
     Call<List<JobResponse>> getOpenJobs();
 
+    @GET("api/jobs/dashboard")
+    Call<JobDashboardResponse> getJobDashboard();
+
+    @GET("api/jobs/search")
+    Call<List<JobResponse>> searchJobs(
+            @Query("keyword") String keyword
+    );
+
+    @GET("api/jobs/my-jobs")
+    Call<List<JobResponse>> getRecruiterJobs();
+
 
     // =========================
     // APPLICATIONS
@@ -53,6 +67,9 @@ public interface ApiService {
     Call<ApplicationResponse> getMyApplicationDetails(
             @Path("applicationId") Long applicationId
     );
+
+    @GET("api/applications/recruiter")
+    Call<List<RecruiterApplicant>> getRecruiterApplications();
 
 
     // =========================

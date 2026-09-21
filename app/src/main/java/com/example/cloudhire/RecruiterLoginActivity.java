@@ -16,7 +16,15 @@ import android.widget.Toast;
 import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.material.textfield.TextInputEditText;import android.content.Intent;import com.google.android.material.textfield.TextInputEditText;import android.content.Intent;import com.google.android.material.textfield.TextInputEditText;import android.content.Intent;
+import com.example.cloudhire.api.ApiService;
+import com.example.cloudhire.api.RetrofitClient;
+import com.example.cloudhire.model.LoginRequest;
+import com.example.cloudhire.model.LoginResponse;
+import com.google.android.material.textfield.TextInputEditText;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class RecruiterLoginActivity extends AppCompatActivity {
 
@@ -32,6 +40,7 @@ public class RecruiterLoginActivity extends AppCompatActivity {
     private TextView txtRegister;
     private ImageButton btnBack;
 
+
     // =====================================================
     // ON CREATE
     // =====================================================
@@ -40,7 +49,6 @@ public class RecruiterLoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Keyboard handling
         getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE
                         | WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
@@ -60,9 +68,9 @@ public class RecruiterLoginActivity extends AppCompatActivity {
         txtRegister = findViewById(R.id.txtRegister);
         btnBack = findViewById(R.id.btnBack);
 
+
         // =================================================
         // BACK BUTTON
-        // Goes to Recruiter Registration
         // =================================================
 
         btnBack.setOnClickListener(v -> {
@@ -77,26 +85,13 @@ public class RecruiterLoginActivity extends AppCompatActivity {
             intent.putExtra("ROLE", "Recruiter");
 
             startActivity(intent);
+            finish();
         });
-        // =====================================================
-// SYSTEM / MOBILE BACK BUTTON → RECRUITER REGISTER
-// =====================================================
 
-        // =====================================================
-// SYSTEM / MOBILE BACK BUTTON → RECRUITER REGISTER
-// =====================================================
 
-        // =====================================================
-// SYSTEM BACK BUTTON → RECRUITER REGISTER
-// =====================================================
-
-        // =====================================================
-// MOBILE BACK BUTTON → RECRUITER REGISTER
-// =====================================================
-
-        // =====================================================
-// SYSTEM BACK BUTTON → RECRUITER REGISTER
-// =====================================================
+        // =================================================
+        // SYSTEM BACK BUTTON
+        // =================================================
 
         getOnBackPressedDispatcher().addCallback(
                 this,
@@ -119,19 +114,18 @@ public class RecruiterLoginActivity extends AppCompatActivity {
                     }
                 }
         );
+
+
         // =================================================
-        // LOGIN BUTTON
+        // LOGIN
         // =================================================
 
         btnLogin.setOnClickListener(v -> loginRecruiter());
 
+
         // =================================================
         // FORGOT PASSWORD
         // =================================================
-
-        // =====================================================
-// FORGOT PASSWORD
-// =====================================================
 
         txtForgotPassword.setOnClickListener(v -> {
 
@@ -143,13 +137,8 @@ public class RecruiterLoginActivity extends AppCompatActivity {
             );
 
             startActivity(intent);
-
         });
-            // Later:
-            // startActivity(new Intent(
-            //     RecruiterLoginActivity.this,
-            //     ForgotPasswordActivity.class
-            // ));
+
 
         // =================================================
         // REGISTER
@@ -168,50 +157,22 @@ public class RecruiterLoginActivity extends AppCompatActivity {
 
             startActivity(intent);
         });
-
-        // =================================================
-        // SYSTEM BACK BUTTON
-        // =================================================
-
-        // =====================================================
-// SYSTEM BACK BUTTON → RECRUITER REGISTER
-// =====================================================
-
-        getOnBackPressedDispatcher().addCallback(
-                this,
-                new OnBackPressedCallback(true) {
-
-                    @Override
-                    public void handleOnBackPressed() {
-
-                        hideKeyboard();
-
-                        Intent intent = new Intent(
-                                RecruiterLoginActivity.this,
-                              MainActivity.class
-                        );
-
-                        intent.putExtra("ROLE", "Recruiter");
-
-                        startActivity(intent);
-                        finish();
-                    }
-                }
-        );
     }
 
+
     // =====================================================
-    // LOGIN VALIDATION
+    // RECRUITER LOGIN
     // =====================================================
 
     private void loginRecruiter() {
 
-        // Clear old errors
+        // Clear previous errors
         etEmail.setError(null);
         etPassword.setError(null);
 
         String email = getEmailText();
         String password = getPasswordText();
+
 
         // =================================================
         // EMAIL VALIDATION
@@ -226,6 +187,7 @@ public class RecruiterLoginActivity extends AppCompatActivity {
             return;
         }
 
+
         if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
 
             etEmail.setError("Enter a valid email address");
@@ -234,6 +196,7 @@ public class RecruiterLoginActivity extends AppCompatActivity {
 
             return;
         }
+
 
         // =================================================
         // PASSWORD VALIDATION
@@ -248,6 +211,7 @@ public class RecruiterLoginActivity extends AppCompatActivity {
             return;
         }
 
+
         if (password.length() < 8) {
 
             etPassword.setError(
@@ -260,73 +224,171 @@ public class RecruiterLoginActivity extends AppCompatActivity {
             return;
         }
 
+
         // =================================================
-        // TEMPORARY MOCK LOGIN
-        // =================================================
-        //
-        // This is only for frontend UI testing.
-        //
-        // No Android database.
-        // No real authentication.
-        //
-        // Later:
-        //
-        // Android
-        //    ↓
-        // Spring Boot REST API
-        //    ↓
-        // PostgreSQL
-        //
-        // Backend will handle:
-        // - Login
-        // - Password verification
-        // - Recruiter role
-        // - JWT
-        //
+        // REAL BACKEND LOGIN
         // =================================================
 
         hideKeyboard();
 
-        // Admin Mock Login
-        if (email.equalsIgnoreCase("admin@nexhire.com") && password.equals("Admin123")) {
-            Toast.makeText(
-                    RecruiterLoginActivity.this,
-                    "Admin Login successful",
-                    Toast.LENGTH_SHORT
-            ).show();
+        btnLogin.setEnabled(false);
 
-            Intent intent = new Intent(
-                    RecruiterLoginActivity.this,
-                    AdminDashboardActivity.class
-            );
-            startActivity(intent);
-            finish();
-            return;
-        }
+        LoginRequest request =
+                new LoginRequest(
+                        email,
+                        password
+                );
 
-        Toast.makeText(
-                RecruiterLoginActivity.this,
-                "Login successful",
-                Toast.LENGTH_SHORT
-        ).show();
 
         // =================================================
-        // OPEN RECRUITER DASHBOARD
+        // RETROFIT API
         // =================================================
 
-        Intent intent = new Intent(
-                RecruiterLoginActivity.this,
-                RecruiterDashboardActivity.class
+        ApiService apiService =
+                RetrofitClient.getApiService(
+                        RecruiterLoginActivity.this
+                );
+
+
+        apiService.login(request).enqueue(
+                new Callback<LoginResponse>() {
+
+                    @Override
+                    public void onResponse(
+                            Call<LoginResponse> call,
+                            Response<LoginResponse> response
+                    ) {
+
+                        btnLogin.setEnabled(true);
+
+
+                        // =================================================
+                        // SUCCESS
+                        // =================================================
+
+                        if (response.isSuccessful()
+                                && response.body() != null) {
+
+                            LoginResponse loginResponse =
+                                    response.body();
+
+
+                            // =================================================
+                            // CHECK RECRUITER ROLE
+                            // =================================================
+
+                            if (!"RECRUITER".equalsIgnoreCase(
+                                    loginResponse.getRole()
+                            )) {
+
+                                Toast.makeText(
+                                        RecruiterLoginActivity.this,
+                                        "This account is not a recruiter account",
+                                        Toast.LENGTH_LONG
+                                ).show();
+
+                                return;
+                            }
+
+
+                            // =================================================
+                            // SAVE JWT SESSION
+                            // =================================================
+
+                            SessionManager sessionManager =
+                                    new SessionManager(
+                                            RecruiterLoginActivity.this
+                                    );
+
+
+                            sessionManager.saveSession(
+                                    loginResponse.getToken(),
+                                    loginResponse.getId(),
+                                    loginResponse.getName(),
+                                    loginResponse.getEmail(),
+                                    loginResponse.getRole()
+                            );
+
+
+                            // =================================================
+                            // LOGIN SUCCESS
+                            // =================================================
+
+                            Toast.makeText(
+                                    RecruiterLoginActivity.this,
+                                    "Login successful",
+                                    Toast.LENGTH_SHORT
+                            ).show();
+
+
+                            // =================================================
+                            // OPEN RECRUITER DASHBOARD
+                            // =================================================
+
+                            Intent intent =
+                                    new Intent(
+                                            RecruiterLoginActivity.this,
+                                            RecruiterDashboardActivity.class
+                                    );
+
+
+                            intent.putExtra(
+                                    "EMAIL",
+                                    loginResponse.getEmail()
+                            );
+
+                            intent.putExtra(
+                                    "ROLE",
+                                    loginResponse.getRole()
+                            );
+
+                            intent.putExtra(
+                                    "NAME",
+                                    loginResponse.getName()
+                            );
+
+
+                            startActivity(intent);
+
+                            finish();
+
+                        } else {
+
+                            // =================================================
+                            // LOGIN FAILED
+                            // =================================================
+
+                            Toast.makeText(
+                                    RecruiterLoginActivity.this,
+                                    "Invalid email or password",
+                                    Toast.LENGTH_LONG
+                            ).show();
+                        }
+                    }
+
+
+                    // =====================================================
+                    // NETWORK FAILURE
+                    // =====================================================
+
+                    @Override
+                    public void onFailure(
+                            Call<LoginResponse> call,
+                            Throwable t
+                    ) {
+
+                        btnLogin.setEnabled(true);
+
+                        Toast.makeText(
+                                RecruiterLoginActivity.this,
+                                "Unable to connect to server",
+                                Toast.LENGTH_LONG
+                        ).show();
+                    }
+                }
         );
-
-        // Temporary UI testing data
-        intent.putExtra("EMAIL", email);
-        intent.putExtra("ROLE", "Recruiter");
-
-        startActivity(intent);
-
-        finish();
     }
+
 
     // =====================================================
     // GET EMAIL
@@ -343,6 +405,7 @@ public class RecruiterLoginActivity extends AppCompatActivity {
                 .trim();
     }
 
+
     // =====================================================
     // GET PASSWORD
     // =====================================================
@@ -353,10 +416,11 @@ public class RecruiterLoginActivity extends AppCompatActivity {
             return "";
         }
 
-        // Do not trim password
+        // Do NOT trim password.
         return etPassword.getText()
                 .toString();
     }
+
 
     // =====================================================
     // SHOW KEYBOARD
@@ -381,22 +445,26 @@ public class RecruiterLoginActivity extends AppCompatActivity {
         });
     }
 
+
     // =====================================================
     // HIDE KEYBOARD
     // =====================================================
 
     private void hideKeyboard() {
 
-        View currentView = getCurrentFocus();
+        View currentView =
+                getCurrentFocus();
 
         if (currentView == null) {
             return;
         }
 
+
         InputMethodManager imm =
                 (InputMethodManager) getSystemService(
                         Context.INPUT_METHOD_SERVICE
                 );
+
 
         if (imm != null) {
 
@@ -405,6 +473,7 @@ public class RecruiterLoginActivity extends AppCompatActivity {
                     0
             );
         }
+
 
         currentView.clearFocus();
     }

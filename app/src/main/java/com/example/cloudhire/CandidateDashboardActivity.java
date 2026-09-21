@@ -3,8 +3,13 @@ package com.example.cloudhire;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -13,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cloudhire.api.ApiService;
 import com.example.cloudhire.api.RetrofitClient;
+import com.example.cloudhire.model.JobDashboardResponse;
 import com.example.cloudhire.model.JobResponse;
 
 import java.util.List;
@@ -23,9 +29,58 @@ import retrofit2.Response;
 
 public class CandidateDashboardActivity extends AppCompatActivity {
 
+    // =========================================================
+    // JOB BUTTONS
+    // =========================================================
+
     private Button btnApplyGoogle;
     private Button btnApplyMicrosoft;
     private Button btnApplyAmazon;
+
+    // =========================================================
+    // SEARCH
+    // =========================================================
+
+    private EditText etSearchJobs;
+
+    // =========================================================
+    // RECENTLY POSTED
+    // =========================================================
+
+    private TextView txtRecent1;
+    private TextView txtRecent2;
+    private TextView txtRecent3;
+    private TextView txtRecent4;
+
+    // =========================================================
+    // COMPANIES
+    // =========================================================
+
+    private TextView txtCompany1;
+    private TextView txtCompany2;
+    private TextView txtCompany3;
+    private TextView txtCompany4;
+    private TextView txtCompany5;
+
+    // =========================================================
+    // TRENDING SKILLS
+    // =========================================================
+
+    private TextView txtSkill1;
+    private TextView txtSkill2;
+    private TextView txtSkill3;
+    private TextView txtSkill4;
+    private TextView txtSkill5;
+
+    // =========================================================
+    // API
+    // =========================================================
+
+    private ApiService apiService;
+
+    // =========================================================
+    // ACTIVITY
+    // =========================================================
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,21 +88,69 @@ public class CandidateDashboardActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_candidate_dashboard);
 
-        // =========================
+        // =====================================================
+        // API
+        // =====================================================
+
+        apiService =
+                RetrofitClient.getApiService(
+                        CandidateDashboardActivity.this
+                );
+
+        // =====================================================
         // FIND APPLY BUTTONS
-        // =========================
+        // =====================================================
 
         btnApplyGoogle = findViewById(R.id.btnApplyGoogle);
         btnApplyMicrosoft = findViewById(R.id.btnApplyMicrosoft);
         btnApplyAmazon = findViewById(R.id.btnApplyAmazon);
 
-        // =========================
-        // MY PROFILE
-        // =========================
+        // =====================================================
+        // SEARCH
+        // =====================================================
 
-        LinearLayout navProfile = findViewById(R.id.navProfile);
+        etSearchJobs = findViewById(R.id.etSearchJobs);
+
+        setupSearch();
+
+        // =====================================================
+        // RECENTLY POSTED
+        // =====================================================
+
+        txtRecent1 = findViewById(R.id.txtRecent1);
+        txtRecent2 = findViewById(R.id.txtRecent2);
+        txtRecent3 = findViewById(R.id.txtRecent3);
+        txtRecent4 = findViewById(R.id.txtRecent4);
+
+        // =====================================================
+        // COMPANIES
+        // =====================================================
+
+        txtCompany1 = findViewById(R.id.txtCompany1);
+        txtCompany2 = findViewById(R.id.txtCompany2);
+        txtCompany3 = findViewById(R.id.txtCompany3);
+        txtCompany4 = findViewById(R.id.txtCompany4);
+        txtCompany5 = findViewById(R.id.txtCompany5);
+
+        // =====================================================
+        // TRENDING SKILLS
+        // =====================================================
+
+        txtSkill1 = findViewById(R.id.txtSkill1);
+        txtSkill2 = findViewById(R.id.txtSkill2);
+        txtSkill3 = findViewById(R.id.txtSkill3);
+        txtSkill4 = findViewById(R.id.txtSkill4);
+        txtSkill5 = findViewById(R.id.txtSkill5);
+
+        // =====================================================
+        // MY PROFILE
+        // =====================================================
+
+        LinearLayout navProfile =
+                findViewById(R.id.navProfile);
 
         if (navProfile != null) {
+
             navProfile.setOnClickListener(v -> {
 
                 Intent intent = new Intent(
@@ -59,13 +162,15 @@ public class CandidateDashboardActivity extends AppCompatActivity {
             });
         }
 
-        // =========================
+        // =====================================================
         // MY APPLICATIONS
-        // =========================
+        // =====================================================
 
-        LinearLayout navApplications = findViewById(R.id.navApplications);
+        LinearLayout navApplications =
+                findViewById(R.id.navApplications);
 
         if (navApplications != null) {
+
             navApplications.setOnClickListener(v -> {
 
                 Intent intent = new Intent(
@@ -77,13 +182,15 @@ public class CandidateDashboardActivity extends AppCompatActivity {
             });
         }
 
-        // =========================
+        // =====================================================
         // SAVED JOBS
-        // =========================
+        // =====================================================
 
-        LinearLayout navSaved = findViewById(R.id.navSaved);
+        LinearLayout navSaved =
+                findViewById(R.id.navSaved);
 
         if (navSaved != null) {
+
             navSaved.setOnClickListener(v -> {
 
                 Intent intent = new Intent(
@@ -95,152 +202,661 @@ public class CandidateDashboardActivity extends AppCompatActivity {
             });
         }
 
-        // =========================
-        // LOAD REAL JOBS
-        // =========================
+        // =====================================================
+        // LOAD DASHBOARD
+        // =====================================================
+
+        loadDashboard();
+
+        // =====================================================
+        // LOAD JOBS
+        // =====================================================
 
         loadJobs();
     }
 
     // =========================================================
-    // LOAD JOBS FROM SPRING BOOT
+    // LOAD COMPLETE DASHBOARD DATA
+    // =========================================================
+
+    private void loadDashboard() {
+
+        apiService.getJobDashboard().enqueue(
+                new Callback<JobDashboardResponse>() {
+
+                    @Override
+                    public void onResponse(
+                            Call<JobDashboardResponse> call,
+                            Response<JobDashboardResponse> response) {
+
+                        if (response.isSuccessful()
+                                && response.body() != null) {
+
+                            JobDashboardResponse dashboard =
+                                    response.body();
+
+                            // -------------------------------
+                            // RECENT JOBS
+                            // -------------------------------
+
+                            displayRecentJobs(
+                                    dashboard.getRecentJobs()
+                            );
+
+                            // -------------------------------
+                            // COMPANIES
+                            // -------------------------------
+
+                            displayCompanies(
+                                    dashboard.getCompanies()
+                            );
+
+                            // -------------------------------
+                            // TRENDING SKILLS
+                            // -------------------------------
+
+                            displayTrendingSkills(
+                                    dashboard.getTrendingSkills()
+                            );
+
+                        } else {
+
+                            Toast.makeText(
+                                    CandidateDashboardActivity.this,
+                                    "Failed to load dashboard",
+                                    Toast.LENGTH_SHORT
+                            ).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(
+                            Call<JobDashboardResponse> call,
+                            Throwable t) {
+
+                        Toast.makeText(
+                                CandidateDashboardActivity.this,
+                                "Unable to load dashboard data",
+                                Toast.LENGTH_SHORT
+                        ).show();
+                    }
+                }
+        );
+    }
+
+    // =========================================================
+    // DISPLAY RECENTLY POSTED JOBS
+    // =========================================================
+
+    private void displayRecentJobs(
+            List<JobResponse> jobs
+    ) {
+
+        resetRecentJobs();
+
+        if (jobs == null || jobs.isEmpty()) {
+            return;
+        }
+
+        if (jobs.size() > 0) {
+
+            txtRecent1.setText(
+                    formatRecentJob(jobs.get(0))
+            );
+        }
+
+        if (jobs.size() > 1) {
+
+            txtRecent2.setText(
+                    formatRecentJob(jobs.get(1))
+            );
+        }
+
+        if (jobs.size() > 2) {
+
+            txtRecent3.setText(
+                    formatRecentJob(jobs.get(2))
+            );
+        }
+
+        if (jobs.size() > 3) {
+
+            txtRecent4.setText(
+                    formatRecentJob(jobs.get(3))
+            );
+        }
+    }
+
+    // =========================================================
+    // FORMAT RECENT JOB
+    // =========================================================
+
+    private String formatRecentJob(JobResponse job) {
+
+        if (job == null) {
+            return "";
+        }
+
+        String company =
+                safeText(
+                        job.getCompanyName(),
+                        "Company"
+                );
+
+        String title =
+                safeText(
+                        job.getTitle(),
+                        "Job"
+                );
+
+        return company
+                + "\n\n"
+                + title;
+    }
+
+    // =========================================================
+    // RESET RECENT JOBS
+    // =========================================================
+
+    private void resetRecentJobs() {
+
+        txtRecent1.setText("");
+        txtRecent2.setText("");
+        txtRecent3.setText("");
+        txtRecent4.setText("");
+    }
+
+    // =========================================================
+    // DISPLAY COMPANIES
+    // =========================================================
+
+    private void displayCompanies(
+            List<String> companies
+    ) {
+
+        resetCompanies();
+
+        if (companies == null || companies.isEmpty()) {
+            return;
+        }
+
+        if (companies.size() > 0) {
+
+            txtCompany1.setText(
+                    companies.get(0) + "                         ›"
+            );
+        }
+
+        if (companies.size() > 1) {
+
+            txtCompany2.setText(
+                    companies.get(1) + "                         ›"
+            );
+        }
+
+        if (companies.size() > 2) {
+
+            txtCompany3.setText(
+                    companies.get(2) + "                         ›"
+            );
+        }
+
+        if (companies.size() > 3) {
+
+            txtCompany4.setText(
+                    companies.get(3) + "                         ›"
+            );
+        }
+
+        if (companies.size() > 4) {
+
+            txtCompany5.setText(
+                    companies.get(4) + "                         ›"
+            );
+        }
+    }
+
+    // =========================================================
+    // RESET COMPANIES
+    // =========================================================
+
+    private void resetCompanies() {
+
+        txtCompany1.setText("");
+        txtCompany2.setText("");
+        txtCompany3.setText("");
+        txtCompany4.setText("");
+        txtCompany5.setText("");
+    }
+
+    // =========================================================
+    // DISPLAY TRENDING SKILLS
+    // =========================================================
+
+    private void displayTrendingSkills(
+            List<String> skills
+    ) {
+
+        resetTrendingSkills();
+
+        if (skills == null || skills.isEmpty()) {
+            return;
+        }
+
+        if (skills.size() > 0) {
+
+            txtSkill1.setText(
+                    skills.get(0) + "                         ›"
+            );
+        }
+
+        if (skills.size() > 1) {
+
+            txtSkill2.setText(
+                    skills.get(1) + "                         ›"
+            );
+        }
+
+        if (skills.size() > 2) {
+
+            txtSkill3.setText(
+                    skills.get(2) + "                         ›"
+            );
+        }
+
+        if (skills.size() > 3) {
+
+            txtSkill4.setText(
+                    skills.get(3) + "                         ›"
+            );
+        }
+
+        if (skills.size() > 4) {
+
+            txtSkill5.setText(
+                    skills.get(4) + "                         ›"
+            );
+        }
+    }
+
+    // =========================================================
+    // RESET TRENDING SKILLS
+    // =========================================================
+
+    private void resetTrendingSkills() {
+
+        txtSkill1.setText("");
+        txtSkill2.setText("");
+        txtSkill3.setText("");
+        txtSkill4.setText("");
+        txtSkill5.setText("");
+    }
+
+    // =========================================================
+    // SEARCH SETUP
+    // =========================================================
+
+    private void setupSearch() {
+
+        if (etSearchJobs == null) {
+            return;
+        }
+
+        // Search when keyboard search button is pressed
+        etSearchJobs.setOnEditorActionListener(
+                (v, actionId, event) -> {
+
+                    if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+
+                        String keyword =
+                                etSearchJobs.getText()
+                                        .toString()
+                                        .trim();
+
+                        if (keyword.isEmpty()) {
+
+                            loadJobs();
+
+                        } else {
+
+                            searchJobs(keyword);
+                        }
+
+                        return true;
+                    }
+
+                    if (event != null
+                            && event.getKeyCode()
+                            == KeyEvent.KEYCODE_ENTER
+                            && event.getAction()
+                            == KeyEvent.ACTION_DOWN) {
+
+                        String keyword =
+                                etSearchJobs.getText()
+                                        .toString()
+                                        .trim();
+
+                        if (keyword.isEmpty()) {
+
+                            loadJobs();
+
+                        } else {
+
+                            searchJobs(keyword);
+                        }
+
+                        return true;
+                    }
+
+                    return false;
+                }
+        );
+
+        // Search automatically when the user types
+        etSearchJobs.addTextChangedListener(
+                new TextWatcher() {
+
+                    @Override
+                    public void beforeTextChanged(
+                            CharSequence s,
+                            int start,
+                            int count,
+                            int after) {
+                    }
+
+                    @Override
+                    public void onTextChanged(
+                            CharSequence s,
+                            int start,
+                            int before,
+                            int count) {
+
+                        String keyword =
+                                s.toString().trim();
+
+                        if (keyword.isEmpty()) {
+
+                            loadJobs();
+
+                        } else if (keyword.length() >= 2) {
+
+                            searchJobs(keyword);
+                        }
+                    }
+
+                    @Override
+                    public void afterTextChanged(
+                            Editable s) {
+                    }
+                }
+        );
+    }
+
+    // =========================================================
+    // SEARCH JOBS
+    // =========================================================
+
+    private void searchJobs(String keyword) {
+
+        apiService.searchJobs(keyword).enqueue(
+                new Callback<List<JobResponse>>() {
+
+                    @Override
+                    public void onResponse(
+                            Call<List<JobResponse>> call,
+                            Response<List<JobResponse>> response) {
+
+                        if (response.isSuccessful()
+                                && response.body() != null) {
+
+                            List<JobResponse> jobs =
+                                    response.body();
+
+                            displaySearchResults(jobs);
+
+                        } else {
+
+                            Toast.makeText(
+                                    CandidateDashboardActivity.this,
+                                    "Search failed",
+                                    Toast.LENGTH_SHORT
+                            ).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(
+                            Call<List<JobResponse>> call,
+                            Throwable t) {
+
+                        Toast.makeText(
+                                CandidateDashboardActivity.this,
+                                "Unable to search jobs",
+                                Toast.LENGTH_SHORT
+                        ).show();
+                    }
+                }
+        );
+    }
+
+    // =========================================================
+    // DISPLAY SEARCH RESULTS
+    // =========================================================
+
+    private void displaySearchResults(
+            List<JobResponse> jobs
+    ) {
+
+        if (jobs == null || jobs.isEmpty()) {
+
+            Toast.makeText(
+                    CandidateDashboardActivity.this,
+                    "No matching jobs found",
+                    Toast.LENGTH_SHORT
+            ).show();
+
+            hideJobCard(btnApplyGoogle);
+            hideJobCard(btnApplyMicrosoft);
+            hideJobCard(btnApplyAmazon);
+
+            return;
+        }
+
+        displayJob(
+                jobs.size() > 0
+                        ? jobs.get(0)
+                        : null,
+                btnApplyGoogle
+        );
+
+        displayJob(
+                jobs.size() > 1
+                        ? jobs.get(1)
+                        : null,
+                btnApplyMicrosoft
+        );
+
+        displayJob(
+                jobs.size() > 2
+                        ? jobs.get(2)
+                        : null,
+                btnApplyAmazon
+        );
+    }
+
+    // =========================================================
+    // LOAD NORMAL OPEN JOBS
     // =========================================================
 
     private void loadJobs() {
 
-        ApiService apiService =
-                RetrofitClient.getApiService(CandidateDashboardActivity.this);
+        apiService.getOpenJobs().enqueue(
+                new Callback<List<JobResponse>>() {
 
-        apiService.getOpenJobs().enqueue(new Callback<List<JobResponse>>() {
+                    @Override
+                    public void onResponse(
+                            Call<List<JobResponse>> call,
+                            Response<List<JobResponse>> response) {
 
-            @Override
-            public void onResponse(
-                    Call<List<JobResponse>> call,
-                    Response<List<JobResponse>> response) {
+                        if (response.isSuccessful()
+                                && response.body() != null) {
 
-                if (response.isSuccessful() && response.body() != null) {
+                            List<JobResponse> jobs =
+                                    response.body();
 
-                    List<JobResponse> jobs = response.body();
+                            if (jobs.isEmpty()) {
 
-                    if (jobs.isEmpty()) {
+                                Toast.makeText(
+                                        CandidateDashboardActivity.this,
+                                        "No jobs available",
+                                        Toast.LENGTH_SHORT
+                                ).show();
+
+                                hideJobCard(
+                                        btnApplyGoogle
+                                );
+
+                                hideJobCard(
+                                        btnApplyMicrosoft
+                                );
+
+                                hideJobCard(
+                                        btnApplyAmazon
+                                );
+
+                                return;
+                            }
+
+                            // ---------------------------------
+                            // SHOW MAXIMUM 3 JOBS
+                            // ---------------------------------
+
+                            displayJob(
+                                    jobs.size() > 0
+                                            ? jobs.get(0)
+                                            : null,
+                                    btnApplyGoogle
+                            );
+
+                            displayJob(
+                                    jobs.size() > 1
+                                            ? jobs.get(1)
+                                            : null,
+                                    btnApplyMicrosoft
+                            );
+
+                            displayJob(
+                                    jobs.size() > 2
+                                            ? jobs.get(2)
+                                            : null,
+                                    btnApplyAmazon
+                            );
+
+                        } else {
+
+                            Toast.makeText(
+                                    CandidateDashboardActivity.this,
+                                    "Failed to load jobs",
+                                    Toast.LENGTH_SHORT
+                            ).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(
+                            Call<List<JobResponse>> call,
+                            Throwable t) {
 
                         Toast.makeText(
                                 CandidateDashboardActivity.this,
-                                "No jobs available",
-                                Toast.LENGTH_SHORT
+                                "Unable to connect to server",
+                                Toast.LENGTH_LONG
                         ).show();
-
-                        hideJobCard(btnApplyGoogle);
-                        hideJobCard(btnApplyMicrosoft);
-                        hideJobCard(btnApplyAmazon);
-
-                        return;
                     }
-
-                    // Show maximum 3 jobs in the existing dashboard cards
-                    displayJob(
-                            jobs.size() > 0 ? jobs.get(0) : null,
-                            btnApplyGoogle
-                    );
-
-                    displayJob(
-                            jobs.size() > 1 ? jobs.get(1) : null,
-                            btnApplyMicrosoft
-                    );
-
-                    displayJob(
-                            jobs.size() > 2 ? jobs.get(2) : null,
-                            btnApplyAmazon
-                    );
-
-                } else {
-
-                    Toast.makeText(
-                            CandidateDashboardActivity.this,
-                            "Failed to load jobs",
-                            Toast.LENGTH_SHORT
-                    ).show();
                 }
-            }
-
-            @Override
-            public void onFailure(
-                    Call<List<JobResponse>> call,
-                    Throwable t) {
-
-                Toast.makeText(
-                        CandidateDashboardActivity.this,
-                        "Unable to connect to server",
-                        Toast.LENGTH_LONG
-                ).show();
-            }
-        });
+        );
     }
 
     // =========================================================
     // DISPLAY ONE JOB
     // =========================================================
 
-    private void displayJob(JobResponse job, Button applyButton) {
+    private void displayJob(
+            JobResponse job,
+            Button applyButton
+    ) {
 
         if (job == null) {
+
             hideJobCard(applyButton);
             return;
         }
 
         // Get the job card containing the button
-        View parentView = (View) applyButton.getParent();
+        View parentView =
+                (View) applyButton.getParent();
 
         if (!(parentView instanceof LinearLayout)) {
             return;
         }
 
-        LinearLayout jobCard = (LinearLayout) parentView;
+        LinearLayout jobCard =
+                (LinearLayout) parentView;
 
         jobCard.setVisibility(View.VISIBLE);
 
-        // -----------------------------------------------------
+        // =====================================================
         // JOB CARD STRUCTURE
         //
         // 0 = company logo
-        // 1 = job information layout
-        // 2 = Apply button
-        // -----------------------------------------------------
+        // 1 = job information
+        // 2 = apply button
+        // =====================================================
 
         if (jobCard.getChildCount() < 3) {
             return;
         }
 
-        // =========================
+        // =====================================================
         // COMPANY LOGO
-        // =========================
+        // =====================================================
 
-        View logoView = jobCard.getChildAt(0);
+        View logoView =
+                jobCard.getChildAt(0);
 
         if (logoView instanceof TextView) {
 
-            TextView logo = (TextView) logoView;
+            TextView logo =
+                    (TextView) logoView;
 
-            String companyName = job.getCompanyName();
+            String companyName =
+                    job.getCompanyName();
 
-            if (companyName != null && !companyName.isEmpty()) {
+            if (companyName != null
+                    && !companyName.isEmpty()) {
 
                 logo.setText(
-                        companyName.substring(0, 1).toUpperCase()
+                        companyName
+                                .substring(0, 1)
+                                .toUpperCase()
                 );
+
             } else {
 
                 logo.setText("J");
             }
 
-            logo.setTextColor(Color.rgb(37, 99, 235));
+            logo.setTextColor(
+                    Color.rgb(37, 99, 235)
+            );
         }
 
-        // =========================
+        // =====================================================
         // JOB INFORMATION
-        // =========================
+        // =====================================================
 
-        View informationView = jobCard.getChildAt(1);
+        View informationView =
+                jobCard.getChildAt(1);
 
         if (informationView instanceof LinearLayout) {
 
@@ -249,7 +865,10 @@ public class CandidateDashboardActivity extends AppCompatActivity {
 
             if (informationLayout.getChildCount() >= 4) {
 
-                // Company name
+                // ---------------------------------------------
+                // COMPANY
+                // ---------------------------------------------
+
                 View companyView =
                         informationLayout.getChildAt(0);
 
@@ -259,11 +878,17 @@ public class CandidateDashboardActivity extends AppCompatActivity {
                             (TextView) companyView;
 
                     companyText.setText(
-                            safeText(job.getCompanyName(), "Company")
+                            safeText(
+                                    job.getCompanyName(),
+                                    "Company"
+                            )
                     );
                 }
 
-                // Job title
+                // ---------------------------------------------
+                // TITLE
+                // ---------------------------------------------
+
                 View titleView =
                         informationLayout.getChildAt(1);
 
@@ -273,11 +898,17 @@ public class CandidateDashboardActivity extends AppCompatActivity {
                             (TextView) titleView;
 
                     titleText.setText(
-                            safeText(job.getTitle(), "Job")
+                            safeText(
+                                    job.getTitle(),
+                                    "Job"
+                            )
                     );
                 }
 
-                // Location + experience
+                // ---------------------------------------------
+                // LOCATION + EXPERIENCE
+                // ---------------------------------------------
+
                 View locationView =
                         informationLayout.getChildAt(2);
 
@@ -287,7 +918,10 @@ public class CandidateDashboardActivity extends AppCompatActivity {
                             (TextView) locationView;
 
                     String location =
-                            safeText(job.getLocation(), "Location");
+                            safeText(
+                                    job.getLocation(),
+                                    "Location"
+                            );
 
                     String experience =
                             safeText(
@@ -296,11 +930,17 @@ public class CandidateDashboardActivity extends AppCompatActivity {
                             );
 
                     locationText.setText(
-                            "📍 " + location + "  •  " + experience
+                            "📍 "
+                                    + location
+                                    + "  •  "
+                                    + experience
                     );
                 }
 
-                // Skills
+                // ---------------------------------------------
+                // SKILLS
+                // ---------------------------------------------
+
                 View skillsView =
                         informationLayout.getChildAt(3);
 
@@ -320,20 +960,24 @@ public class CandidateDashboardActivity extends AppCompatActivity {
             }
         }
 
-        // =========================
+        // =====================================================
         // APPLY BUTTON
-        // =========================
+        // =====================================================
 
         applyButton.setVisibility(View.VISIBLE);
 
         applyButton.setOnClickListener(v -> {
 
-            Intent intent = new Intent(
-                    CandidateDashboardActivity.this,
-                    ApplyJobActivity.class
-            );
+            Intent intent =
+                    new Intent(
+                            CandidateDashboardActivity.this,
+                            ApplyJobActivity.class
+                    );
 
-            // Send REAL backend job information
+            // -------------------------------------------------
+            // SEND REAL BACKEND JOB DATA
+            // -------------------------------------------------
+
             intent.putExtra(
                     "job_id",
                     job.getId()
@@ -382,16 +1026,22 @@ public class CandidateDashboardActivity extends AppCompatActivity {
     // HIDE UNUSED JOB CARD
     // =========================================================
 
-    private void hideJobCard(Button applyButton) {
+    private void hideJobCard(
+            Button applyButton
+    ) {
 
         if (applyButton == null) {
             return;
         }
 
-        View parentView = (View) applyButton.getParent();
+        View parentView =
+                (View) applyButton.getParent();
 
         if (parentView != null) {
-            parentView.setVisibility(View.GONE);
+
+            parentView.setVisibility(
+                    View.GONE
+            );
         }
     }
 
@@ -399,9 +1049,14 @@ public class CandidateDashboardActivity extends AppCompatActivity {
     // SAFE TEXT
     // =========================================================
 
-    private String safeText(String value, String fallback) {
+    private String safeText(
+            String value,
+            String fallback
+    ) {
 
-        if (value == null || value.trim().isEmpty()) {
+        if (value == null
+                || value.trim().isEmpty()) {
+
             return fallback;
         }
 
