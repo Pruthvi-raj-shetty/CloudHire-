@@ -1,208 +1,260 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
-    android:orientation="vertical">
 
-    <!-- App Bar -->
+    android:orientation="vertical"
+    android:background="#F5F7FB">
+
+    <!-- TOP BAR -->
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:background="#FFFFFF"
-        android:elevation="2dp"
-        android:gravity="center_vertical"
+        android:layout_height="64dp"
+
         android:orientation="horizontal"
+        android:gravity="center_vertical"
+
         android:paddingStart="16dp"
-        android:paddingEnd="16dp">
+        android:paddingEnd="16dp"
+
+        android:background="#FFFFFF"
+        android:elevation="3dp">
 
         <ImageButton
             android:id="@+id/btnBack"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:src="@drawable/ic_arrow_back"
-            android:contentDescription="Back" />
+
+            android:src="@android:drawable/ic_media_previous"
+
+            android:contentDescription="Back"
+
+            app:tint="#172554"/>
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+
             android:layout_weight="1"
+
             android:gravity="center"
+
             android:text="Apply for Job"
-            android:textColor="#111827"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+
+            android:textColor="#172554"
+
+            android:textSize="20sp"
+            android:textStyle="bold"/>
 
         <View
-            android:layout_width="40dp"
-            android:layout_height="40dp" />
+            android:layout_width="48dp"
+            android:layout_height="48dp"/>
+
     </LinearLayout>
+
+
+    <!-- CONTENT -->
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+
+        android:layout_weight="1"
+
         android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+
             android:orientation="vertical"
+
             android:padding="20dp">
 
-            <!-- Job Info Header -->
+
+            <!-- TITLE -->
+
+            <TextView
+                android:id="@+id/txtApplyTitle"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:text="Apply for Job"
+
+                android:textColor="#172554"
+
+                android:textSize="25sp"
+                android:textStyle="bold"/>
+
+
+            <!-- JOB INFORMATION CARD -->
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#F8FAFC"
+
+                android:layout_marginTop="20dp"
+
                 android:orientation="vertical"
-                android:padding="16dp">
+
+                android:padding="18dp"
+
+                android:background="#FFFFFF"
+
+                android:elevation="2dp">
+
 
                 <TextView
-                    android:id="@+id/txtJobTitle"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/txtApplyCompany"
+
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Software Engineer"
-                    android:textColor="#111827"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
+
+                    android:text="Company:"
+
+                    android:textColor="#4B5563"
+                    android:textSize="15sp"/>
+
 
                 <TextView
-                    android:id="@+id/txtCompanyName"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/txtApplyLocation"
+
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="Google"
-                    android:textColor="#2563EB"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
+
+                    android:layout_marginTop="10dp"
+
+                    android:text="Location:"
+
+                    android:textColor="#4B5563"
+                    android:textSize="15sp"/>
+
 
                 <TextView
-                    android:id="@+id/txtLocation"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/txtApplyEmployment"
+
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="Bangalore, India"
-                    android:textColor="#64748B"
-                    android:textSize="14sp" />
+
+                    android:layout_marginTop="10dp"
+
+                    android:text="Employment Type:"
+
+                    android:textColor="#4B5563"
+                    android:textSize="15sp"/>
+
+
+                <TextView
+                    android:id="@+id/txtApplyExperience"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginTop="10dp"
+
+                    android:text="Experience:"
+
+                    android:textColor="#4B5563"
+                    android:textSize="15sp"/>
+
+
+                <TextView
+                    android:id="@+id/txtApplySkills"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginTop="10dp"
+
+                    android:text="Skills:"
+
+                    android:textColor="#4B5563"
+                    android:textSize="15sp"/>
+
             </LinearLayout>
 
-            <!-- Application Form -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:text="Full Name"
-                android:textColor="#374151"
-                android:textSize="14sp"
-                android:textStyle="bold" />
 
-            <EditText
-                android:id="@+id/etFullName"
+            <!-- APPLICATION -->
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:layout_marginTop="25dp"
+
+                android:text="Your Application"
+
+                android:textColor="#172554"
+
+                android:textSize="20sp"
+                android:textStyle="bold"/>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:layout_marginTop="8dp"
+
+                android:text="Confirm your details and select your resume."
+
+                android:textColor="#6B7280"
+
+                android:textSize="14sp"/>
+
+
+            <!-- RESUME -->
+
+            <Button
+                android:id="@+id/btnSelectResume"
+
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_marginTop="8dp"
-                android:background="#F9FAFB"
-                android:hint="Enter your full name"
-                android:inputType="textPersonName"
-                android:paddingStart="12dp"
-                android:paddingEnd="12dp"
-                android:textSize="14sp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="Email Address"
-                android:textColor="#374151"
-                android:textSize="14sp"
-                android:textStyle="bold" />
+                android:layout_marginTop="18dp"
 
-            <EditText
-                android:id="@+id/etEmail"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="8dp"
-                android:background="#F9FAFB"
-                android:hint="Enter your email"
-                android:inputType="textEmailAddress"
-                android:paddingStart="12dp"
-                android:paddingEnd="12dp"
-                android:textSize="14sp" />
+                android:text="Select Resume"
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="Resume"
-                android:textColor="#374151"
-                android:textSize="14sp"
-                android:textStyle="bold" />
+                android:textAllCaps="false"
 
-            <LinearLayout
-                android:id="@+id/layoutUploadResume"
-                android:layout_width="match_parent"
-                android:layout_height="80dp"
-                android:layout_marginTop="8dp"
-                android:background="#F8FAFC"
-                android:gravity="center"
-                android:orientation="vertical">
+                android:textColor="#FFFFFF"
 
-                <TextView
-                    android:id="@+id/txtResumeName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Upload Resume (PDF)"
-                    android:textColor="#2563EB"
-                    android:textSize="14sp" />
+                android:textStyle="bold"
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="Max file size 5MB"
-                    android:textColor="#94A3B8"
-                    android:textSize="12sp" />
-            </LinearLayout>
+                android:backgroundTint="#2563EB"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="Cover Letter (Optional)"
-                android:textColor="#374151"
-                android:textSize="14sp"
-                android:textStyle="bold" />
 
-            <EditText
-                android:id="@+id/etCoverLetter"
-                android:layout_width="match_parent"
-                android:layout_height="120dp"
-                android:layout_marginTop="8dp"
-                android:background="#F9FAFB"
-                android:gravity="top"
-                android:hint="Tell us why you are a good fit..."
-                android:inputType="textMultiLine"
-                android:padding="12dp"
-                android:textSize="14sp" />
+            <!-- SUBMIT -->
 
             <Button
                 android:id="@+id/btnSubmitApplication"
-                android:layout_width="match_parent"
-                android:layout_height="55dp"
-                android:layout_marginTop="32dp"
-                android:backgroundTint="#2563EB"
-                android:text="Submit Application"
-                android:textAllCaps="false"
-                android:textColor="#FFFFFF"
-                android:textSize="16sp"
-                android:textStyle="bold" />
 
-            <View
                 android:layout_width="match_parent"
-                android:layout_height="20dp" />
+                android:layout_height="50dp"
+
+                android:layout_marginTop="14dp"
+
+                android:text="Submit Application"
+
+                android:textAllCaps="false"
+
+                android:textColor="#FFFFFF"
+
+                android:textStyle="bold"
+
+                android:backgroundTint="#2563EB"/>
 
         </LinearLayout>
+
     </ScrollView>
 
 </LinearLayout>

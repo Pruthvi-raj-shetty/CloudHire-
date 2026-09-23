@@ -1,10 +1,9 @@
 package com.example.cloudhire;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -12,60 +11,150 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class ApplyJobActivity extends AppCompatActivity {
 
-    private TextView txtJobTitle, txtCompanyName, txtLocation;
-    private EditText etFullName, etEmail, etCoverLetter;
-    private LinearLayout layoutUploadResume;
+    private TextView txtTitle;
+    private TextView txtCompany;
+    private TextView txtLocation;
+    private TextView txtEmployment;
+    private TextView txtExperience;
+    private TextView txtSkills;
+
+    private Button btnSelectResume;
     private Button btnSubmitApplication;
-    private ImageButton btnBack;
+
+    private String jobId;
+    private String jobTitle;
+    private String companyName;
+    private String location;
+    private String employmentType;
+    private String experience;
+    private String skills;
+
+    private static final int PICK_RESUME = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_apply_job);
 
-        // Initialize Views
-        txtJobTitle = findViewById(R.id.txtJobTitle);
-        txtCompanyName = findViewById(R.id.txtCompanyName);
-        txtLocation = findViewById(R.id.txtLocation);
-        etFullName = findViewById(R.id.etFullName);
-        etEmail = findViewById(R.id.etEmail);
-        etCoverLetter = findViewById(R.id.etCoverLetter);
-        layoutUploadResume = findViewById(R.id.layoutUploadResume);
+        txtTitle = findViewById(R.id.txtApplyTitle);
+        txtCompany = findViewById(R.id.txtApplyCompany);
+        txtLocation = findViewById(R.id.txtApplyLocation);
+        txtEmployment = findViewById(R.id.txtApplyEmployment);
+        txtExperience = findViewById(R.id.txtApplyExperience);
+        txtSkills = findViewById(R.id.txtApplySkills);
+
+        btnSelectResume = findViewById(R.id.btnSelectResume);
         btnSubmitApplication = findViewById(R.id.btnSubmitApplication);
-        btnBack = findViewById(R.id.btnBack);
 
-        // Get Data from Intent
-        String jobTitle = getIntent().getStringExtra("job_title");
-        String companyName = getIntent().getStringExtra("company_name");
-        String location = getIntent().getStringExtra("location");
+        Intent intent = getIntent();
 
-        if (jobTitle != null) txtJobTitle.setText(jobTitle);
-        if (companyName != null) txtCompanyName.setText(companyName);
-        if (location != null) txtLocation.setText(location);
+        jobId = intent.getStringExtra("jobId");
+        jobTitle = intent.getStringExtra("jobTitle");
+        companyName = intent.getStringExtra("companyName");
+        location = intent.getStringExtra("location");
+        employmentType = intent.getStringExtra("employmentType");
+        experience = intent.getStringExtra("experience");
+        skills = intent.getStringExtra("skills");
 
-        // Pre-fill user data (In a real app, this would come from shared preferences or a database)
-        etFullName.setText("Adithya Kumar");
-        etEmail.setText("adithya@example.com");
+        txtTitle.setText(
+                "Apply for " + safeText(jobTitle)
+        );
 
-        btnBack.setOnClickListener(v -> finish());
+        txtCompany.setText(
+                "Company: " + safeText(companyName)
+        );
 
-        layoutUploadResume.setOnClickListener(v -> {
-            Toast.makeText(this, "Opening file picker...", Toast.LENGTH_SHORT).show();
-            // Logic for file picker would go here
-        });
+        txtLocation.setText(
+                "Location: " + safeText(location)
+        );
 
-        btnSubmitApplication.setOnClickListener(v -> {
-            String fullName = etFullName.getText().toString().trim();
-            String email = etEmail.getText().toString().trim();
+        txtEmployment.setText(
+                "Employment Type: " + safeText(employmentType)
+        );
 
-            if (fullName.isEmpty() || email.isEmpty()) {
-                Toast.makeText(this, "Please fill in all required fields", Toast.LENGTH_SHORT).show();
-                return;
+        txtExperience.setText(
+                "Experience: " + safeText(experience)
+        );
+
+        txtSkills.setText(
+                "Skills: " + safeText(skills)
+        );
+
+        btnSelectResume.setOnClickListener(v -> selectResume());
+
+        btnSubmitApplication.setOnClickListener(v -> submitApplication());
+    }
+
+    private String safeText(String value) {
+
+        if (value == null || value.trim().isEmpty()) {
+            return "Not provided";
+        }
+
+        return value;
+    }
+
+    private void selectResume() {
+
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+
+        intent.setType("application/pdf");
+
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+
+        startActivityForResult(intent, PICK_RESUME);
+    }
+
+    @Override
+    protected void onActivityResult(
+            int requestCode,
+            int resultCode,
+            Intent data
+    ) {
+        super.onActivityResult(
+                requestCode,
+                resultCode,
+                data
+        );
+
+        if (requestCode == PICK_RESUME
+                && resultCode == RESULT_OK
+                && data != null) {
+
+            Uri resumeUri = data.getData();
+
+            if (resumeUri != null) {
+
+                btnSelectResume.setText(
+                        "Resume Selected"
+                );
+
+                Toast.makeText(
+                        this,
+                        "Resume selected",
+                        Toast.LENGTH_SHORT
+                ).show();
             }
+        }
+    }
 
-            // Logic to submit application would go here
-            Toast.makeText(this, "Application submitted successfully to " + companyName, Toast.LENGTH_LONG).show();
-            finish();
-        });
+    private void submitApplication() {
+
+        /*
+         * FRONTEND ONLY
+         *
+         * Your friend will connect this section
+         * to the Spring Boot API.
+         *
+         * The authenticated JWT should be added
+         * by the API/network layer.
+         */
+
+        Toast.makeText(
+                this,
+                "Application submission API will be connected here.",
+                Toast.LENGTH_LONG
+        ).show();
     }
 }
