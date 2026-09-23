@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.provider.OpenableColumns;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,6 +37,10 @@ public class ApplyJobActivity extends AppCompatActivity {
     private static final long MAX_FILE_SIZE =
             5L * 1024 * 1024; // 5 MB
 
+    // =========================================================
+    // VIEWS
+    // =========================================================
+
     private TextView txtJobTitle;
     private TextView txtCompanyName;
     private TextView txtLocation;
@@ -50,19 +53,23 @@ public class ApplyJobActivity extends AppCompatActivity {
     private LinearLayout layoutUploadResume;
 
     private Button btnSubmitApplication;
-    private ImageButton btnBack;
+    private Button btnBack;
+
+    // =========================================================
+    // JOB DATA
+    // =========================================================
 
     private Long jobId;
 
-    // Selected file is kept ONLY in Android memory.
-    // It is NOT uploaded when selected.
-    private Uri selectedResumeUri;
+    // =========================================================
+    // SELECTED RESUME
+    // =========================================================
 
+    private Uri selectedResumeUri;
     private String selectedResumeFileName;
 
-
     // =========================================================
-    // FILE PICKER
+    // RESUME PICKER
     // =========================================================
 
     private final ActivityResultLauncher<Intent> resumePicker =
@@ -70,102 +77,81 @@ public class ApplyJobActivity extends AppCompatActivity {
                     new ActivityResultContracts.StartActivityForResult(),
                     result -> {
 
-                        if (result.getResultCode()
-                                != RESULT_OK
+                        if (result.getResultCode() != RESULT_OK
                                 || result.getData() == null) {
-
                             return;
                         }
 
-                        Uri uri =
-                                result.getData().getData();
+                        Uri uri = result.getData().getData();
 
                         if (uri == null) {
                             return;
                         }
 
-
-
                         handleSelectedResume(uri);
                     }
             );
 
+    // =========================================================
+    // ON CREATE
+    // =========================================================
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(
-                R.layout.activity_apply_job
-        );
-
+        setContentView(R.layout.activity_apply_job);
 
         // =====================================================
         // INITIALIZE VIEWS
         // =====================================================
 
-        txtJobTitle =
-                findViewById(R.id.txtJobTitle);
+        txtJobTitle = findViewById(R.id.txtJobTitle);
 
-        txtCompanyName =
-                findViewById(R.id.txtCompanyName);
+        txtCompanyName = findViewById(R.id.txtCompanyName);
 
-        txtLocation =
-                findViewById(R.id.txtLocation);
+        txtLocation = findViewById(R.id.txtLocation);
 
-        txtResumeName =
-                findViewById(R.id.txtResumeName);
+        txtResumeName = findViewById(R.id.txtResumeName);
 
-        etFullName =
-                findViewById(R.id.etFullName);
+        etFullName = findViewById(R.id.etFullName);
 
-        etEmail =
-                findViewById(R.id.etEmail);
+        etEmail = findViewById(R.id.etEmail);
 
-        etCoverLetter =
-                findViewById(R.id.etCoverLetter);
+        etCoverLetter = findViewById(R.id.etCoverLetter);
 
-        layoutUploadResume =
-                findViewById(R.id.layoutUploadResume);
+        layoutUploadResume = findViewById(R.id.layoutUploadResume);
 
-        btnSubmitApplication =
-                findViewById(R.id.btnSubmitApplication);
+        btnSubmitApplication = findViewById(R.id.btnSubmitApplication);
 
-        btnBack =
-                findViewById(R.id.btnBack);
-
+        btnBack = findViewById(R.id.btnBack);
 
         // =====================================================
         // GET JOB DATA
         // =====================================================
 
-        jobId =
-                getIntent().getLongExtra(
-                        "job_id",
-                        -1
-                );
+        jobId = getIntent().getLongExtra(
+                "job_id",
+                -1
+        );
 
-        String jobTitle =
-                getIntent().getStringExtra(
-                        "job_title"
-                );
+        String jobTitle = getIntent().getStringExtra(
+                "job_title"
+        );
 
-        String companyName =
-                getIntent().getStringExtra(
-                        "company_name"
-                );
+        String companyName = getIntent().getStringExtra(
+                "company_name"
+        );
 
-        String location =
-                getIntent().getStringExtra(
-                        "location"
-                );
-
+        String location = getIntent().getStringExtra(
+                "location"
+        );
 
         // =====================================================
         // VALIDATE JOB
         // =====================================================
 
-        if (jobId == -1) {
+        if (jobId == null || jobId == -1) {
 
             Toast.makeText(
                     this,
@@ -177,23 +163,21 @@ public class ApplyJobActivity extends AppCompatActivity {
             return;
         }
 
-
         // =====================================================
         // DISPLAY JOB
         // =====================================================
 
-        if (jobTitle != null) {
+        if (jobTitle != null && !jobTitle.isEmpty()) {
             txtJobTitle.setText(jobTitle);
         }
 
-        if (companyName != null) {
+        if (companyName != null && !companyName.isEmpty()) {
             txtCompanyName.setText(companyName);
         }
 
-        if (location != null) {
+        if (location != null && !location.isEmpty()) {
             txtLocation.setText(location);
         }
-
 
         // =====================================================
         // LOAD LOGGED-IN USER
@@ -202,25 +186,17 @@ public class ApplyJobActivity extends AppCompatActivity {
         SessionManager sessionManager =
                 new SessionManager(this);
 
-        String name =
-                sessionManager.getName();
+        String name = sessionManager.getName();
 
-        String email =
-                sessionManager.getEmail();
+        String email = sessionManager.getEmail();
 
-
-        if (name != null
-                && !name.isEmpty()) {
-
+        if (name != null && !name.isEmpty()) {
             etFullName.setText(name);
         }
 
-        if (email != null
-                && !email.isEmpty()) {
-
+        if (email != null && !email.isEmpty()) {
             etEmail.setText(email);
         }
-
 
         // =====================================================
         // BACK
@@ -230,7 +206,6 @@ public class ApplyJobActivity extends AppCompatActivity {
                 v -> finish()
         );
 
-
         // =====================================================
         // SELECT RESUME
         // =====================================================
@@ -238,7 +213,6 @@ public class ApplyJobActivity extends AppCompatActivity {
         layoutUploadResume.setOnClickListener(
                 v -> openResumePicker()
         );
-
 
         // =====================================================
         // SUBMIT APPLICATION
@@ -249,7 +223,6 @@ public class ApplyJobActivity extends AppCompatActivity {
         );
     }
 
-
     // =========================================================
     // OPEN FILE PICKER
     // =========================================================
@@ -257,9 +230,7 @@ public class ApplyJobActivity extends AppCompatActivity {
     private void openResumePicker() {
 
         Intent intent =
-                new Intent(
-                        Intent.ACTION_OPEN_DOCUMENT
-                );
+                new Intent(Intent.ACTION_OPEN_DOCUMENT);
 
         intent.addCategory(
                 Intent.CATEGORY_OPENABLE
@@ -279,20 +250,15 @@ public class ApplyJobActivity extends AppCompatActivity {
         resumePicker.launch(intent);
     }
 
-
     // =========================================================
-    // HANDLE SELECTED FILE
+    // HANDLE SELECTED RESUME
     // =========================================================
 
-    private void handleSelectedResume(
-            Uri uri
-    ) {
+    private void handleSelectedResume(Uri uri) {
 
-        String fileName =
-                getFileName(uri);
+        String fileName = getFileName(uri);
 
-        if (fileName == null
-                || fileName.isEmpty()) {
+        if (fileName == null || fileName.isEmpty()) {
 
             Toast.makeText(
                     this,
@@ -302,7 +268,6 @@ public class ApplyJobActivity extends AppCompatActivity {
 
             return;
         }
-
 
         // =====================================================
         // CHECK PDF EXTENSION
@@ -320,7 +285,6 @@ public class ApplyJobActivity extends AppCompatActivity {
 
             return;
         }
-
 
         // =====================================================
         // CHECK MIME TYPE
@@ -344,13 +308,11 @@ public class ApplyJobActivity extends AppCompatActivity {
             return;
         }
 
-
         // =====================================================
         // CHECK FILE SIZE
         // =====================================================
 
-        long fileSize =
-                getFileSize(uri);
+        long fileSize = getFileSize(uri);
 
         if (fileSize > MAX_FILE_SIZE) {
 
@@ -363,14 +325,13 @@ public class ApplyJobActivity extends AppCompatActivity {
             return;
         }
 
-
         // =====================================================
-        // SAVE FILE LOCALLY
+        // SAVE SELECTED FILE
         // =====================================================
 
         selectedResumeUri = uri;
-        selectedResumeFileName = fileName;
 
+        selectedResumeFileName = fileName;
 
         // =====================================================
         // UPDATE UI
@@ -386,7 +347,6 @@ public class ApplyJobActivity extends AppCompatActivity {
                 Toast.LENGTH_SHORT
         ).show();
     }
-
 
     // =========================================================
     // VALIDATE FORM
@@ -404,7 +364,6 @@ public class ApplyJobActivity extends AppCompatActivity {
                         .toString()
                         .trim();
 
-
         if (fullName.isEmpty()
                 || email.isEmpty()) {
 
@@ -417,8 +376,7 @@ public class ApplyJobActivity extends AppCompatActivity {
             return;
         }
 
-
-        // Resume is required for this flow
+        // Resume is required
         if (selectedResumeUri == null) {
 
             Toast.makeText(
@@ -430,14 +388,9 @@ public class ApplyJobActivity extends AppCompatActivity {
             return;
         }
 
-
-        // =====================================================
-        // START SUBMISSION
-        // =====================================================
-
+        // Start submission
         uploadResumeThenApply();
     }
-
 
     // =========================================================
     // UPLOAD RESUME THEN APPLY
@@ -450,7 +403,6 @@ public class ApplyJobActivity extends AppCompatActivity {
         btnSubmitApplication.setText(
                 "Uploading Resume..."
         );
-
 
         try {
 
@@ -473,19 +425,16 @@ public class ApplyJobActivity extends AppCompatActivity {
                 return;
             }
 
-
             byte[] fileBytes =
                     readInputStream(inputStream);
 
             inputStream.close();
 
-
             // =================================================
             // FINAL SIZE CHECK
             // =================================================
 
-            if (fileBytes.length
-                    > MAX_FILE_SIZE) {
+            if (fileBytes.length > MAX_FILE_SIZE) {
 
                 resetSubmitButton();
 
@@ -497,7 +446,6 @@ public class ApplyJobActivity extends AppCompatActivity {
 
                 return;
             }
-
 
             // =================================================
             // CREATE REQUEST BODY
@@ -511,14 +459,12 @@ public class ApplyJobActivity extends AppCompatActivity {
                             fileBytes
                     );
 
-
             MultipartBody.Part filePart =
                     MultipartBody.Part.createFormData(
                             "file",
                             selectedResumeFileName,
                             requestBody
                     );
-
 
             // =================================================
             // UPLOAD TO BACKEND
@@ -543,8 +489,8 @@ public class ApplyJobActivity extends AppCompatActivity {
                             if (response.isSuccessful()
                                     && response.body() != null) {
 
-                                // Resume has now reached
-                                // the backend/MinIO.
+                                // Resume has reached
+                                // Spring Boot and MinIO.
 
                                 submitApplication();
 
@@ -582,7 +528,6 @@ public class ApplyJobActivity extends AppCompatActivity {
                             }
                         }
 
-
                         @Override
                         public void onFailure(
                                 Call<ResumeResponse> call,
@@ -612,7 +557,6 @@ public class ApplyJobActivity extends AppCompatActivity {
         }
     }
 
-
     // =========================================================
     // SUBMIT APPLICATION
     // =========================================================
@@ -623,12 +567,10 @@ public class ApplyJobActivity extends AppCompatActivity {
                 "Submitting Application..."
         );
 
-
         ApiService apiService =
                 RetrofitClient.getApiService(
                         this
                 );
-
 
         apiService.applyToJob(jobId)
                 .enqueue(
@@ -641,7 +583,6 @@ public class ApplyJobActivity extends AppCompatActivity {
                             ) {
 
                                 resetSubmitButton();
-
 
                                 if (response.isSuccessful()
                                         && response.body() != null) {
@@ -657,10 +598,9 @@ public class ApplyJobActivity extends AppCompatActivity {
                                     return;
                                 }
 
-
-                                // =================================
+                                // =================================================
                                 // DUPLICATE APPLICATION
-                                // =================================
+                                // =================================================
 
                                 if (response.code() == 400
                                         || response.code() == 409) {
@@ -674,14 +614,12 @@ public class ApplyJobActivity extends AppCompatActivity {
                                     return;
                                 }
 
-
                                 Toast.makeText(
                                         ApplyJobActivity.this,
                                         "Unable to submit application",
                                         Toast.LENGTH_LONG
                                 ).show();
                             }
-
 
                             @Override
                             public void onFailure(
@@ -700,7 +638,6 @@ public class ApplyJobActivity extends AppCompatActivity {
                         }
                 );
     }
-
 
     // =========================================================
     // READ FILE
@@ -739,14 +676,11 @@ public class ApplyJobActivity extends AppCompatActivity {
         return outputStream.toByteArray();
     }
 
-
     // =========================================================
     // GET FILE NAME
     // =========================================================
 
-    private String getFileName(
-            Uri uri
-    ) {
+    private String getFileName(Uri uri) {
 
         String result = null;
 
@@ -793,14 +727,11 @@ public class ApplyJobActivity extends AppCompatActivity {
         return result;
     }
 
-
     // =========================================================
     // GET FILE SIZE
     // =========================================================
 
-    private long getFileSize(
-            Uri uri
-    ) {
+    private long getFileSize(Uri uri) {
 
         Cursor cursor =
                 getContentResolver()
@@ -838,7 +769,6 @@ public class ApplyJobActivity extends AppCompatActivity {
 
         return 0;
     }
-
 
     // =========================================================
     // RESET SUBMIT BUTTON

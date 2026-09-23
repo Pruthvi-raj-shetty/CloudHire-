@@ -115,8 +115,9 @@
                 android:layout_height="48dp"
                 android:layout_marginTop="5dp"
                 android:background="@null"
-                android:hint="Enter phone number"
+                android:hint="Enter 10-digit phone number"
                 android:inputType="phone"
+                android:maxLength="10"
                 android:textColor="#111827"
                 android:textSize="15sp" />
 

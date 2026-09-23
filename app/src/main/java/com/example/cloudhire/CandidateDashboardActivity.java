@@ -8,6 +8,8 @@ import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.content.Context;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -141,6 +143,41 @@ public class CandidateDashboardActivity extends AppCompatActivity {
         txtSkill3 = findViewById(R.id.txtSkill3);
         txtSkill4 = findViewById(R.id.txtSkill4);
         txtSkill5 = findViewById(R.id.txtSkill5);
+
+        // =====================================================
+        // NOTIFICATIONS
+        // =====================================================
+
+        TextView btnNotification = findViewById(R.id.btnNotification);
+
+        if (btnNotification != null) {
+            btnNotification.setOnClickListener(v -> {
+
+                Intent intent = new Intent(
+                        CandidateDashboardActivity.this,
+                        CandidateNotificationsActivity.class
+                );
+
+                startActivity(intent);
+            });
+        }
+
+        // =====================================================
+        // VIEW ALL
+        // =====================================================
+
+        TextView txtViewAll = findViewById(R.id.txtViewAll);
+
+        if (txtViewAll != null) {
+            txtViewAll.setOnClickListener(v -> {
+
+                if (etSearchJobs != null) {
+                    etSearchJobs.setText("");
+                }
+
+                loadJobs();
+            });
+        }
 
         // =====================================================
         // MY PROFILE
@@ -299,28 +336,24 @@ public class CandidateDashboardActivity extends AppCompatActivity {
         }
 
         if (jobs.size() > 0) {
-
             txtRecent1.setText(
                     formatRecentJob(jobs.get(0))
             );
         }
 
         if (jobs.size() > 1) {
-
             txtRecent2.setText(
                     formatRecentJob(jobs.get(1))
             );
         }
 
         if (jobs.size() > 2) {
-
             txtRecent3.setText(
                     formatRecentJob(jobs.get(2))
             );
         }
 
         if (jobs.size() > 3) {
-
             txtRecent4.setText(
                     formatRecentJob(jobs.get(3))
             );
@@ -381,35 +414,30 @@ public class CandidateDashboardActivity extends AppCompatActivity {
         }
 
         if (companies.size() > 0) {
-
             txtCompany1.setText(
                     companies.get(0) + "                         ›"
             );
         }
 
         if (companies.size() > 1) {
-
             txtCompany2.setText(
                     companies.get(1) + "                         ›"
             );
         }
 
         if (companies.size() > 2) {
-
             txtCompany3.setText(
                     companies.get(2) + "                         ›"
             );
         }
 
         if (companies.size() > 3) {
-
             txtCompany4.setText(
                     companies.get(3) + "                         ›"
             );
         }
 
         if (companies.size() > 4) {
-
             txtCompany5.setText(
                     companies.get(4) + "                         ›"
             );
@@ -444,35 +472,30 @@ public class CandidateDashboardActivity extends AppCompatActivity {
         }
 
         if (skills.size() > 0) {
-
             txtSkill1.setText(
                     skills.get(0) + "                         ›"
             );
         }
 
         if (skills.size() > 1) {
-
             txtSkill2.setText(
                     skills.get(1) + "                         ›"
             );
         }
 
         if (skills.size() > 2) {
-
             txtSkill3.setText(
                     skills.get(2) + "                         ›"
             );
         }
 
         if (skills.size() > 3) {
-
             txtSkill4.setText(
                     skills.get(3) + "                         ›"
             );
         }
 
         if (skills.size() > 4) {
-
             txtSkill5.setText(
                     skills.get(4) + "                         ›"
             );
@@ -506,7 +529,8 @@ public class CandidateDashboardActivity extends AppCompatActivity {
         etSearchJobs.setOnEditorActionListener(
                 (v, actionId, event) -> {
 
-                    if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    if (actionId == EditorInfo.IME_ACTION_SEARCH
+                            || actionId == EditorInfo.IME_ACTION_DONE) {
 
                         String keyword =
                                 etSearchJobs.getText()
@@ -514,12 +538,22 @@ public class CandidateDashboardActivity extends AppCompatActivity {
                                         .trim();
 
                         if (keyword.isEmpty()) {
-
                             loadJobs();
-
                         } else {
-
                             searchJobs(keyword);
+                        }
+
+                        InputMethodManager imm =
+                                (InputMethodManager)
+                                        getSystemService(
+                                                Context.INPUT_METHOD_SERVICE
+                                        );
+
+                        if (imm != null) {
+                            imm.hideSoftInputFromWindow(
+                                    v.getWindowToken(),
+                                    0
+                            );
                         }
 
                         return true;
@@ -537,11 +571,8 @@ public class CandidateDashboardActivity extends AppCompatActivity {
                                         .trim();
 
                         if (keyword.isEmpty()) {
-
                             loadJobs();
-
                         } else {
-
                             searchJobs(keyword);
                         }
 
@@ -712,23 +743,15 @@ public class CandidateDashboardActivity extends AppCompatActivity {
                                         Toast.LENGTH_SHORT
                                 ).show();
 
-                                hideJobCard(
-                                        btnApplyGoogle
-                                );
-
-                                hideJobCard(
-                                        btnApplyMicrosoft
-                                );
-
-                                hideJobCard(
-                                        btnApplyAmazon
-                                );
+                                hideJobCard(btnApplyGoogle);
+                                hideJobCard(btnApplyMicrosoft);
+                                hideJobCard(btnApplyAmazon);
 
                                 return;
                             }
 
                             // ---------------------------------
-                            // SHOW MAXIMUM 3 JOBS
+                            // SHOW MAXIMUM 3 REAL JOBS
                             // ---------------------------------
 
                             displayJob(
@@ -787,8 +810,11 @@ public class CandidateDashboardActivity extends AppCompatActivity {
     ) {
 
         if (job == null) {
-
             hideJobCard(applyButton);
+            return;
+        }
+
+        if (applyButton == null) {
             return;
         }
 

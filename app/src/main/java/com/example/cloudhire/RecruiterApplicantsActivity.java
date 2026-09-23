@@ -1166,11 +1166,12 @@ public class RecruiterApplicantsActivity extends AppCompatActivity {
         findViewById(R.id.btnApplicantsNotifications)
                 .setOnClickListener(v -> {
 
-                    Toast.makeText(
-                            this,
-                            "Notifications",
-                            Toast.LENGTH_SHORT
-                    ).show();
+                    Intent intent = new Intent(
+                            RecruiterApplicantsActivity.this,
+                            RecruiterNotificationsActivity.class
+                    );
+
+                    startActivity(intent);
                 });
 
 

@@ -27,7 +27,9 @@
             android:layout_height="48dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="Back"
-            android:src="@android:drawable/ic_media_previous"
+            android:padding="12dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_arrow_back"
             app:tint="#172554" />
 
         <TextView
@@ -46,7 +48,9 @@
             android:layout_height="48dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="Notifications"
-            android:src="@android:drawable/ic_dialog_info"
+            android:padding="12dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/recruiter_dashboard_notifications"
             app:tint="#172554" />
 
     </LinearLayout>

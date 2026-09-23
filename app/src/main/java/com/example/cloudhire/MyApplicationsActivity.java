@@ -69,6 +69,21 @@ public class MyApplicationsActivity extends AppCompatActivity {
 
         btnBack.setOnClickListener(v -> finish());
 
+        // ==============================
+        // NOTIFICATIONS
+        // ==============================
+
+        ImageButton btnNotifications = findViewById(R.id.btnNotifications);
+        if (btnNotifications != null) {
+            btnNotifications.setOnClickListener(v -> {
+                Intent intent = new Intent(
+                        MyApplicationsActivity.this,
+                        CandidateNotificationsActivity.class
+                );
+                startActivity(intent);
+            });
+        }
+
 
         // ==============================
         // PROFILE

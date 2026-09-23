@@ -31,6 +31,18 @@ public class SavedJobsActivity extends AppCompatActivity {
             finish();
         });
 
+        // Notifications
+        View btnNotifications = findViewById(R.id.btnNotifications);
+        if (btnNotifications != null) {
+            btnNotifications.setOnClickListener(v -> {
+                Intent intent = new Intent(
+                        SavedJobsActivity.this,
+                        CandidateNotificationsActivity.class
+                );
+                startActivity(intent);
+            });
+        }
+
         // Browse Jobs
         Button btnBrowseJobs = findViewById(R.id.btnBrowseJobs);
 
