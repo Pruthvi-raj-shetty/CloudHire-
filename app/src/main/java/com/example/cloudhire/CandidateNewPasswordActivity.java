@@ -4,10 +4,19 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.cloudhire.api.ApiService;
+import com.example.cloudhire.api.RetrofitClient;
+import com.example.cloudhire.model.ResetPasswordRequest;
 import com.google.android.material.textfield.TextInputEditText;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class CandidateNewPasswordActivity
         extends AppCompatActivity {
@@ -20,6 +29,9 @@ public class CandidateNewPasswordActivity
     private TextInputEditText etConfirmPassword;
 
     private String email;
+    private String otp;
+
+    private ApiService apiService;
 
 
     @Override
@@ -48,124 +60,224 @@ public class CandidateNewPasswordActivity
         etConfirmPassword =
                 findViewById(R.id.etConfirmPassword);
 
+        apiService =
+                RetrofitClient.getApiService(this);
+
 
         // ==============================
-        // GET EMAIL
+        // GET EMAIL + OTP
         // ==============================
 
         email = getIntent()
                 .getStringExtra("email");
+
+        otp = getIntent()
+                .getStringExtra("otp");
 
 
         // ==============================
         // BACK
         // ==============================
 
-        btnBack.setOnClickListener(v -> {
-
-            finish();
-
-        });
+        btnBack.setOnClickListener(v -> finish());
 
 
         // ==============================
         // RESET PASSWORD
         // ==============================
 
-        btnResetPassword.setOnClickListener(v -> {
-
-            String password =
-                    etNewPassword.getText()
-                            .toString();
-
-            String confirmPassword =
-                    etConfirmPassword.getText()
-                            .toString();
+        btnResetPassword.setOnClickListener(
+                v -> resetPassword()
+        );
+    }
 
 
-            // ==============================
-            // EMPTY PASSWORD
-            // ==============================
+    private void resetPassword() {
 
-            if (password.isEmpty()) {
+        String password =
+                etNewPassword.getText()
+                        .toString();
 
-                etNewPassword.setError(
-                        "Enter new password"
-                );
-
-                etNewPassword.requestFocus();
-
-                return;
-            }
+        String confirmPassword =
+                etConfirmPassword.getText()
+                        .toString();
 
 
-            // ==============================
-            // PASSWORD LENGTH
-            // ==============================
+        // ==============================
+        // EMPTY PASSWORD
+        // ==============================
 
-            if (password.length() < 8) {
+        if (password.isEmpty()) {
 
-                etNewPassword.setError(
-                        "Password must contain at least 8 characters"
-                );
+            etNewPassword.setError(
+                    "Enter new password"
+            );
 
-                etNewPassword.requestFocus();
+            etNewPassword.requestFocus();
 
-                return;
-            }
-
-
-            // ==============================
-            // CONFIRM PASSWORD
-            // ==============================
-
-            if (confirmPassword.isEmpty()) {
-
-                etConfirmPassword.setError(
-                        "Confirm your password"
-                );
-
-                etConfirmPassword.requestFocus();
-
-                return;
-            }
+            return;
+        }
 
 
-            // ==============================
-            // MATCH
-            // ==============================
+        // ==============================
+        // PASSWORD LENGTH
+        // ==============================
 
-            if (!password.equals(confirmPassword)) {
+        if (password.length() < 8) {
 
-                etConfirmPassword.setError(
-                        "Passwords do not match"
-                );
+            etNewPassword.setError(
+                    "Password must contain at least 8 characters"
+            );
 
-                etConfirmPassword.requestFocus();
+            etNewPassword.requestFocus();
 
-                return;
-            }
+            return;
+        }
 
 
-            // ==============================
-            // SUCCESS SCREEN
-            // ==============================
+        // ==============================
+        // CONFIRM PASSWORD
+        // ==============================
 
-            Intent intent = new Intent(
+        if (confirmPassword.isEmpty()) {
+
+            etConfirmPassword.setError(
+                    "Confirm your password"
+            );
+
+            etConfirmPassword.requestFocus();
+
+            return;
+        }
+
+
+        // ==============================
+        // PASSWORD MATCH
+        // ==============================
+
+        if (!password.equals(confirmPassword)) {
+
+            etConfirmPassword.setError(
+                    "Passwords do not match"
+            );
+
+            etConfirmPassword.requestFocus();
+
+            return;
+        }
+
+
+        // ==============================
+        // CHECK OTP DATA
+        // ==============================
+
+        if (email == null ||
+                email.isEmpty() ||
+                otp == null ||
+                otp.isEmpty()) {
+
+            Toast.makeText(
                     CandidateNewPasswordActivity.this,
-                    CandidatePasswordResetSuccessActivity.class
-            );
+                    "Password reset session expired. Please try again.",
+                    Toast.LENGTH_LONG
+            ).show();
 
-            intent.putExtra(
-                    "email",
-                    email
-            );
+            return;
+        }
 
-            startActivity(intent);
 
-            finish();
+        btnResetPassword.setEnabled(false);
 
-        });
 
+        // ==============================
+        // API REQUEST
+        // ==============================
+
+        ResetPasswordRequest request =
+                new ResetPasswordRequest(
+                        email,
+                        otp,
+                        password
+                );
+
+
+        apiService.resetPassword(request)
+                .enqueue(new Callback<ResponseBody>() {
+
+                    @Override
+                    public void onResponse(
+                            Call<ResponseBody> call,
+                            Response<ResponseBody> response
+                    ) {
+
+                        btnResetPassword.setEnabled(true);
+
+
+                        if (response.isSuccessful()) {
+
+                            Toast.makeText(
+                                    CandidateNewPasswordActivity.this,
+                                    "Password reset successfully",
+                                    Toast.LENGTH_SHORT
+                            ).show();
+
+
+                            Intent intent =
+                                    new Intent(
+                                            CandidateNewPasswordActivity.this,
+                                            CandidatePasswordResetSuccessActivity.class
+                                    );
+
+                            intent.putExtra(
+                                    "email",
+                                    email
+                            );
+
+                            startActivity(intent);
+
+                            finish();
+
+                        } else {
+
+                            String message =
+                                    "Could not reset password";
+
+                            try {
+
+                                if (response.errorBody() != null) {
+
+                                    message =
+                                            response.errorBody()
+                                                    .string();
+                                }
+
+                            } catch (Exception ignored) {
+                            }
+
+
+                            Toast.makeText(
+                                    CandidateNewPasswordActivity.this,
+                                    message,
+                                    Toast.LENGTH_LONG
+                            ).show();
+                        }
+                    }
+
+
+                    @Override
+                    public void onFailure(
+                            Call<ResponseBody> call,
+                            Throwable t
+                    ) {
+
+                        btnResetPassword.setEnabled(true);
+
+                        Toast.makeText(
+                                CandidateNewPasswordActivity.this,
+                                "Unable to connect to server",
+                                Toast.LENGTH_LONG
+                        ).show();
+                    }
+                });
     }
 }

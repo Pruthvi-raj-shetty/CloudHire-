@@ -10,9 +10,19 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.cloudhire.api.ApiService;
+import com.example.cloudhire.api.RetrofitClient;
+import com.example.cloudhire.model.ForgotPasswordRequest;
+import com.example.cloudhire.model.VerifyOtpRequest;
 import com.google.android.material.textfield.TextInputEditText;
 
-public class CandidateOtpActivity extends AppCompatActivity {
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+public class CandidateOtpActivity
+        extends AppCompatActivity {
 
     private ImageButton btnBack;
     private Button btnVerifyOtp;
@@ -23,10 +33,13 @@ public class CandidateOtpActivity extends AppCompatActivity {
     private TextView txtOtpTimer;
 
     private String email;
+    private String verifiedOtp;
 
     private CountDownTimer countDownTimer;
 
     private boolean otpExpired = false;
+
+    private ApiService apiService;
 
 
     @Override
@@ -53,6 +66,9 @@ public class CandidateOtpActivity extends AppCompatActivity {
 
         txtOtpTimer =
                 findViewById(R.id.txtOtpTimer);
+
+        apiService =
+                RetrofitClient.getApiService(this);
 
 
         // ==============================
@@ -81,7 +97,6 @@ public class CandidateOtpActivity extends AppCompatActivity {
             }
 
             finish();
-
         });
 
 
@@ -95,18 +110,7 @@ public class CandidateOtpActivity extends AppCompatActivity {
                 return;
             }
 
-            etOtp.setText("");
-
-            etOtp.setError(null);
-
-            startOtpTimer();
-
-            Toast.makeText(
-                    CandidateOtpActivity.this,
-                    "OTP resent successfully",
-                    Toast.LENGTH_SHORT
-            ).show();
-
+            resendOtp();
         });
 
 
@@ -117,7 +121,6 @@ public class CandidateOtpActivity extends AppCompatActivity {
         btnVerifyOtp.setOnClickListener(
                 v -> verifyOtp()
         );
-
     }
 
 
@@ -144,21 +147,30 @@ public class CandidateOtpActivity extends AppCompatActivity {
         }
 
 
+        // Backend OTP expires after 5 minutes
         countDownTimer = new CountDownTimer(
-                30000,
+                5 * 60 * 1000L,
                 1000
         ) {
 
             @Override
             public void onTick(
-                    long millisUntilFinished) {
+                    long millisUntilFinished
+            ) {
+
+                long totalSeconds =
+                        millisUntilFinished / 1000;
+
+                long minutes =
+                        totalSeconds / 60;
 
                 long seconds =
-                        millisUntilFinished / 1000;
+                        totalSeconds % 60;
 
                 txtOtpTimer.setText(
                         String.format(
-                                "OTP expires in 00:%02d",
+                                "OTP expires in %02d:%02d",
+                                minutes,
                                 seconds
                         )
                 );
@@ -191,11 +203,9 @@ public class CandidateOtpActivity extends AppCompatActivity {
                 txtResendOtp.setTextColor(
                         getColor(R.color.purple_500)
                 );
-
             }
 
         }.start();
-
     }
 
 
@@ -236,10 +246,6 @@ public class CandidateOtpActivity extends AppCompatActivity {
 
         if (otpExpired) {
 
-            etOtp.setError(
-                    "OTP expired. Please resend OTP."
-            );
-
             Toast.makeText(
                     CandidateOtpActivity.this,
                     "OTP expired. Please resend OTP.",
@@ -250,40 +256,179 @@ public class CandidateOtpActivity extends AppCompatActivity {
         }
 
 
-        // ==============================
-        // OTP VERIFIED
-        // ==============================
-
-        if (countDownTimer != null) {
-            countDownTimer.cancel();
-        }
-
-
-        Toast.makeText(
-                CandidateOtpActivity.this,
-                "OTP verified successfully",
-                Toast.LENGTH_SHORT
-        ).show();
+        btnVerifyOtp.setEnabled(false);
 
 
         // ==============================
-        // NEW PASSWORD
+        // API REQUEST
         // ==============================
 
-        Intent intent = new Intent(
-                CandidateOtpActivity.this,
-                CandidateNewPasswordActivity.class
-        );
+        VerifyOtpRequest request =
+                new VerifyOtpRequest(
+                        email,
+                        otp
+                );
 
-        intent.putExtra(
-                "email",
-                email
-        );
 
-        startActivity(intent);
+        apiService.verifyOtp(request)
+                .enqueue(new Callback<ResponseBody>() {
 
-        finish();
+                    @Override
+                    public void onResponse(
+                            Call<ResponseBody> call,
+                            Response<ResponseBody> response
+                    ) {
 
+                        btnVerifyOtp.setEnabled(true);
+
+
+                        if (response.isSuccessful()) {
+
+                            verifiedOtp = otp;
+
+
+                            if (countDownTimer != null) {
+                                countDownTimer.cancel();
+                            }
+
+
+                            Toast.makeText(
+                                    CandidateOtpActivity.this,
+                                    "OTP verified successfully",
+                                    Toast.LENGTH_SHORT
+                            ).show();
+
+
+                            Intent intent =
+                                    new Intent(
+                                            CandidateOtpActivity.this,
+                                            CandidateNewPasswordActivity.class
+                                    );
+
+                            intent.putExtra(
+                                    "email",
+                                    email
+                            );
+
+                            // IMPORTANT:
+                            // Pass verified OTP to reset screen
+                            intent.putExtra(
+                                    "otp",
+                                    verifiedOtp
+                            );
+
+                            startActivity(intent);
+
+                            finish();
+
+                        } else {
+
+                            String message =
+                                    "Invalid OTP";
+
+                            try {
+
+                                if (response.errorBody() != null) {
+
+                                    message =
+                                            response.errorBody()
+                                                    .string();
+                                }
+
+                            } catch (Exception ignored) {
+                            }
+
+
+                            Toast.makeText(
+                                    CandidateOtpActivity.this,
+                                    message,
+                                    Toast.LENGTH_LONG
+                            ).show();
+                        }
+                    }
+
+
+                    @Override
+                    public void onFailure(
+                            Call<ResponseBody> call,
+                            Throwable t
+                    ) {
+
+                        btnVerifyOtp.setEnabled(true);
+
+                        Toast.makeText(
+                                CandidateOtpActivity.this,
+                                "Unable to connect to server",
+                                Toast.LENGTH_LONG
+                        ).show();
+                    }
+                });
+    }
+
+
+    // ==================================================
+    // RESEND OTP
+    // ==================================================
+
+    private void resendOtp() {
+
+        txtResendOtp.setClickable(false);
+
+
+        ForgotPasswordRequest request =
+                new ForgotPasswordRequest(email);
+
+
+        apiService.forgotPassword(request)
+                .enqueue(new Callback<ResponseBody>() {
+
+                    @Override
+                    public void onResponse(
+                            Call<ResponseBody> call,
+                            Response<ResponseBody> response
+                    ) {
+
+                        if (response.isSuccessful()) {
+
+                            etOtp.setText("");
+                            etOtp.setError(null);
+
+                            startOtpTimer();
+
+                            Toast.makeText(
+                                    CandidateOtpActivity.this,
+                                    "New OTP sent successfully",
+                                    Toast.LENGTH_SHORT
+                            ).show();
+
+                        } else {
+
+                            txtResendOtp.setClickable(true);
+
+                            Toast.makeText(
+                                    CandidateOtpActivity.this,
+                                    "Could not resend OTP",
+                                    Toast.LENGTH_LONG
+                            ).show();
+                        }
+                    }
+
+
+                    @Override
+                    public void onFailure(
+                            Call<ResponseBody> call,
+                            Throwable t
+                    ) {
+
+                        txtResendOtp.setClickable(true);
+
+                        Toast.makeText(
+                                CandidateOtpActivity.this,
+                                "Unable to connect to server",
+                                Toast.LENGTH_LONG
+                        ).show();
+                    }
+                });
     }
 
 
@@ -295,7 +440,5 @@ public class CandidateOtpActivity extends AppCompatActivity {
         }
 
         super.onDestroy();
-
     }
-
 }
